@@ -1,0 +1,378 @@
+﻿
+@{
+    ViewBag.Title = "StockManual";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style type="text/css">
+    th, td {
+        /*border: 1px solid black;*/
+        width: 110px;
+        align-content: center;
+    }
+
+    .highlighted {
+        background-color: green;
+        color: White;
+    }
+
+    .wmd-view-topscroll, .wmd-view {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        width: auto;
+        border: none 0px RED;
+    }
+
+    .wmd-view-topscroll {
+        height: 15px;
+    }
+
+
+    .wmd-view {
+        min-height: 400px;
+        max-height: 1000px;
+    }
+
+    .scroll-div1 {
+        width: 1850px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        height: 15px;
+    }
+
+    .scroll-div2 {
+        width: 1850px;
+        height: 15px;
+        display: inline-block;
+    }
+
+    .table-fixed thead {
+        /*height:40px;*/
+        width: 100%;
+        overflow: scroll;
+    }
+
+    .table-fixed tbody {
+        height: 400px;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    .table-fixed tbody {
+        display: block;
+    }
+
+    .table- fixed tbody td, .table-fixed thead > tr > th {
+        float: left;
+        border-bottom-width: 0;
+        width: auto;
+    }
+</style>
+<div class="form-horizontal">
+    <section class="content-header">
+        <h1>
+            Manual Stock
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="box">
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div>
+                                <table align="left" style="width:100%; padding:5px;">
+                                    <tr>
+                                        <td style="width:10%;">PO Number :</td>
+                                        <td style="width:30%;"> @Html.DropDownList("DDLPO", new SelectList(ViewBag.DDLPO, "PO_NUM", "PO_NUM"), "--Select PO--", new { @class = "form-control select2" })</td>
+                                        <td style="width:20%;"> <input type="submit" id="btnView" value="View" class="btn btn-info btn-md"></td>
+                                        <td style="width:10%;"></td>
+                                        <td style="width:30%">
+                                            <input type="hidden" id="txtsearch" class="form-control pull-right" style="margin-bottom: 1%;" placeholder="Type to search" onkeyup="filter();" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div style="width:100%;">
+                                        <div class="panel">
+                                            <div style="width:100%;">
+                                                <div class="panel">
+                                                    <div class="table-responsive panel-body">
+                                                        <div class="row">
+                                                            <div id="GridDiv">
+                                                                <table id="tblMaterialList" class="table table-striped dataTable">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>
+                                                                                PO NO
+                                                                            </th>
+                                                                            <th>
+                                                                                Supplier Code
+                                                                            </th>
+                                                                            <th>
+                                                                                Supplier Name
+                                                                            </th>
+                                                                            <th>
+                                                                                Material Code
+                                                                            </th>
+                                                                            <th>
+                                                                                Material Description
+                                                                            </th>
+                                                                            <th>
+                                                                                RawMaterial
+                                                                            </th>
+                                                                            <th>
+                                                                                UOM
+                                                                            </th>
+                                                                            <th>
+                                                                                WIP
+                                                                            </th>
+                                                                            <th>
+                                                                                WIPUOM
+                                                                            </th>
+                                                                            <th>
+                                                                                FinishGoods
+                                                                            </th>
+                                                                            <th>
+                                                                                FINISHGOODSUOM
+                                                                            </th>
+                                                                            <th>
+                                                                                Remark
+                                                                            </th>
+                                                                            <th>
+                                                                                Date
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                <script type="text/javascript">
+                                                                    function bindUom()
+                                                                    {
+                                                                      $.getJSON("@Url.Action("GetUOM", "Inventory")", {}, function (marksData) { var select = $('#tblMaterialList>tbody>tr').find(".DDLUOM"); select.empty(); select.append($('<option/>', { value: 0, text: '-- Select UOM --' })); $.each(marksData, function (index, itemData) { select.append($('<option/>', { value: itemData.Value, text: itemData.Text })); }); });
+                                                                      $.getJSON("@Url.Action("GetWIPUOM", "Inventory")", {}, function (marksData) { var select = $('#tblMaterialList>tbody>tr').find(".DDLWIPUOM"); select.empty(); select.append($('<option/>', { value: 0, text: '-- Select WIPUOM --' })); $.each(marksData, function (index, itemData) { select.append($('<option/>', { value: itemData.Value, text: itemData.Text })); }); });
+                                                                      $.getJSON("@Url.Action("GetFGUOM", "Inventory")", {}, function (marksData) { var select = $('#tblMaterialList>tbody>tr').find(".DDLFGUOM"); select.empty(); select.append($('<option/>', { value: 0, text: '-- Select FGUOM --' })); $.each(marksData, function (index, itemData) { select.append($('<option/>', { value: itemData.Value, text: itemData.Text })); }); });
+                                                                    }
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                                <div class="row">
+                                    <div class="col-lg-12 col-lg-12 text-center">
+                                        <button type="submit" class="btn btn-info" id="btnSubmit" name="submit" onclick="ShowStock();">Update Stock</button>
+                                    </div>
+                                </div>
+                             
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+                                                                    $(document).ready(function () {
+                                                                        $("#btnView").click(function (e) {
+
+                                                                            LoadMaterialList();
+                                                                        })
+                                                                    });
+
+
+                                                                    $('#btnSubmit').hide();
+
+     function LoadMaterialList() {        /**/
+         $.getJSON("@Url.Action("MaterialManualList", "Inventory")", { PONO: $('#DDLPO').val() },
+        function (list) {
+            $('#tblMaterialList>tbody>tr').remove();
+            $('#tblMaterialList tbody').empty();
+            $("th").removeClass("sorting_disabled");
+            $("td").removeClass("sorting_disabled");
+            $('#lblCount').text('');
+            if (list.length > 0) {
+                var ct = 0;
+                $('#btnSubmit').show();
+                $.each(list, function (index, itemData) {
+                    ct = ct + 1;
+                    $('#tblMaterialList>tbody').append('<tr id=' + ct + '><td>' + itemData.PONO + '</td><td>' + itemData.SUPPLIERCODE + '</td><td>' + itemData.SUPPLIERNAME + '</td><td>' + itemData.MATERIALCODE + '</td><td>' + itemData.MATERIALDESCRIPTION + '</td><td><input type="text" id="txtRawMaterial"  maxlength="10" class="form-control txtRawMaterial" onkeypress="return event.charCode >= 48 && event.charCode <= 57" style="border:1px solid gray; width:70px"/></td><td style="width:10px;"><select name="DDLUOM" class="form-control DDLUOM"><option value= "0" > --Select UOM --</option></select></td><td><input type="text" id="txtWip" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  maxlength="10" class="form-control txtWip" style="border:1px solid gray; width:70px"/></td><td style="width:10px;"><select name="DDLWIPUOM" class="form-control DDLWIPUOM"><option value= "0" > --Select WIPUOM --</option></select></td><td><input type="text" id="txtFinishGoods" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" class="form-control txtFinishGoods" style="border:1px solid gray; width:70px;"/></td><td><select name="DDLFGUOM" class="form-control DDLFGUOM"><option value= "0" > --Select FGUOM --</option></select></td><td><input type="text" id="txtRemark"  maxlength="100" class="form-control txtRemark" style="border:1px solid gray;width:100px;"/></td><td> ' + ConvertJsonDateString(itemData.CREATEDON) + '</td></tr>');
+                });
+                bindUom();
+                 $('.scroll-div1').outerWidth(1850);
+                 $('.scroll-div2').outerWidth(1850);
+                $('#lblCount').text('Record Found :' + $("#tblMaterialList > tbody > tr:visible").length);
+            }
+            else {
+                $('#btnSubmit').hide();
+                $('#tblMaterialList>tbody').append('<tr><td colspan="13">No Record Found !</td></tr>');
+            }
+        });
+    }
+    function ConvertJsonDateString(jsonDate) {
+        var shortDate = null;
+        if (jsonDate) {
+            var regex = /-?\d+/;
+            var matches = regex.exec(jsonDate);
+            var dt = new Date(parseInt(matches[0]));
+            var month = dt.getMonth() + 1;
+            var monthString = month > 9 ? month : '0' + month;
+            var day = dt.getDate();
+            var dayString = day > 9 ? day : '0' + day;
+            var year = dt.getFullYear();
+
+            shortDate = dayString + '/' + monthString + '/' + year;
+        }
+        return shortDate;
+    };
+
+    function filter() {
+
+        var searchText = $('#txtsearch').val();
+        $.each($("#tblMaterialList tbody").find("tr"), function () {
+            if ($(this).text().toLowerCase().replace(/\s+/g, '').indexOf(searchText.replace(/\s+/g, '').toLowerCase()) == -1)
+                $(this).hide();
+            else
+                $(this).show();
+        });
+        $('#lblCount').text('Record Found :' + $("#tblMaterialList > tbody > tr:visible").length);
+    }
+
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var oTable = $('#tblMaterialList').dataTable({
+            "scrollY": 500,
+            "scrollX": true,
+            "bScrollCollapse": true,
+            "scrollCollapse": true,
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "Scroll": false
+
+        });
+
+    });
+
+    $("th").removeClass("sorting_disabled");
+    $("td").removeClass("sorting_disabled");
+    function pr() {
+        doSubmit = true;
+        $('#tblMaterialList > tbody > tr').each(function () {
+
+
+            if ($(this).find('.txtRawMaterial').val() == '') { alert("Please enter Raw Material."); $(this).find('.txtRawMaterial').focus(); doSubmit = false; return false; }
+
+            if ($(this).find('.DDLUOM').val() == 0) { alert("Please select UOM", $('.clscheckbox').attr("ID")); $(this).find('.DDLUOM').focus(); doSubmit = false; return false; }
+            if ($(this).find('.DDLWIPUOM').val() == 0) { alert("Please select WIP UOM", $('.clscheckbox').attr("ID")); $(this).find('.DDLWIPUOM').focus(); doSubmit = false; return false; }
+
+            if ($(this).find('.DDLFGUOM').val() == 0) { alert("Please select UOM", $('.clscheckbox').attr("ID")); $(this).find('.DDLFGUOM').focus(); doSubmit = false; return false; }
+
+
+
+
+            if ($(this).find('.txtWip').val() == '') { alert("Please enter WIP."); $(this).find('.txtWip').focus(); doSubmit = false; return false; }
+
+
+            if ($(this).find('.txtFinishGoods').val() == '') { alert("Please enter Finish Goods."); $(this).find('.txtFinishGoods').focus(); doSubmit = false; return false; }
+
+
+        });
+
+        if (!doSubmit) return false;
+    }
+
+    function ShowStock() {
+
+        if ($('#DDLPO').val() == '') { alert("Please select PO."); $('#DDLPO').focus(); return false; }
+        //if ($('#DDLPO').val() != $(this).find('td:eq(0)').text().trim()) { alert("Please select PO."); $('#DDLPO').focus(); return false; }
+        //$("#tblMaterialList").promise().done(function () {
+        //    pr();
+        //});
+        //if (doSubmit == true) {
+            $('#tblMaterialList > tbody > tr').each(function () {
+                var _PONO = ''; var _SUPPLIERCODE = ''; var _SUPPLIERNAME = ''; var _MATERIALCODE = '';
+                var _MATERIALDESCRIPTION = ''; var _RAWMATERIAL = ''; var _UOM = ''; var _WIP = ''; var _WIPUOM = '';
+                var _FINISHGOODS = ''; var _FINISHGOODSUOM = ''; var _REMARK = ''; var _PODATE = ''; var _CREATEDBY = '';
+                _PONO = $(this).find('td:eq(0)').text().trim();
+                _SUPPLIERCODE = $(this).find('td:eq(1)').text().trim();
+                _SUPPLIERNAME = $(this).find('td:eq(2)').text().trim();
+                _MATERIALCODE = $(this).find('td:eq(3)').text().trim();
+                _MATERIALDESCRIPTION = $(this).find('td:eq(4)').text().trim();
+
+                if ($(this).find('.txtRawMaterial').val() == "") {
+                    _RAWMATERIAL = "0";
+                }
+                else {
+                    _RAWMATERIAL = $(this).find('.txtRawMaterial').val();
+                }
+
+
+
+                _UOM = $(this).find('.DDLUOM').val();
+
+                if ($(this).find('.txtWip').val() == "")
+                {
+                    _WIP = "0";
+                }
+                else {
+                    _WIP = $(this).find('.txtWip').val();
+                }
+
+                
+                _WIPUOM = $(this).find('.DDLWIPUOM').val();
+
+                if ($(this).find('.txtFinishGoods').val() == "") {
+                    _FINISHGOODS = "0";
+                }
+                else {
+                    _FINISHGOODS = $(this).find('.txtFinishGoods').val();
+                }
+
+                
+                _FINISHGOODSUOM = $(this).find('.DDLFGUOM').val();
+                _REMARK = $('#txtRemark').val();
+                _PODATE = $(this).find('td:eq(12)').text().trim();
+                _CREATEDBY = $('#UserID').val();
+
+                // data insert JSON Call
+                if (_RAWMATERIAL != "" && _WIP != "" && _FINISHGOODS != "") {
+                    $.getJSON("@Url.Action("GenerateStock", "Inventory")", { PONO: _PONO, SUPPLIERCODE: _SUPPLIERCODE, SUPPLIERNAME: _SUPPLIERNAME, MATERIALCODE: _MATERIALCODE, MATERIALDESCRIPTION: _MATERIALDESCRIPTION, RAWMATERIAL: _RAWMATERIAL, UOM: _UOM, WIP: _WIP, WIPUOM: _WIPUOM, FINISHGOODS: _FINISHGOODS, FINISHGOODSUOM: _FINISHGOODSUOM, REMARK: _REMARK, PODATE: _PODATE, CREATEDBY: _CREATEDBY },
+                        function (listM) {
+                            if (listM == 'SUCCESS') {
+                                alert("Stock has been Generated");
+
+                            }
+
+                        });
+                    }
+            });
+            alert("Stock has been Generated");
+            $('#DDLPO').val('');
+            LoadMaterialList();
+      // }
+    }
+
+</script>
+
+

@@ -1,0 +1,348 @@
+﻿@model IEnumerable<VendorPortal.Models.SchedulerViewModel>
+
+
+
+@{
+    ViewBag.Title = "SupplierSchedulerDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="@Url.Action("Index")"><i class="fa fa-home"></i>&nbsp; Schedule Management</a></li>
+                <li><a href="@Url.Action("Index")">Supplier Scheduler</a></li>
+                <li class="active">ACKNOWLEDGE/DECLINE Scheduler</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+    <section class="content">
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="box">
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div style="width:100%;">
+                                        <div class="panel">
+                                            <div style="width:100%;">
+                                                <div class="panel">
+                                                    <div class="table-responsive panel-body">
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="panel-body" style="text-align:left;">
+                                                                    <div class="form-horizontal">
+
+                                                                        <div class="form-group col-md-12">
+
+                                                                            <div class="col-md-12 col-sm-4">
+                                                                                <div class="col-md-12">
+                                                                                    <select class="form-control" id="SearchCreteria">
+                                                                                        <option selected="selected" value="">--Select--</option>
+                                                                                        <option value="PlantName">Plant Name</option>
+                                                                                        <option value="Supp_Code">Supplier Code</option>
+                                                                                        <option value="Supp_Name">Supplier Name</option>
+                                                                                        <option value="MaterialCode">Material Code</option>
+                                                                                        <option value="Mat_Desc">Material Description</option>
+                                                                                        <option value="ScheduleNo">Schedule No</option>
+                                                                                        <option value="Remark">Remark</option>
+                                                                                        <option value="UOM">UOM</option>
+
+                                                                                    </select>
+                                                                                    &nbsp;
+                                                                                    &nbsp;
+                                                                                    <input type="text" id="SearchValue" class="form-control" placeholder="Search" />
+                                                                                    &nbsp;
+                                                                                    &nbsp;
+                                                                                    <button onclick="paging(1)" class="form-control btn-primary">Search</button>
+                                                                                </div>
+                                                                            </div>
+
+
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="panel-body" style="text-align:left;">
+                                                                    <div class="form-horizontal">
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-4 col-sm-4">
+                                                                                <div class="col-md-12">
+                                                                                    <input type="text" id="txtFromDate" class="form-control" placeholder="From Date" readonly="readonly" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4 col-sm-4">
+                                                                                <div class="col-md-12">
+                                                                                    <input type="text" id="txtToDate" class="form-control" placeholder="To Date" readonly="readonly" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4 col-sm-4">
+                                                                                <div class="col-md-12">
+                                                                                    <button onclick="PendingDateFilter()" class="form-control btn-primary">Search</button>
+                                                                                    <button onclick="Clear()" class="form-control btn-primary">Clear</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center">
+                                                                <div style="width:100%;">
+
+                                                                    <div class="panel">
+
+                                                                        <div class="table-responsive panel-body">
+                                                                            <div id="GridDiv">
+                                                                                @{Html.RenderAction("ScheduleDetail"); }
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <input type='hidden' value='@Request.QueryString["id"]' id='HdnId' />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <input type='hidden' value='@Request.QueryString["SUPP_CODE"]' id='HdnSUPP_CODE' />
+                                                        <input type='hidden' value='@Request.QueryString["upload_date"]' id='HdnUpload_date' />
+                                                        <input type='hidden' value='@Request.QueryString["flg"]' id='HdnFlag' />
+                                                        @if (ViewBag.SetStatus)
+                                                        {
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <input type="button" class="btn btn-info" id="btnApprove" name="submit1" style="background-color:green;border-color:green" value="ACKNOWLEDGE" />
+                                                                    <input type="button" class="btn btn-danger" id="btnReject" style="background-color:darkred;border-color:darkred" value="DECLINE" />
+
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        <div class="col-lg-6">
+                                                            <div class="row">
+                                                                <a href="@Url.Action("Index")">Back To List</a>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+        
+
+
+        $('#SearchCreteria').change(function () {
+            $('#SearchValue').val('');
+            if ($('#SearchCreteria').val() == '') {
+                paging(1);
+            }
+        })
+        $('#txtFromDate').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: "dd/mm/yyyy",
+            language: "tr",
+            autoclose: true
+        });
+        $('#txtToDate').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: "dd/mm/yyyy",
+            language: "tr",
+            autoclose: true
+        });
+
+        $("#btnApprove").click(function (e) {
+
+            if (confirm('Are you sure wants to take action on schedule ?')) {
+                var flg = 0;
+                var i = 0;
+                var values = [];
+                $("#pending input[type=checkbox]").each(function () {
+                    i++;
+
+
+                    if ($(this).is(':checked')) {
+                        var ind = i - 1;
+                        flg = 1;
+                        //  alert($("#" + ind).val());
+                        //  var ss = $("#" + ind).val();
+                        // debugger;
+
+                        if ($(this).val() != "on") {
+                            values.push({
+                                ScheduleId: parseInt($(this).val()),
+                                Remark: $("#" + ind).val()
+                            }
+                            );
+                        }
+
+                    }
+
+                });
+                if (flg == 0) {
+                    alert("Please Select For Acknowledge");
+                    e.preventDefault();
+                    return false;
+                }
+                else {
+                    GetApproved(values);
+                }
+            }
+        });
+
+      
+        $("#btnReject").click(function () {
+            if (confirm('Are you sure wants to take action on schedule ?')) {
+                var flg = 0;
+                var i = 0;
+                var values = [];
+                $("#pending input[type=checkbox]").each(function () {
+                    i++;
+
+                    //  debugger;
+                    if ($(this).is(':checked')) {
+                        var ind = i - 1;
+                        flg = 1;
+                        //  alert($("#" + ind).val());
+                        //  var ss = $("#" + ind).val();
+                        // debugger;
+                        if ($(this).val() != "on") {
+                            values.push({
+                                ScheduleId: parseInt($(this).val()),
+                                Remark: $("#" + ind).val()
+                            }
+                            );
+                        }
+
+                    }
+
+                });
+
+                if (flg == 0) {
+                    alert("Please Select For Decline");
+                }
+                else {
+                    GetDecline(values);
+                }
+            }
+        });
+
+    });
+
+    function Clear() {
+        $("#txtFromDate").val("");
+        $("#txtToDate").val("");
+        paging(1);
+    }
+    function PendingDateFilter() {
+ 
+        if ($("#txtFromDate").val() == "") {
+            alert("Please Select From Date");
+            $("#txtFromDate").focus();
+            return false;
+        }
+        if ($("#txtToDate").val() == "") {
+            alert("Please Select To Date");
+            $("#txtToDate").focus();
+            return false;
+        }
+        $('#SearchValue').val('');
+        paging(1);
+    }
+
+    function paging(currentpage) {
+        
+        var HdnSUPP_CODE = $("#HdnSUPP_CODE").val();
+        var HdnUpload_date = $("#HdnUpload_date").val();
+
+        var flg = $("#HdnFlag").val();
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("ScheduleDetail", "SupplierSchedule")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'SUPP_CODE': HdnSUPP_CODE, 'flg': flg, 'upload_date': HdnUpload_date, 'fromDate': $("#txtFromDate").val(), 'toDate': $("#txtToDate").val(), 'SearchBy': $("#SearchCreteria").val(), 'SearchValue': $("#SearchValue").val() },
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+
+    function GetApproved(values) {
+        var postData = JSON.stringify(values);
+
+        $.ajax({
+            url: "@Url.Action("ApprovedStatus", "SupplierSchedule")",
+            type: "GET",
+            dataType: "JSON",
+            data: { 'values': postData },
+            success: function (result) {
+                alert("Status Updated Successfully");
+                window.location.href = '@Url.Action("Index", "SupplierSchedule")'
+            }
+        });
+    }
+
+    function GetDecline(values) {
+        var postData = JSON.stringify(values);
+
+        $.ajax({
+            url: "@Url.Action("DeclineStatus", "SupplierSchedule")",
+            type: "GET",
+            dataType: "JSON",
+            data: { 'values': postData },
+            success: function (result) {
+                alert("Status Updated Successfully");
+                window.location.href = '@Url.Action("Index", "SupplierSchedule")'
+            }
+        });
+    }
+</script>

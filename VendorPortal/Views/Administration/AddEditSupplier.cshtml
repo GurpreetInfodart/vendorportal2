@@ -1,0 +1,349 @@
+﻿@model VendorPortal.Models.SUPPLIER_MASTER
+@{
+    ViewBag.Title = "AddEditSupplier";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="@Url.Action("Vendors")"><i class="fa fa-home"></i>&nbsp;Master</a></li>
+                <li><a href="@Url.Action("Vendors")">Supplier Master</a></li>
+                <li class="active">Create</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body">
+                    <div class="panel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-body" style="text-align:left;">
+                                    @using (Html.BeginForm("AddEditVendor", "Administration"))
+                                    {
+                                        @Html.HiddenFor(e => e.Id)
+
+                                        <div class="panel-body">
+
+                                            <div class="row">
+                                                 
+                                                    <div class="col-md-6">
+                                                        <h4>GENERAL DATA</h4>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Vendor Name (*) </label>
+                                                                @Html.TextBoxFor(m => m.SUPP_NAME, new { @class = "form-control", required = "required", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @Html.HiddenFor(m => m.SUPP_CODE)
+                                                                @*<input class="form-control" id="" name="" type="text" placeholder="" class="required">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 col-sm-4">
+                                                        <h4>COMMUNICATION</h4>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Telephone 1 </label>
+                                                                @Html.TextBoxFor(m => m.COMM_TEL1, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Street (*)</label>
+                                                                @Html.TextBoxFor(m => m.ADDRESS1, new { @class = "form-control ", required = "required", id = "", name = "", type = "text", @placeholder = "" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Telephone 2</label>
+                                                                @Html.TextBoxFor(m => m.COMM_TEL2, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text" placeholder="" class="required">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <br />
+                                                                @Html.TextBoxFor(m => m.ADDRESS2, new { @class = "form-control ", required = "required", id = "", name = "", type = "text", @placeholder = "" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Telephone 3</label>
+                                                                @Html.TextBoxFor(m => m.COMM_TEL3, new { @class = "form-control", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                @Html.TextBoxFor(m => m.ADDRESS3, new { @class = "form-control ", required = "required", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Fax No. 1</label>
+                                                                @Html.TextBoxFor(m => m.COMM_FAX, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">City (*) </label>
+                                                                @Html.TextBoxFor(m => m.CITY, new { @class = "form-control ", required = "required", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Email id</label>
+                                                                @Html.TextBoxFor(m => m.EMAIL_ID, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Post Code (*) </label>
+                                                                @Html.TextBoxFor(m => m.PIN, new { @class = "form-control ", required = "required", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">District (*)</label>
+                                                                @Html.TextBoxFor(m => m.DISTRICT, new { @class = "form-control ", required = "required", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">Country(*)</label>
+                                                                @Html.TextBoxFor(m => m.COUNTRY, new { @class = "form-control ", required = "required", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">VAT Reg. No. </label><br />
+                                                                <div class="col-lg-6" style="padding-left:0;">
+                                                                    @Html.TextBoxFor(m => m.VATREG_NO1, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                    @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                                </div>
+
+                                                                <div class="col-lg-6" style="padding-right:0;">
+                                                                    @Html.TextBoxFor(m => m.VATREG_NO2, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="control-label">TIN 2</label><br />
+                                                                <div class="col-lg-6" style="padding-left:0;">
+                                                                    @Html.TextBoxFor(m => m.TIN2_1, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                    @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                                </div>
+                                                                <div class="col-lg-6" style="padding-right:0;">
+                                                                    @Html.TextBoxFor(m => m.TIN2_2, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                
+                                            <hr>
+
+                                            <div class="row">
+ 
+                                                <div class="col-md-12">
+                                                    <h4>Bank Particulars</h4>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="control-label">Name </label>
+                                                            @Html.TextBoxFor(m => m.BANK_NAME, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                            @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                        </div>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="control-label">Bank Address </label>
+                                                            @Html.TextBoxFor(m => m.BANK_ADDRESS1, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                            <br />
+                                                            @Html.TextBoxFor(m => m.BANK_ADDRESS2, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                            @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                        </div>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="control-label">Account no  </label>
+                                                            @Html.TextBoxFor(m => m.BANK_ACC_NO, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                            @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                        </div>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="control-label">Swift Code</label><br>
+                                                            <div class="col-lg-4" style="padding-left:0;">
+                                                                @Html.TextBoxFor(m => m.BANK_SWIFT_CODE1, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" placeholder="" type="text">*@
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                @Html.TextBoxFor(m => m.BANK_SWIFT_CODE2, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" placeholder="" type="text">*@
+                                                            </div>
+                                                            <div class="col-lg-4" style="padding-right:0;">
+                                                                @Html.TextBoxFor(m => m.BANK_SWIFT_CODE3, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                                @*<input class="form-control" id="" placeholder="" type="text">*@
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="control-label">Currency</label><br>
+                                                            <div class="col-lg-6" style="padding-left:0;">
+                                                                @Html.DropDownListFor(m => m.BANK_CURRENCY1, new SelectList(ViewBag.Currency1, "Value", "Text"), "Select Menu", new { @class = "form-control" })
+                                                                @*@Html.TextBoxFor(m => m.BANK_CURRENCY1, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })*@
+                                                                @*<input class="form-control" id="" placeholder="" type="text">*@
+                                                            </div>
+
+                                                            <div class="col-lg-6" style="padding-right:0;">
+                                                                @Html.DropDownListFor(m => m.BANK_CURRENCY2, new SelectList(@ViewBag.Currency2, "Value", "Text"), "Select Menu", new { @class = "form-control" })
+                                                                @*@Html.TextBoxFor(m => m.BANK_CURRENCY2, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })*@
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                   
+                                                        <label class="control-label">GST  </label>
+                                                        @Html.TextBoxFor(m => m.GSTIN, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                        @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                    
+                                                    </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12">
+                                                        <h4>ADDITIONAL INFORMATION (if applicable)</h4>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Other Information 1 </label>
+                                                            @Html.TextBoxFor(m => m.ADDITIONAL_INFO1, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                            @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                        </div>
+                                                    </div>
+                                                    </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="control-label">Other Information 2 </label>
+                                                            @Html.TextBoxFor(m => m.ADDITIONAL_INFO2, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                            @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                        </div>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="control-label">Other Information 3 </label>
+                                                            @Html.TextBoxFor(m => m.ADDITIONAL_INFO3, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                            @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                        </div>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="control-label">Other Information 4 </label>
+                                                            @Html.TextBoxFor(m => m.ADDITIONAL_INFO4, new { @class = "form-control ", id = "", name = "", type = "text", @placeholder = "" })
+                                                            @*<input class="form-control" id="" name="" type="text" class="required">*@
+                                                        </div>
+                                                        </div>
+                                                </div>
+                                                <div class="col-lg-12 col-lg-12">
+
+                                                    <div class="form-group">
+                                                        <div class="col-lg-12 col-lg-12">
+
+                                                            <button type="submit" class="btn btn-danger">Update</button>
+                                                            <a href='@Url.Action("Vendors")' class="btn btn-info">Cancel</a>
+                                                          
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-12 col-lg-12" style="color:green">
+                                                        @ViewBag.AlertMsg
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+                                        
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+

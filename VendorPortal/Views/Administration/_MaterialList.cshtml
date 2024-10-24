@@ -1,0 +1,74 @@
+﻿@model IEnumerable<VendorPortal.Models.tblMaterial>
+ 
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+ <table class="table table-bordered table-condensed table-hover table-striped" id="pending" align="left">
+    <thead>
+        <tr>
+
+            <th>Sr. No.</th>
+
+            <th>
+                Mat Code
+            </th>
+            <th>
+                Mat Name
+            </th>
+            <th>
+                UNIT
+            </th>
+            <th>
+                SNP
+            </th>
+            <th>
+                GROUP
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="color:black;font-size:small">
+                    @SerialNo
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.MaterialCode
+                </td>
+
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.MaterialDescription)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.Unit)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.SNP)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.MaterialGroup)
+                </td>
+                <td class="text-center">
+
+                    <a data-original-title="Edit" data-placement="bottom" data-toggle="tooltip" href=@Url.Action("AddEditMaterials", new { id = item.MaterialID  }) class="btn btn-primary btn-sm">Edit</a>|
+                    <a data-original-title="Delete" data-placement="bottom" data-toggle="tooltip" href=@Url.Action("DeleteMaterial", new { id = item.MaterialID }) class="btn btn-primary btn-sm">Delete</a>
+
+                </td>
+            </tr>
+            {
+                SerialNo++;
+            }
+        }
+
+    </tbody>
+
+
+</table>
+
+
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)

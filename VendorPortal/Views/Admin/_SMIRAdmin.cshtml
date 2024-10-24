@@ -1,0 +1,195 @@
+﻿@model  IEnumerable<VendorPortal.Controllers.AdminController.ApprovedPacking>
+
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+
+<div id="GridDiv">
+    <table id="tblAppPackList" class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
+            <tr role="row">
+                <th>Sr. No.</th>
+                <th>Supplier Code</th>
+                <th>File</th>
+                <th>Upload Date</th>
+                <th style="width:8%;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (Convert.ToDateTime(@item.UploadDate).Day <= 5)
+                {
+                    <tr style="background-color:#3CB371;" id="@SerialNo">
+                        <td align="left">@SerialNo</td>
+                        <td align="left">
+                            @item.SUPP_CODE
+                        </td>
+
+                        @if (item.Active == 2 || item.Active == null)
+                    {
+                            <td align="left">Please Upload File</td>
+                        }
+                        else
+                        {
+                            <td align="left">
+
+                                <a style="color:#333;" href=@Url.Action("Download", "Admin", new { file = @item.FileName, loc = @item.Location })>@item.FileName</a>
+                            </td>
+                        }
+
+                        <td align="left">
+                            @item.UploadDate
+                        </td>
+                        <td align="left">
+                            @if (User.IsInRole("Visitor"))
+                            {
+                                if (item.Status == false && item.Active == 1)
+                                {
+                                    <span>Pending</span>
+                                }
+                                else if (item.Status == true && item.Active == 1)
+                                {
+                                    <span>Approved</span>
+                                }
+                                else
+                                {
+                                    <span>No Right</span>
+                                }
+                            }
+                            else if (item.Status == false && item.Active == 1)
+                            {
+                                <button id="App" onclick="Approve(@item.Id)" class="btn btn-success btn-xs"><i class="fa fa-check" type="submit"></i></button><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><button id="Del" onclick="DataDelete(@item.Id)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>
+                            }
+                            else if (item.Status == true && item.Active == 1)
+                            {
+                                <button id="Del" onclick="DataDelete(@item.Id)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>
+                            }
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr style="background-color:#ff6666;" id="@SerialNo">
+                        <td align="left">@SerialNo</td>
+                        <td align="left">
+                            @item.SUPP_CODE
+                        </td>
+
+                        @if (item.Active == 2 || item.Active == null)
+                    {
+                            <td align="left">Please Upload File</td>
+                        }
+                        else
+                        {
+                            <td align="left">
+
+                                <a style="color:#333;" href=@Url.Action("Download", "Admin", new { file = @item.FileName, loc = @item.Location })>@item.FileName</a>
+                            </td>
+                        }
+
+                        <td align="left">
+                            @item.UploadDate
+                        </td>
+                        <td align="left">
+                            @if (User.IsInRole("Visitor"))
+                            {
+                                if (item.Status == false && item.Active == 1)
+                                {
+                                    <span>Pending</span>
+                                }
+                                else if (item.Status == true && item.Active == 1)
+                                {
+                                    <span>Approved</span>
+                                }
+                                else
+                                {
+                                    <span>No Right</span>
+                                }
+                            }
+                            else if (item.Status == false && item.Active == 1)
+                            {
+                                <button id="App" onclick="Approve(@item.Id)" class="btn btn-success btn-xs"><i class="fa fa-check" type="submit"></i></button><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><button id="Del" onclick="DataDelete(@item.Id)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>
+                            }
+                            else if (item.Status == true && item.Active == 1)
+                            {
+                                <button id="Del" onclick="DataDelete(@item.Id)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>
+                            }
+                        </td>
+                    </tr>
+                }
+                SerialNo++;
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+
+<script type="text/javascript">
+
+ function paging(currentpage) {
+     var _supplierCod = $('#DDLSN').val();
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("AllSMIR", "Admin")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'SUPP_CODE': _supplierCod},
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+
+
+
+     function DataDelete(Id)
+    {
+           $.ajax({
+            url: "@Url.Action("CommonDeleteExlOrPdfActive3", "Admin")",
+            type: 'GET',
+            cache: false,
+            data: { Id: Id, Tablecontentet: "" },
+            success: function (data) {
+                    alert(data);
+                window.location.href = '@Url.Action("SMIRAdmin", "Admin")';
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+        return false;
+    }
+     function Approve(Id)
+    {
+               $.ajax({
+            url: "@Url.Action("Approve", "Admin")",
+            type: 'GET',
+            cache: false,
+            data: { Id: Id, Tablecontentet: ""},
+            success: function (data) {
+                    alert(data);
+                window.location.href = '@Url.Action("SMIRAdmin", "Admin")';
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+        return false;
+
+    }
+
+</script>
+
+

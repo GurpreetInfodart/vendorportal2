@@ -1,0 +1,106 @@
+﻿@model VendorPortal.Models.VENDOR_ASSOC
+
+@{
+    ViewBag.Title = "AddVENDOR_ASSOC";
+    Layout = "~/Views/Shared/AdminView.cshtml";
+}
+
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="@Url.Action("Vendor_AssocData")"><i class="fa fa-home"></i>&nbsp;Master</a></li>
+                <li><a href="@Url.Action("Vendor_AssocData")">Vendor Association</a></li>
+                <li class="active">Create</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body">
+                    <div class="panel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-body" style="text-align:left;">
+                                    @using (Html.BeginForm("AddVENDOR_ASSOC", "Administration"))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+
+
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class=" col-md-4">Vendor code</label>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(E => E.VENDOR_CODE, new SelectList((System.Collections.IEnumerable)ViewData["supplierList"], "Value", "Text"), "--Select--", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.VENDOR_CODE, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class=" col-md-4">User code</label>
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.USER_CODE, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.USER_CODE, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-4 col-md-12">
+                                                            <input type="submit" id="btnSubmit" value="Create" class="btn btn-primary" />
+                                                            <a href='@Url.Action("Vendor_AssocData")' class="btn btn-primary">Cancel</a>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+ 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function (e) {
+
+            if ($("#VENDOR_CODE option:selected").text() == "--Select--") {
+                alert("Please Select Vendor Code");
+                $("#VENDOR_CODE").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#USER_CODE").val() == "") {
+                alert("Please Enter User Code");
+                $("#USER_CODE").focus();
+                e.preventDefault();
+                return false;
+            }
+        })
+
+    })
+</script>

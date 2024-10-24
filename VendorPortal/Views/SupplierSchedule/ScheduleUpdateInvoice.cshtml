@@ -1,0 +1,939 @@
+﻿@{
+    ViewBag.Title = "SupplierSchedulerDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">*@
+@*<script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>*@
+
+
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="@Url.Action("Index")"><i class="fa fa-home"></i>&nbsp;Schedule Management</a></li>
+                <li><a href="@Url.Action("Index")">Supplier Scheduler</a></li>
+                <li class="active">Update Invoice</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="width:100%;">
+                                    <div class="panel">
+                                        <div style="width:100%;">
+                                            <div class="panel">
+                                                <div class="table-responsive panel-body" style="overflow-x:hidden !important">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body" style="text-align:left;">
+                                                                <div class="form-horizontal">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-12">
+                                                                                <select class="form-control" id="SearchCreteria" style="width:120px;display:none" >
+                                                                                    <option selected="selected" value="">--Select--</option>
+                                                                                    <option value="PONo">PO No.</option>
+                                                                                    <option value="PODate">PO Date</option>
+                                                                                    <option value="MaterialCode">Material Code</option>
+                                                                                    <option value="Mat_Desc">Material Description</option>
+                                                                                    <option value="MaterialSNP">Material SNP</option>
+                                                                                </select>
+                                                                                &nbsp;
+                                                                                <input type="text" id="SearchValue" class="form-control" style="width:120px;width:400px;border-radious:7px;" placeholder="Type to search" />
+                                                                                &nbsp;
+                                                                                <button onclick="paging(1)" class="form-control btn-primary" style="width:60px;display:none">Search</button>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="col-md-12">
+
+                                                                            <input type="text" id="txtFromDate" class="form-control" style="width:95px" placeholder="From Date" readonly="readonly" />
+                                                                            &nbsp;
+                                                                            <input type="text" id="txtToDate" class="form-control" style="width:95px" placeholder="To Date" readonly="readonly" />
+                                                                            &nbsp;
+                                                                            <button onclick="PendingDateFilter()" class="form-control btn-primary" style="width:60px">Search</button>
+                                                                            &nbsp;
+                                                                            <button onclick="Clear()" class="form-control btn-primary" style="width:60px">Clear</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body" style="text-align:left;">
+                                                                <div class="form-horizontal">
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <input type="text" id="txtFromDate" class="form-control" placeholder="From Date" readonly="readonly" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <input type="text" id="txtToDate" class="form-control" placeholder="To Date" readonly="readonly" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <button onclick="PendingDateFilter()" class="form-control btn-primary">Search</button>
+                                                                                <button onclick="Clear()" class="form-control btn-primary">Clear</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>*@
+                                                    <div class="row">
+                                                        <div class="panel-body" style="text-align:left;">
+                                                            <div class="form-horizontal">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-6">
+                                                                        <input type="text" id="InvoiceDate" class="form-control" style="line-height:20px" readonly="readonly" placeholder="Invoice Date" />
+                                                                        &nbsp;
+                                                                        <input type="text" id="txtInvoiceNumber" class="form-control" placeholder="Invoice No" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="table-responsive panel-body">
+                                                                    <div id="GridDiv">
+                                                                        @*@{Html.RenderAction("UpdateInvoice"); }*@
+
+
+                                                                        <style>
+
+                                                                            html {
+                                                                                font-family: arial;
+                                                                            }
+
+                                                                            ::-webkit-scrollbar {
+                                                                                width: 12px;
+                                                                                height: 12px;
+                                                                            }
+
+                                                                            ::-webkit-scrollbar-thumb {
+                                                                                background-color: darkgray;
+                                                                            }
+
+                                                                            table {
+                                                                                border-collapse: collapse;
+                                                                            }
+
+                                                                            td {
+                                                                                border: 1px solid lightgray;
+                                                                            }
+
+                                                                            .table-div {
+                                                                                max-width: 100%;
+                                                                                overflow-x: auto;
+                                                                                border: 1px solid black;
+                                                                                background-color: lightgray;
+                                                                            }
+
+                                                                            .Table {
+                                                                                background-color: transparent;
+                                                                                min-width: 100%;
+                                                                            }
+
+                                                                                .Table thead,
+                                                                                .Table tbody {
+                                                                                    display: block;
+                                                                                }
+
+                                                                                .Table thead {
+                                                                                    border-bottom: 1px solid black;
+                                                                                }
+
+                                                                                    .Table thead > tr {
+                                                                                        width: calc(100% - 12px);
+                                                                                    }
+
+                                                                                .Table tbody {
+                                                                                    max-height: 400px;
+                                                                                    overflow-x: hidden;
+                                                                                }
+
+                                                                                .Table tr {
+                                                                                    display: flex;
+                                                                                }
+
+                                                                                .Table td,
+                                                                                .Table th {
+                                                                                    overflow: hidden;
+                                                                                    text-overflow: ellipsis;
+                                                                                    white-space: nowrap;
+                                                                                    padding: 3px 10px;
+                                                                                    width: 100%;
+                                                                                    background-color: white;
+                                                                                }
+
+                                                                                .Table th {
+                                                                                    background-color: lightgray;
+                                                                                }
+
+                                                                                .Table tr:nth-child(2n) > td {
+                                                                                    background-color: #EEFFEE;
+                                                                                }
+
+                                                                                .Table th {
+                                                                                    border-left: 1px solid black;
+                                                                                }
+
+                                                                                    .Table th:first-child {
+                                                                                        border-left: 0;
+                                                                                    }
+
+                                                                                    .Table th:nth-child(20),
+                                                                                    .Table td:nth-child(20) {
+                                                                                        min-width: 4%;
+                                                                                    }
+
+                                                                                .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+                                                                                    width: 100px !important;
+                                                                                }
+                                                                            /*table.scroll {
+                                                                                width: 100%;
+
+                                                                                border-spacing: 0;
+                                                                                border: 0px solid black;
+                                                                            }
+
+                                                                                table.scroll tbody,
+                                                                                table.scroll thead {
+                                                                                    display: block;
+                                                                                }
+
+                                                                            thead tr th {
+                                                                                height: 30px;
+                                                                                line-height: 30px;
+
+                                                                            }
+
+                                                                            table.scroll tbody {
+                                                                                height: 250px;
+                                                                                overflow-y: auto;
+                                                                                overflow-x: hidden;
+                                                                            }
+
+                                                                            tbody {
+                                                                                border-top: 0px solid black;
+                                                                            }
+
+                                                                                tbody td, thead th {
+                                                                                    width: 20%;
+                                                                                    border-right: 1px solid black;
+                                                                                }
+
+                                                                                    tbody td:last-child, thead th:last-child {
+                                                                                        border-right: none;
+                                                                                    }*/
+                                                                        </style>
+                                                                        <div id="divLoader">
+                                                                            <img src="~/loader.gif" />
+                                                                        </div>
+                                                                        <div class="table-div" >
+                                                                            <table class="table table-bordered table-condensed table-hover table-striped Table" style="margin-bottom:0px !important" id="tblupdateInvoice" align="left">
+                                                                                <thead>
+                                                                                    <tr>
+
+                                                                                        <th style="width:3% !important">Sr.<br /> No.</th>
+                                                                                        <th style="text-align:center; width:2% !important"><input type="checkbox" id="ckbCheckAll" /></th>
+                                                                                        <th style="">PO No.</th>
+                                                                                        <th style="">PO Date</th>
+                                                                                        <th style="">Schedule<br /> Date</th>
+                                                                                        <th style="">Material<br /> Code</th>
+                                                                                        <th style="">Material<br /> Desp.</th>
+                                                                                        <th style="width:4% !important">Material<br /> SNP</th>
+                                                                                        <th style="width:4% !important">Qty<br /> Order</th>
+                                                                                        <th style="width:4% !important">Qty<br /> Delv.</th>
+                                                                                        <th style="width:4% !important">Qty<br /> Pending</th>
+                                                                                        <th style="width:4% !important">Schedule<br /> Qty.</th>
+                                                                                        <th style="">Invoice<br /> Qty</th>
+                                                                                        <th style="">CGS Tax</th>
+                                                                                        <th style="">SGS Tax</th>
+                                                                                        <th style="">IGS Tax</th>
+                                                                                        <th style="">Model Name</th>
+                                                                                        <th style="">Mfg. Date</th>
+                                                                                        <th style="">Batch Code</th>
+                                                                                        <th style="display:none">Unit</th>
+                                                                                        <th style="display:none">PositionNo</th>
+                                                                                        <th style="display:none">ScheduleNo</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody></tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                            <div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center">
+                                                                <div class="panel-body" style="text-align:left;">
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                        </div>
+                                                                        <div class="col-sm-2">
+
+                                                                            <button type="submit" id="btnUpdateInvoice"  class="form-control btn-primary">Update Invoice</button>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <input type='hidden' value='@Request.QueryString["SUPP_CODE"]' id='HdnSUPP_CODE' />
+
+
+                                            <input type='hidden' value='@Request.QueryString["upload_date"]' id='HdnUpload_date' />
+
+                                            <div class="col-lg-6">
+                                                <div class="row">
+                                                    <a href="@Url.Action("Index")">Back To List</a>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </section>
+</div>
+
+
+<style type="text/css">
+    #divLoader {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transform: -webkit-translate(-50%, -50%);
+        transform: -moz-translate(-50%, -50%);
+        transform: -ms-translate(-50%, -50%);
+    }
+</style>
+
+
+
+<div class="modal fade bs-example-modal-lg" id="mdlInvoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:1050px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Update Invoice</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive" id="tblInvoiceUpdt">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-12">
+                        <div class="form-group last">
+                            <div class="col-md-6" style="text-align:right">
+                                <a href='javascript:void(0)' class="btn btn-primary" id="btnSubmit" style="float:right;">Submit</a>
+                            </div>
+                            <div class="col-md-6" style="text-align:left">
+                                <button onclick="Reset()" class="btn btn-primary">Reset</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row" style="margin-top:10px;">
+                    <div class="col-md-12">
+                        <div class="form-group last">
+                            <div class="col-md-4 col-md-offset-8">
+                                <a href='javascript:void(0)' class="btn btn-primary" id="btnCancelEdit" style="float:right; margin-left:10px;">Cancel</a>
+                                <a href='javascript:void(0)' class="btn btn-primary" id="btnEditdata" style="float:right;">Done</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<link href="~/css/bootstrap-datepicker.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+
+
+
+<script type="text/javascript">
+
+    
+
+    $(document).ready(function () {
+        $("#btnUpdateInvoice").hide();
+    
+        paging(1);
+        //tblupdateInvoice
+        // Search all columns
+        $('#SearchValue').keyup(function () {
+            // Search Text
+            var search = $(this).val();
+
+            // Hide all table tbody rows
+            $('table tbody tr').hide();
+
+            // Count total search result
+            var len = $('table tbody tr:not(.notfound) td:contains("' + search + '")').length;
+
+            if (len > 0) {
+                // Searching text in columns and show match row
+                $('table tbody tr:not(.notfound) td:contains("' + search + '")').each(function () {
+                    $(this).closest('tr').show();
+                });
+            } else {
+                $('.notfound').show();
+            }
+        });
+
+      
+
+      //$('#tblupdateInvoice').dataTable({
+      //      "paging": false,
+      //      "ordering": false,
+      //      "info": false
+      //     // "searching": false
+      //  });
+
+        //var $table = $('table.scroll'),
+        //    $bodyCells = $table.find('tbody tr:first').children(),
+        //    colWidth;
+
+        //// Adjust the width of thead cells when window resizes
+        //$(window).resize(function () {
+        //    // Get the tbody columns width array
+        //    colWidth = $bodyCells.map(function () {
+        //        return $(this).width();
+        //    }).get();
+
+        //    // Set the width of thead columns
+        //    $table.find('thead tr').children().each(function (i, v) {
+        //        $(v).width(colWidth[i]);
+        //    });
+        //}).resize(); // Trigger resize handler
+
+        //var $table = $('table.scroll'),
+        //    $bodyCells = $table.find('tbody tr:first').children(),
+        //    colWidth;
+
+        //// Adjust the width of thead cells when window resizes
+        //$(window).resize(function () {
+        //    // Get the tbody columns width array
+        //    colWidth = $bodyCells.map(function () {
+        //        return $(this).width();
+        //    }).get();
+
+        //    // Set the width of thead columns
+        //    $table.find('thead tr').children().each(function (i, v) {
+        //        $(v).width(colWidth[i]);
+        //    });
+        //}).resize(); // Trigger resize handler
+
+        $('#InvoiceDate').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: "dd/mm/yyyy",
+            language: "tr",
+            autoclose: true,
+            endDate: 'today'
+        });
+
+        $('#txtFromDate').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: "dd/mm/yyyy",
+            language: "tr",
+            autoclose: true
+        });
+        $('#txtToDate').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: "dd/mm/yyyy",
+            language: "tr",
+            autoclose: true
+        });
+
+
+        $("#SearchCreteria").change(function () {
+            $('#SearchValue').val('');
+            if ($('#SearchCreteria').val() == '') {
+                paging(1);
+            }
+            if ($("#SearchCreteria").val() == "PODate") {
+                $("#SearchValue").attr('readonly', true);
+
+                $('#SearchValue').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    format: "dd/mm/yyyy",
+                    language: "tr",
+                    autoclose: true
+
+                });
+            }
+            else {
+                $("#SearchValue").attr('readonly', false);
+                $("#SearchValue").datepicker("destroy");
+
+            }
+
+        })
+
+
+        var values = [];
+        var mdl = "";
+        $("#btnUpdateInvoice").click(function (e) {
+
+            if ($('#InvoiceDate').val() == '') { alert("Please select Invoice Date."); $('#InvoiceDate').focus(); return false; }
+            if ($('#txtInvoiceNumber').val() == '') { alert("Please enter Invoice Number."); $('#txtInvoiceNumber').val(''); $('#txtInvoiceNumber').focus(); return false; }
+
+            // $("#tblupdateInvoice").promise().done(function () {
+            pr();
+            //  });
+          //  debugger;
+            if (doSubmit == true) {
+                $("#tblInvoiceUpdt").html('');
+                var varHtml = ''
+
+                varHtml += "<table id='tblNewRt' class='table table-bordered tblRemove' border='0' cellspacing='0' cellpadding='0' style='background: #fff;'>";
+                varHtml += "<thead>";
+                varHtml += "<tr class='Header'>";
+                //varHtml += "<th class='text-center'>Sr. No.</th>";
+                varHtml += "<th class='text-center'>Invoice Date</th>";
+                varHtml += "<th class='text-center'>Invoice No.</th>";
+                varHtml += "<th class='text-center'>PO No.</th>";
+                varHtml += "<th class='text-center'>Item</th>";
+                varHtml += "<th class='text-center'>Item Desc</th>";
+                varHtml += "<th class='text-center'>Unit Uom</th>";
+                varHtml += "<th class='text-center'>Position No.</th>";
+                varHtml += "<th class='text-center'>Schedule No.</th>";
+                varHtml += "<th class='text-center'>Quantity</th>";
+                varHtml += "<th class='text-center'>Del Date</th>"; 
+
+                varHtml += "</tr>";
+                varHtml += "</thead>";
+                varHtml += "<tbody>";
+
+
+                $('#tblupdateInvoice > tbody > tr').each(function (index) {
+                    //debugger;
+                    if ($(this).find('input[type="checkbox"]').is(':checked')) {
+                       // debugger;
+
+                        varHtml += "<tr>";
+
+                        varHtml += "<td class='text-center' >" + $("#InvoiceDate").val() + "</td>";
+                        varHtml += "<td class='text-center' >" + $("#txtInvoiceNumber").val() + "</td>";
+                        varHtml += "<td class='text-center' >" + $(this).find('td:eq(2)').text() + "</td>";
+                        varHtml += "<td class='text-center' >" + $(this).find('td:eq(5)').text() + "</td>";
+                        varHtml += "<td class='text-center' >" + $(this).find('td:eq(6)').text() + "</td>";
+                        varHtml += "<td class='text-center' >" + $(this).find('td:eq(19)').text() + "</td>";
+                        varHtml += "<td class='text-center' >" + $(this).find('td:eq(20)').text() + "</td>";
+                        varHtml += "<td class='text-center' >" + $(this).find('td:eq(21)').text() + "</td>";
+                        varHtml += "<td class='text-center' >" + $(this).find('#InvoiceQty').val() + "</td>";
+                        varHtml += "<td class='text-center' >" + $(this).find('td:eq(4)').text() + "</td>";
+
+                    
+ 
+
+                        varHtml += "</tr>";
+
+
+                        var _SLNO = ''; var _PO_NUM = ''; var _PODATE = ''; var _DELDATE = ''; var _MATCODE = ''; var _MATDESC = ''; var _SNP = ''; var _QTYORDERED = '';
+                        var _QTYDELIVERED = ''; var _QTYPENDING = ''; var _SCHEDULEQTY = '';
+                        var _INVQTY = ''; var _INVNO = ''; var _CGST = ''; var _SGST = ''; var _IGST = ''; var _MODEL = ''; var _MANFDATE = '';
+                        var _BATCHCODE = ''; var _CHANNELCODE = ''; var _EMPID = ''; var _INVOICEDATE = '';
+
+                       // debugger;
+
+                        _PO_NUM = $(this).find('td:eq(2)').text().trim();
+                        _PODATE = $(this).find('td:eq(3)').text().trim();
+                        _DELDATE = $(this).find('td:eq(4)').text().trim();
+                        _MATCODE = $(this).find('td:eq(5)').text().trim();
+                        _MATDESC = $(this).find('td:eq(6)').text().trim();
+                        _SNP = $(this).find('td:eq(7)').text().trim();
+                        _QTYORDERED = $(this).find('td:eq(8)').text().trim();
+                        _QTYDELIVERD = $(this).find('td:eq(9)').text().trim();
+                        _QTYPENDING = $(this).find('td:eq(10)').text().trim();
+                        _SCHEDULEQTY = $(this).find('td:eq(11)').text().trim();
+                        _INVQTY = $(this).find('#InvoiceQty').val();
+                        _INVNO = $('#txtInvoiceNumber').val();
+
+                        if ($(this).find('#CGST').val() == -1) {
+                            _CGST = 0;
+                        }
+                        else {
+                            _CGST = $(this).find('#CGST').val();
+                        }
+
+                        if ($(this).find('#SGST').val() == -1) {
+                            _SGST = 0;
+                        }
+                        else {
+                            _SGST = $(this).find('#SGST').val();
+                        }
+
+                        if ($(this).find('#IGST').val() == -1) {
+                            _IGST = 0;
+                        }
+                        else {
+                            _IGST = $(this).find('#IGST').val();
+                        }
+
+                        //_CGST  = $(this).find('#CGST').val();
+                        //_SGST  = $(this).find('#SGST').val();
+                        //_IGST  = $(this).find('#IGST').val();
+                        _MODEL = $(this).find('#txtModelName').val();
+                        _MANFDATE = $(this).find('#txtMfgDate').val();
+                        _BATCHCODE= $(this).find('#txBatch').val();
+                        _INVOICEDATE= $('#InvoiceDate').val();
+
+                        //_CGST = $(this).find('#CGST').val();
+                        //_SGST = $(this).find('#SGST').val();
+                        //_IGST = $(this).find('#IGST').val();
+
+                        //debugger;
+
+                        values.push({
+
+                            PO_NUM: _PO_NUM,
+                            PODate: _PODATE,
+                            ScheduleDate: _DELDATE,
+                            MaterialCode: _MATCODE,
+                            MaterialDescription: _MATDESC,
+                            SNP: _SNP,
+                            QtyOrder: _QTYORDERED,
+                            QtyDelv: _QTYDELIVERD,
+                            PendingQty: _QTYPENDING,
+                            ScheduleQty: _SCHEDULEQTY,
+                            InvoiceQty: _INVQTY,
+                            InvoiceNo: _INVNO,
+                            CGSTax: _CGST,
+                            SGSTax: _SGST,
+                            IGSTax: _IGST,
+                            Model: _MODEL,
+                            MFG_Date: _MANFDATE,
+                            BatchCode: _BATCHCODE,
+                            InvoiceDate: _INVOICEDATE,
+
+                        });
+                     //   debugger;
+
+                        //mdl =[{
+                        //    PO_NUM: _PO_NUM,
+                        //    PODate: _PODATE,
+                        //    ScheduleDate: _DELDATE
+
+                        //}];
+                        //debugger;
+                    }
+
+                });
+
+                varHtml += "</tbody>";
+                varHtml += "</table>";
+
+                $("#tblInvoiceUpdt").append(varHtml);
+
+
+
+                $('#mdlInvoice').modal('show');
+                //debugger;
+            }
+            //var table = $("#tblupdateInvoice");
+
+
+
+
+            //var flg = 0;
+            //var i = 0;
+            //var values = [];
+
+
+
+
+            //$("#tblupdateInvoice input[type=checkbox]").each(function () {
+            //    i++;
+            //    if ($(this).is(':checked')) {
+            //        flg = 1;
+            //        var ind = i - 1;
+            //        if ($(this).val() != "on") {
+
+            //            values.push({
+            //                ScheduleId: parseInt($(this).val()),
+            //                Remark: $("#" + ind).val()
+            //            }
+            //        }
+            //    }
+            //});
+        });
+
+        $("#btnSubmit").click(function () {
+
+             var $this = $(this);
+                $this.button('loading');
+                setTimeout(function () {
+
+                    $this.button('reset');
+                }, 20000);
+
+
+              GetUpdateInvoice(values);
+
+        })
+
+    });
+
+
+        function GetUpdateInvoice(values) {
+        var postData = JSON.stringify(values);
+        var HdnSUPP_Code = $("#HdnSUPP_CODE").val();
+
+        $.ajax({
+            url: "@Url.Action("GetUpdateInvoice", "SupplierSchedule")",
+            type: "POST",
+            dataType: "JSON",
+            //data: { 'values': postData, 'SUPP_Code': HdnSUPP_Code },
+            data: { 'values': postData },
+            success: function (result) {
+                alert(result);
+                window.location.href = '@Url.Action("Index", "SupplierSchedule")'
+            }
+        });
+    }
+        var doSubmit = '';
+        function pr() {
+        //debugger;
+        var flg = 0;
+        doSubmit = true;
+        $('#tblupdateInvoice > tbody > tr').each(function () {
+            if ($(this).find('input[type="checkbox"]').is(':checked')) {
+                flg = 1;
+                var InvoiceQuantity = $(this).find('#InvoiceQty').val();
+                var QtyPending = $(this).find('td:eq(10)').text();
+
+                if ($(this).find('#InvoiceQty').val() == '') { alert("Please enter Invoice Quantity."); $(this).find('#InvoiceQty').focus(); doSubmit = false; return false; }
+                if ($(this).find('#CGST').val() == -1 && $(this).find('#SGST').val() == -1 && $(this).find('#IGST').val() == -1) { alert("Please select Cgst/ Sgst OR Igst percentage at S.No."); $(this).find('#CGST').focus(); doSubmit = false; return false; }
+                if ($(this).find('#InvoiceQty').val() <= 0) { alert("Invoice Quantity Cann't be empty or less than equal to zero"); $(this).find('#InvoiceQty').focus(); doSubmit = false; return false; }
+
+
+                if (InvoiceQuantity > parseInt(QtyPending)) {
+                    alert("Invoice Qty is greater than Pending Quantity"); $(this).find('#InvoiceQty').focus(); doSubmit = false; return false;
+                }
+
+                if ($(this).find('#InvoiceQty').val() != $(this).find('td:eq(7)').text() && $(this).find('td:eq(7)').text().trim() != 1) {
+                    if (Math.abs($(this).find('#InvoiceQty').val() % $(this).find('td:eq(7)').text()) != 0) {
+                        alert("SNP Condition is not matched"); $(this).find('#InvoiceQty').focus(); doSubmit = false; return false;
+                    }
+                }
+
+            }
+
+        });
+        if (flg == 0) {
+            alert("Please select list");
+            doSubmit = false
+            return false;
+        }
+        if (!doSubmit) return false;
+    }
+
+
+        function paging(currentpage) {
+
+            
+        //var HdnScheduleNo = $("#HdnScheduleNo").val();
+        var HdnUpload_date = $("#HdnUpload_date").val();
+
+        var HdnSUPP_Code = $("#HdnSUPP_CODE").val();
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("UpdateInvoice", "SupplierSchedule")",
+            type: 'GET',
+            cache: false,
+            //data: { 'CurrentPage': parseInt(currentpage), 'SupplierCode': HdnSUPP_Code },
+            data: { 'CurrentPage': parseInt(currentpage), 'SUPP_CODE': HdnSUPP_Code, 'upload_date': HdnUpload_date, 'fromDate': $("#txtFromDate").val(), 'toDate': $("#txtToDate").val(), 'SearchBy': $("#SearchCreteria").val(), 'SearchValue': $("#SearchValue").val() },
+            success: function (data) {
+
+                $('#tblupdateInvoice>tbody>tr').remove();
+                $('#tblupdateInvoice tbody').empty();
+                $('#tblupdateInvoice').find('.selectAll').remove();
+              //  alert(1);
+                if (data.length > 0) {
+                    $("#divLoader").show();
+                    $("#btnUpdateInvoice").show();
+                        
+                    var ct = 0;
+                    $.each(data, function (index, itemData) {
+                     //   alert(1)
+                        if (itemData.PendingQty > 0) {
+                            ct = ct + 1;
+                            $('#tblupdateInvoice>tbody').append('<tr id=' + ct + '><td  style="width:3% !important" valign="top">' + (ct) + '</td><td align="center" style="width:2% !important"><input type="checkbox" class="checkBoxClass" name="CategoryIds" id=' + itemData.PO_NUM + ' value=' + itemData.PO_NUM + '/ ></td><td style="color:black;font-size:small;">' + itemData.PO_NUM + '</td><td style="color:black;font-size:small;">' + itemData.PODate + '</td><td style="color:black;font-size:small;">' + itemData.ScheduleDate + '</td><td style="color:black;font-size:small;">' + itemData.MaterialCode + '</td><td style="color:black;font-size:small;">' + itemData.MaterialDescription + '</td><td style="width:4% !important">' + itemData.SNP + ' </td><td style="width:4% !important">' + itemData.QtyOrder + ' </td><td style="width:4% !important"> ' + itemData.QtyDelv + '</td><td style="width:4% !important">' + itemData.PendingQty + '</td><td style="width:4% !important">' + itemData.ScheduleQty + '</td><td style=""><input type="text"; autocomplete="off" style="width:60px;" id="InvoiceQty" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46" maxlength="200" class="form-control InvoiceQty" /> </td><td style=""><select id="CGST"  name="CGST"  style="width:73px;padding-left:2px;" class="form-control CGST" style="width:73px;padding-left:2px;" onchange=FUNCGST(this)><option value= "-1" >select</option><option value= "0" >0</option><option value="2.5" > 2.5</option ><option value="6" >6</option><option value="9" > 9</option ><option value="14"> 14</option></select></td><td style=""><select id="SGST" name="SGST" style="width:73px;padding-left:2px;" class="form-control SGST" disabled><option value= "-1" >select</option><option value= "0" >0</option><option value="2.5" > 2.5</option ><option value="6" >6</option><option value="9" > 9</option ><option value="14"> 14</option></select></td><td style=""><select id="IGST"  style="width:73px;padding-left:2px;" name="IGST" class="form-control IGST" onchange=FUNIGST(this) ><option value= "-1" >select</option><option value= "0" >0</option><option value="5">5</option ><option value="12">12</option><option value="18" > 18</option ><option value="28"> 28</option></select></td><td style=""><input type="text"   id="txtModelName"  maxlength="200" class="form-control txtModelName" style="border:1px solid gray;width:85px"  /> </td> <td style=""><input type="text" id="txtMfgDate"  maxlength="20" class="form-control txtMfgDate" style="border:1px solid gray;width:85px" /> </td> <td style=""><input type="text" id="txBatch" maxlength="50" class="form-control txBatch" style="border:1px solid gray;width:85px"/></td><td style="display:none">' + itemData.Unit + '</td><td style="display:none">' + itemData.POSITION_NO + '</td><td style="display:none">' + itemData.SCHEDULE_NO + '</td></tr>');
+                            
+                        }
+
+                    });
+
+                    $("#divLoader").hide();
+                    $('.scroll-div1').outerWidth(2000);
+                    $('.scroll-div2').outerWidth(2000);
+
+                   // $('#lblCount').text('Record Found :' + $("#tblupdateInvoice > tbody > tr:visible").length);
+
+                }
+                else {
+                    $("#divLoader").hide();
+                    $('#tblupdateInvoice>tbody').append('<tr><td colspan="20">No Record Found !</td></tr>');
+                }
+
+                //$('#GridDiv').html(data);
+
+                $('.disabled').prop('disabled', true);
+            },
+            error: function (xhr) {
+                $("#divLoader").hide();
+                alert('error');
+            }
+        });
+        return false;
+    }
+
+
+    function FUNCGST(_this) {
+        //alert("fsd");
+        $(_this).closest('tr').find('#SGST').val($(_this).val());
+
+        ////$(_this).closest('tr').find('#SGST').prop('disabled', false);
+        ////$(_this).closest('tr').find('#CGST').prop('disabled', false);
+        ////    //$(_this).closest('tr').find('#SGST').prop('disabled', false);
+
+        if ($(_this).closest('tr').find('#CGST').val() == -1) {
+            $(_this).closest('tr').find('#IGST').prop('disabled', false);
+            $(_this).closest('tr').find('#SGST').prop('disabled', true);
+            $(_this).closest('tr').find('#CGST').prop('disabled', true);
+            //$(_this).closest('tr').find('#CGST').val(0)
+            //$(_this).closest('tr').find('#SGST').val(0)
+        }
+        else {
+            $(_this).closest('tr').find('#IGST').prop('disabled', true);
+
+        }
+
+        }
+
+    function Reset() {
+
+        $("#InvoiceDate").val('');
+        $("#txtInvoiceNumber").val('');
+
+        $('#mdlInvoice').modal('hide');
+    }
+    function FUNIGST(_this) {
+        $(_this).closest('tr').find('#IGST').val($(_this).val());
+        //$(_this).closest('tr').find('#SGST').prop('disabled', false);
+        //$(_this).closest('tr').find('#CGST').prop('disabled', false);
+        //    //$(_this).closest('tr').find('#SGST').prop('disabled', false);
+
+        if ($(_this).closest('tr').find('#IGST').val() == -1) {
+            $(_this).closest('tr').find('#IGST').prop('disabled', true);
+            $(_this).closest('tr').find('#SGST').prop('disabled', true);
+            $(_this).closest('tr').find('#CGST').prop('disabled', false);
+            //$(_this).closest('tr').find('#IGST').val(0);
+
+        }
+        else {
+            //$(_this).closest('tr').find('#SGST').prop('disabled', true);
+            $(_this).closest('tr').find('#CGST').prop('disabled', true);
+            //  $(_this).closest('tr').find('#IGST').prop('disabled', false);
+            //$(_this).closest('tr').find('#CGST').val(0);
+            //$(_this).closest('tr').find('#SGST').val(0);
+
+        }
+    }
+    //function Checkdate() {
+    //    var d = new Date();
+    //    var curr_day = d.getDate();// ((d.getDate().length + 1) === 1) ? (d.getDate()) : '0' + (d.getDate());
+    //    var curr_month = ((d.getMonth().length + 1) === 1) ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1);
+    //    var curr_year = d.getFullYear();
+    //    var DateCreated = curr_year + "-" + curr_month + "-" + curr_day;
+
+    //    var InvoiceDate = $('#InvoiceDate').val();
+    //    if (InvoiceDate > DateCreated) {
+    //        {
+    //            alert("You can not select invoice date greater than today.");
+    //            $('#InvoiceDate').val('');
+    //            return;
+    //        }
+    //    }
+    //}
+    function PendingDateFilter() {
+
+        if ($("#txtFromDate").val() == "") {
+            alert("Please Select From Date");
+            $("#txtFromDate").focus();
+            return false;
+        }
+        if ($("#txtToDate").val() == "") {
+            alert("Please Select To Date");
+            $("#txtToDate").focus();
+            return false;
+        }
+        $('#SearchValue').val('');
+        paging(1);
+    }
+    function Clear() {
+        $("#txtFromDate").val("");
+        $("#txtToDate").val("");
+        paging(1);
+    }
+</script>

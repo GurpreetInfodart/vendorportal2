@@ -1,0 +1,144 @@
+﻿@model  IEnumerable<VendorPortal.Models.tblPPM>
+
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+
+<div id="GridDiv">
+    <table id="tblAppPackList" class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
+            <tr role="row">
+                <th>Sr. No.</th>
+                <th >Plant</th>
+
+                <th >Supplier Code</th>
+
+                <th >Supplier Name</th>
+
+                <th >Fin Year</th>
+
+                <th >Apr</th>
+
+                <th >May</th>
+                <th>Jun</th>
+
+                <th >Jul</th>
+
+                <th>Aug</th>
+
+                <th >Sep</th>
+                <th>Oct</th>
+
+                <th >Nov</th>
+
+                <th >Dec</th>
+                <th >Jan</th>
+
+                <th  >Feb</th>
+
+                <th >Mar</th>
+
+                <th >Cumm PPM</th>
+
+                <th >Upload Date</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="@SerialNo">
+                    <td align="left">@SerialNo</td>
+                    <td align="left">@item.Plant</td>
+                    <td align="left">
+                        @item.SuppCode
+                    </td>
+                    <td align="left">
+                        @item.SuppName 
+                    </td>
+                    <td align="left">
+                        @item.FinYear
+                    </td>
+                    <td align="left">
+                        @item.Apr
+                    </td>
+                    <td align="left">
+                        @item.May
+                    </td>
+                    <td align="left">
+                        @item.Jun
+                    </td>
+                    <td align="left">
+                        @item.Jul
+                    </td>
+                    <td align="left">
+                        @item.Aug
+                    </td>
+                    <td align="left">
+                        @item.Sep
+                    </td>
+                    <td align="left">
+                        @item.Oct
+                    </td>
+                    <td align="left">
+                        @item.Nov
+                    </td>
+                    <td align="left">
+                        @item.Dec
+                    </td>
+                    <td align="left">
+                        @item.Jan
+                    </td>
+                    <td align="left">
+                        @item.Feb
+                    </td>
+                    <td align="left">
+                        @item.Mar
+                    </td>
+                    <td align="left">
+                        @item.CummPPM
+                    </td>
+                    <td align="left">
+                        @item.UploadDate
+                    </td>
+                    </tr>
+                SerialNo++;
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+
+<script type="text/javascript">
+    
+    function paging(currentpage) {
+        var _supplierCod = $('#DDLSN').val();
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("PP", "Common")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'SUPP_CODE': _supplierCod },
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+   
+      
+    
+</script>
+
+
+

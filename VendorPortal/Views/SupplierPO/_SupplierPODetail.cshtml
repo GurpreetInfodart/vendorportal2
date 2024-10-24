@@ -1,0 +1,169 @@
+﻿@model IEnumerable<VendorPortal.Models.SupplierPODetailViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.detail_paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />
+
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="pending" align="left">
+    <thead>
+        <tr>
+            <th style="font-size:12px;">
+                Sr. No.
+            </th>
+            <th style="font-size:12px;">
+                PLANT NAME
+            </th>
+            <th style="font-size:12px;">
+                PO NUMBER
+            </th>
+            <th style="font-size:12px;">
+                PO DATE
+            </th>
+            <th style="display:none">
+                SUPPLIER CODE
+            </th>
+            <th style="display:none">
+                SUPPLIER NAME
+            </th>
+            <th style="font-size:12px;">
+                ITEM CODE
+            </th>
+
+            <th style="font-size:12px;">
+                ITEM DESC.
+            </th>
+            <th style="font-size:12px;">
+                HSN/SAC
+            </th>
+
+            <th style="font-size:12px;">
+                QUANTITY
+            </th>
+
+            <th style="font-size:12px;">
+                UOM
+            </th>
+            <th style="font-size:12px;">
+                UNIT RATE
+            </th>
+            <th style="font-size:12px;">
+                DISCOUNT
+            </th>
+            <th style="font-size:12px;">
+                NET AMOUNT
+            </th>
+            <th style="font-size:12px;">
+                TOTAL VALUE(WITHOUT TAX)
+            </th>
+            <th style="font-size:12px;">
+                FREIGHT
+            </th>
+            <th style="font-size:12px;">
+                PF
+            </th>
+            <th style="font-size:12px;">
+                SGST
+            </th>
+            <th style="font-size:12px;">
+                CGST
+            </th>
+            <th style="font-size:12px;">
+                IGST
+            </th>
+            <th style="font-size:12px;">
+                CESS
+            </th>
+            <th style="font-size:12px;">
+                TOTAL VALUE (WITH TAX)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="color:black;font-size:small">
+                    @SerialNo
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.PlantName
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.PO_NUM
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.PODate
+                </td>
+                <td style="display:none">
+                    @item.SupplierCode
+                </td>
+                <td style="display:none">
+                    @item.SupplierName
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.ItemCode
+                </td>
+
+
+                <td style="color:black;font-size:small">
+                    @item.ItemDesc
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.HSN_SAC
+                </td>
+
+                <td style="color:black;font-size:small" align="right">
+                    @item.QUANTITY
+                </td>
+
+                <td style="color:black;font-size:small">
+                    @item.UOM
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.UNIT_RATE
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.DISCOUNT
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.NET_AMOUNT
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.TotalValue_Without_Tax
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.FREIGHT
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.PF
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.SGST
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.CGST
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.IGST
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.CESS
+                </td>
+                <td style="color:black;font-size:small" align="right">
+                    @item.TotalValue_With_Tax
+                </td>
+            </tr>
+            SerialNo++;
+        }
+
+    </tbody>
+</table>
+
+
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.detail_paging)

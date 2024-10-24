@@ -1,0 +1,110 @@
+﻿@model IEnumerable<VendorPortal.Models.InvoiceViewModel>
+
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging2;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+
+
+
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+    <thead>
+         
+        <tr>
+            <th>Sr. No.</th>
+            <th>Invoice No.</th>
+            <th>Invoice Date</th>
+            <th>Quantity</th>
+            <th>Total Amount</th>
+
+            @*<th>Supplier Code</th>
+            @*<th>Supplier GSTIN</th>
+            <th>Supplier CIN</th>
+            <th>HSN SAC No.</th>*@
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">@SerialNo</td>
+                <td align="left">@Html.DisplayFor(m => @item.INVOICE_NUMBER)</td>
+                <td align="left">@Html.DisplayFor(m => @item.INVOICE_DATE)</td>
+                <td align="left">@Html.DisplayFor(m => @item.Qty)</td>
+                <td align="left">@Html.DisplayFor(m => @item.TotalAmt)</td>
+                @*<td align="left">@Html.DisplayFor(m => @item.SUPPLIER_CIN)</td>
+                <td align="left">@Html.DisplayFor(m => @item.HSN_SAC_NO)</td>*@
+
+                <td align="left">
+                    <span class="btn btn-primary btn-xs">
+                        <a href=@Url.Action("SupplierInvoiceDetail", "SupplierInvoice", new { InvoiceNo = @item.INVOICE_NUMBER, InvoiceDate = @item.INVOICE_DATE, Supp_Code = @item.SUPP_CODE }) style="color:#FFFFFF;">
+                            <i class="fa fa-check"></i>
+                            <span>Generate BinCard</span>
+                        </a>
+                    </span>
+                </td>
+                <td align="left">
+                    <span class="btn btn-primary btn-xs">
+                        @if (User.IsInRole("Visitor"))
+                        { }
+                        else
+                        {
+                            <a href=@Url.Action("GenerateBarcode", "SupplierInvoice", new { InvoiceNo = @item.INVOICE_NUMBER, InvoiceDate = @item.INVOICE_DATE, Supp_Code = @item.SUPP_CODE }) style="color:#FFFFFF;">
+                                <i class="fa fa-check"></i>
+                                <span>Generate Barcode</span>
+                            </a>
+                        }
+                        </span>
+                </td>
+
+                <td align="left">
+                    @if (User.IsInRole("Visitor"))
+                    { }
+                    else
+                    {
+                        <a href=@Url.Action("DeleteInvoice", "SupplierInvoice", new { InvoiceNo = @item.INVOICE_NUMBER, InvoiceDate = @item.INVOICE_DATE, Supp_Code = @item.SUPP_CODE }) style="color:#FFFFFF;" class="btn btn-danger btn-xs" onclick="return confirm('Are sure wants to delete?')">
+                            <i class="fa fa-check"></i>
+                            <span>Delete Invoice</span>
+                        </a>
+                    }
+                    </td>               
+            </tr>
+            SerialNo++;
+        }
+    </tbody>
+</table>
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging2)
+
+

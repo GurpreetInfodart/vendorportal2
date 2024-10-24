@@ -1,0 +1,214 @@
+﻿@model IEnumerable<VendorPortal.Models.Buyer_Supplier_InvoiceDetail>
+
+@using VendorPortal.Controllers;
+@using System.Web.Optimization
+@using System.Data
+
+@{
+    ViewBag.Title = "GenerateBarCode";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<body>
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-home"></i> Invoice Management</a></li>
+                    <li><a href="#">List of Invoices</a></li>
+                    <li class="active">Barcode Data</li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+        </div>
+        <div class="padding-15" id="printarea">
+
+            <section class="panel">
+                <!--<header class="panel-heading" style="background: #ff766c; color:#FFFFFF;">
+                    Form Name: Vendor Master Data Maintenance Form
+                </header>-->
+
+            </section>
+            <div class="row vertical-center-row">
+                <div class="text-center col-lg-12">
+
+                    @*@{
+                            //var str = ViewBag.Sup_Code1 + ViewBag.InvoiceNo + ViewBag.Sup_Code2;   // + ViewBag.invoiceDate
+                            byte[] a = InvoiceController.BarcodeImageGenerator(ViewBag.barCode);
+                            string barcode = Convert.ToBase64String(a);
+                            string b = barcode;
+                            <img src="@Url.Content(barcode)" alt="Alternate Text" width="400" height="100" />
+                        }*@
+
+                    @{
+                        byte[] a = InvoiceController.BarcodeImageGenerator(ViewBag.barCode);
+                        var base64 = Convert.ToBase64String(a);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    }
+
+                    <img src="@imgSrc" alt="Alternate Text" width="400" height="100" />
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover table-striped" id="pending" align="left" style="border-top:1px solid #333; border-bottom:1px solid #333; width:100%">
+                        <tr>
+                            <td align="left" colspan="1" style="font-size:large">Vendor Code</td>
+                            <td colspan="3" align="left" style="font-weight:bold">@ViewBag.Sup_Name</td>
+
+                        </tr>
+                        <tr>
+                            <td align="left" style="font-size:large">Invoice No.</td>
+                            <td align="left" style="font-weight:bold">@ViewBag.InvoiceNo</td>
+                            <td align="left" style="font-size:large">Invoice Date</td>
+                            <td align="left" style="font-weight:bold">@ViewBag.invoiceDate</td>
+                            
+                            <td align="left" style="font-size:large">Invoice Quantity @ViewBag.totData</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            
+                <div class="row">
+                    <div class="table-responsive">
+                        <div class="table-responsive panel-body">
+                            <table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+                                <thead>
+                                     
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Mat Code</th>
+                                        <th>Mat Desc</th>
+                                        <th>Unit UOM</th>
+                                        <th>Contract No.</th>
+                                        <th>Position No.</th>
+                                        <th>Schedule No.</th>
+                                        <th>Qty</th>                                        
+                                        <th>DEL DATE</th>                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{ int rowNo = 1;}
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td align="left">@rowNo</td>
+                                            <td align="left">@Html.DisplayFor(m => @item.MAT_CODE)</td>
+                                            <td align="left">@Html.DisplayFor(m => @item.MaterialDescription)</td>
+                                            <td align="left">@Html.DisplayFor(m => @item.Unit)</td>
+                                            <td align="left">@Html.DisplayFor(m => @item.CONTRACT_NO)</td>
+                                            <td align="left">@Html.DisplayFor(m => @item.POSITION_NO)</td>
+                                            <td align="left">@Html.DisplayFor(m => @item.SCHEDULE_NO)</td>
+                                            <td align="left">@Html.DisplayFor(m => @item.Qty)</td>                                            
+                                            <td align="left">@Html.DisplayFor(m => @item.DEL_DATE)</td> 
+                                        </tr>
+                                        rowNo++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+           
+
+
+        </div>
+    </div>
+
+
+    <div class="row vertical-center-row">
+        <div class="text-center col-lg-12">
+            <a href="#" class="btn btn-primary hidden-print" onclick="PrintDoc()">
+                <span class="glyphicon glyphicon-print"></span> Print
+            </a>
+            @*<a href="#" onclick="window.print(); return false;">Print</a>*@<a href="#" onclick="window.print(); return false;"></a>
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "ViewInvoiceSupplier", "Invoice", new { SubActId = ViewBag.saSup }, null)
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            
+
+        });
+
+        function PrintDoc() {
+            var toPrint = document.getElementById('printarea');
+            var popupWin = window.open('', '_blank', 'width=350,height=150,location=no,left=200px');
+            popupWin.document.open();
+            popupWin.document.write('<html><title style="font-size:large">BARCODE</title></head><body onload="window.print()">')
+            popupWin.document.write(toPrint.innerHTML);
+            popupWin.document.write('</html>');
+            popupWin.document.close();
+        }
+
+        window.onload = maxWindow;
+
+        function maxWindow() {
+            window.moveTo(0, 0);
+
+
+            if (document.all) {
+                top.window.resizeTo(screen.availWidth, screen.availHeight);
+            }
+
+            else if (document.layers || document.getElementById) {
+                if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
+                    top.window.outerHeight = screen.availHeight;
+                    top.window.outerWidth = screen.availWidth;
+                }
+            }
+        }
+        //var myApp;
+        //myApp = (function (app) {
+        //    $('#printTable').click(function () {
+        //        myApp.print();
+        //    });
+
+        //    app.print = function () {
+        //        $.ajax({
+        //            url: 'Home/Print',
+        //            success: function (data) {
+        //                if (myApp.arePopupsBlocked()) {
+        //                    alert('Please allow popups.');
+        //                }
+        //                var printWindow = window.open();
+        //                if (printWindow) {
+        //                    $(printWindow.document.body).html(data);
+
+        //                } else {
+        //                    alert('Please allow popups.');
+        //                }
+        //            },
+        //            error: function () {
+        //                alert('Error');
+        //            }
+        //        });
+        //    };
+
+        //    app.arePopupsBlocked = function () {
+        //        var aWindow = window.open(null, "", "width=1,height=1");
+        //        try {
+        //            aWindow.close();
+        //            return false;
+        //        } catch (e) {
+        //            return true;
+        //        }
+        //    };
+        //    return app;
+        //})(window.myApp || {})
+    </script>
+
+</body>
+
+
+

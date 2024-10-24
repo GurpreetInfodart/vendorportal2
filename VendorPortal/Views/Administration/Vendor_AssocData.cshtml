@@ -1,0 +1,88 @@
+﻿@model IEnumerable<VendorPortal.Models.SchedulerViewModel>
+
+@{
+    ViewBag.Title = "SechedulerBuyerDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />
+
+<div class="form-horizontal">
+
+    <section class="content-header">
+        <h1>
+            List Vendor Association Data <a href="@Url.Action("AddVENDOR_ASSOC", "Administration")" class="btn btn-primary" aria-label="Left Align">
+                ADD NEW <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </a>
+        </h1>
+
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+
+
+
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div style="width:100%;">
+
+                                <div class="panel">
+
+                                    <div class="table-responsive panel-body">
+                                        <div id="GridDiv">
+                                            @{Html.RenderAction("GetVendor_AssocData"); }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(function () {
+
+
+
+        });
+
+    });
+
+    function paging(currentpage) {
+
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("GetVendor_AssocData", "Administration")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage) },
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+</script>
+
+
+
+
+
+
+

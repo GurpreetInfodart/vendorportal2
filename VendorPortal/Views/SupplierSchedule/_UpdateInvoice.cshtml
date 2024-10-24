@@ -1,0 +1,311 @@
+﻿@model IEnumerable<VendorPortal.Models.ScheduleUpdateInvoiceViewModel>
+@*@{
+        var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+        int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+    }*@
+@{
+    int SerialNo = 1;
+}
+
+<style>
+    table.scroll {
+        width: 100%; /* Optional */
+        /* border-collapse: collapse; */
+        border-spacing: 0;
+        border: 0px solid black;
+    }
+
+        table.scroll tbody,
+        table.scroll thead {
+            display: block;
+        }
+
+    thead tr th {
+        height: 30px;
+        line-height: 30px;
+        /*text-align: left;*/
+    }
+
+    table.scroll tbody {
+        height: 250px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    tbody {
+        border-top: 0px solid black;
+    }
+
+        tbody td, thead th {
+            width: 20%; /* Optional */
+            border-right: 1px solid black;
+        }
+
+            tbody td:last-child, thead th:last-child {
+                border-right: none;
+            }
+    
+</style>
+
+ 
+
+
+
+
+    <table class="table table-bordered table-condensed table-hover table-striped scroll" style="margin-bottom:0px !important" id="tblupdateInvoice" align="left">
+        <thead>
+            <tr>
+
+                <th>Sr. No.</th>
+                @*@if (ViewBag.SetStatus)
+                    {*@
+                <th><input type="checkbox" id="ckbCheckAll" /></th>
+                @*}*@
+                <th>PO No.</th>
+                <th>PO Date</th>
+                <th>Schedule Date</th>
+                <th>Material Code</th>
+                <th>Material Desp.</th>
+                <th>Material SNP</th>
+                <th>Qty Order</th>
+                <th>Qty Delv.</th>
+                <th>Qty Pending</th>
+                <th>Schedule Qty.</th>
+                <th>Invoice Qty</th>
+                <th>CGS Tax</th>
+                <th>SGS Tax</th>
+                <th>IGS Tax</th>
+                <th>Model Name</th>
+                <th>Mfg. Date</th>
+                <th>Batch Code</th>
+                <th style="display:none">Unit</th>
+                <th style="display:none">PositionNo</th>
+                <th style="display:none">ScheduleNo</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="color:black;font-size:small">
+                        @SerialNo
+                    </td>
+
+                    <td align="center">
+                        <input type="checkbox" id="@item.PO_NUM" class="checkBoxClass" name="CategoryIds" value="@item.PO_NUM" />
+                    </td>
+
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.PO_NUM)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.PODate)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.ScheduleDate)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.MaterialCode)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.MaterialDescription)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.SNP)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.QtyOrder)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.QtyDelv)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.PendingQty)
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DisplayFor(m => item.ScheduleQty)
+                    </td>
+
+                    <td style="color:black;font-size:small">
+                        <input id="InvoiceQty" type="text" class="form-control" style="width:100px;" onkeypress="return isNumberKey(event)" />
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DropDownList("CGST", new SelectList((System.Collections.IEnumerable)ViewData["CGST"], "Value", "Text"), new { @class = "form-control", style = "width:90px", onchange = "FUNCGST(this)" })
+
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DropDownList("SGST", new SelectList((System.Collections.IEnumerable)ViewData["CGST"], "Value", "Text"), new { @class = "form-control", disabled = "disabled", style = "width:90px" })
+                    </td>
+                    <td style="color:black;font-size:small">
+                        @Html.DropDownList("IGST", new SelectList((System.Collections.IEnumerable)ViewData["IGST"], "Value", "Text"), new { @class = "form-control", style = "width:90px", onchange = "FUNIGST(this)" })
+                    </td>
+                    <td style="color:black;font-size:small">
+                        <input id="txtModelName" type="text" class="form-control" style="width:100px;" />
+                    </td>
+                    <td style="color:black;font-size:small">
+                        <input id="txtMfgDate" type="text" class="form-control" style="width:100px;" />
+                    </td>
+                    <td style="color:black;font-size:small">
+                        <input id="txBatch" type="text" class="form-control" style="width:100px;" />
+                    </td>
+                    <td style="color:black;font-size:small; display:none;">
+                        @Html.DisplayFor(m => item.Unit)
+                    </td>
+                    <td style="color:black;font-size:small;display:none">
+                        @Html.DisplayFor(m => item.POSITION_NO)
+                    </td>
+                    <td style="color:black;font-size:small; display:none">
+                        @Html.DisplayFor(m => item.SCHEDULE_NO)
+                    </td>
+
+                </tr>
+                SerialNo++;
+            }
+            <tr>
+                <td colspan="18">
+                    @*<input type="submit" id="btnUpdateInvoice" class="btn-primary" value="Update Invoice" />*@
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+ 
+
+    @*<script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>*@
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">*@
+
+
+
+
+    @*@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)*@
+
+    @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+    <script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        // Change the selector if needed
+        var $table = $('table.scroll'),
+            $bodyCells = $table.find('tbody tr:first').children(),
+            colWidth;
+
+        // Adjust the width of thead cells when window resizes
+        $(window).resize(function () {
+            // Get the tbody columns width array
+            colWidth = $bodyCells.map(function () {
+                return $(this).width();
+            }).get();
+
+            // Set the width of thead columns
+            $table.find('thead tr').children().each(function (i, v) {
+                $(v).width(colWidth[i]);
+            });
+        }).resize(); // Trigger resize handler
+
+        var $table = $('table.scroll'),
+            $bodyCells = $table.find('tbody tr:first').children(),
+            colWidth;
+
+        // Adjust the width of thead cells when window resizes
+        $(window).resize(function () {
+            // Get the tbody columns width array
+            colWidth = $bodyCells.map(function () {
+                return $(this).width();
+            }).get();
+
+            // Set the width of thead columns
+            $table.find('thead tr').children().each(function (i, v) {
+                $(v).width(colWidth[i]);
+            });
+        }).resize(); // Trigger resize handler
+
+
+        //$('#tblupdateInvoice').dataTable({
+        //    "paging": false,
+        //    "ordering": false,
+        //    "info": false
+        //   // "searching": false
+        //});
+
+
+
+
+
+
+        $("#ckbCheckAll").click(function () {
+
+            $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+        });
+        $(".checkBoxClass").change(function () {
+            if (!$(this).prop("checked")) {
+                $("#ckbCheckAll").prop("checked", false);
+            }
+        })
+
+        @*$("#btnApprove").click(function (e) {
+
+            if (confirm('Are you sure wants to take action on schedule ?')) {
+                var flg = 0;
+                var i = 0;
+                var values = [];
+                $("#pending input[type=checkbox]").each(function () {
+                    i++;
+
+                    debugger;
+                    if ($(this).is(':checked')) {
+                        var ind = i - 1;
+                        flg = 1;
+                        //  alert($("#" + ind).val());
+                        //  var ss = $("#" + ind).val();
+                        // debugger;
+                        values.push({
+                            ScheduleId: parseInt($(this).val()),
+                            Remark: $("#" + ind).val()
+                        }
+                        );
+
+                    }
+
+                });
+                if (flg == 0) {
+                    alert("Please Select For Acknowledge");
+                    e.preventDefault();
+                    return false;
+                }
+                else {
+                    GetApproved(values);
+                }
+            }
+        });
+        function GetApproved(values) {
+
+            var postData = JSON.stringify(values);
+
+            $.ajax({
+                url: "@Url.Action("ApprovedStatus", "SupplierSchedule")",
+                type: "GET",
+            dataType: "JSON",
+            data: { 'values': postData },
+            success: function (result) {
+                alert("Status Updated Successfully");
+                window.location.href = '@Url.Action("ViewSupplierSchedule", "Schedule")'
+            }
+        });
+    }*@
+    });
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    </script>
+
+
+

@@ -1,0 +1,53 @@
+﻿
+@model IEnumerable<VendorPortal.Models.GetVendor_AssociationViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+    <thead>
+
+        <tr>
+            <th>Sr. No.</th>
+            <th>
+                Supplier Name
+            </th>
+            <th>
+                Vendor/Supplier Code
+            </th>
+            <th>
+                User Code
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">@SerialNo</td>
+                <td align="left">
+                    @item.SUPP_NAME
+                </td>
+                <td align="left">
+                    @item.VENDOR_CODE
+
+                </td>
+                <td align="left">
+                    @item.USER_CODE
+                </td>
+                <td class="text-center">
+
+                    <a data-original-title="Edit" data-placement="bottom" data-toggle="tooltip" href=@Url.Action("AddVENDOR_ASSOC", new { id = @item.Id  }) class="btn btn-primary btn-sm">Edit</a>
+                    <a data-original-title="Delete" data-placement="bottom" data-toggle="tooltip" href=@Url.Action("DeleteVENDOR_ASSOC", new { id = @item.Id  }) class="btn btn-primary btn-sm">Delete</a>
+
+                </td>
+            </tr>
+            SerialNo++;
+        }
+    </tbody>
+</table>
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)

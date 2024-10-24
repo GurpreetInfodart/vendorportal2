@@ -1,0 +1,98 @@
+﻿@model IEnumerable<VendorPortal.Models.Buyer_Supplier_InvoiceDetail>
+
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+<table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+    <thead>
+
+        <tr>
+            <th>Action</th>
+            <th>Sr. No.</th>
+            <th>Order No.</th>
+            <th>Mat No.</th>
+            <th>Mat Desc</th>
+            <th>HSN/SAC No.</th>
+            <th>Qty.</th>
+            @*<th>Basic VAL</th>*@
+            <th>CGST AMT</th>
+            <th>SGST AMT</th>
+            <th>IGST AMT</th>
+            <th>Model</th>
+            <th>MFG. Date</th>
+            <th>Batch Code</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">
+                    <span class="btn btn-primary btn-xs">
+                        @if (User.IsInRole("Visitor"))
+                        { }
+                        else
+                        {
+                            <a href=@Url.Action("GenerateBinCard", "SupplierInvoice", new { id = @item.ID }) style="color:#FFFFFF;">
+                                <i class="fa fa-check"></i>
+                                <span>Generate Bincard</span>
+                            </a>
+                        }
+                        </span>
+                </td>
+                <td align="left">@SerialNo</td>
+                <td align="left">@Html.DisplayFor(m => @item.Order_No)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MAT_CODE)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MaterialDescription)</td>
+                <td align="left">@Html.DisplayFor(m => @item.HSN_SAC_NO)</td>
+                <td align="left">@Html.DisplayFor(m => @item.Qty)</td>
+                <td align="left">@Html.DisplayFor(m => @item.CGST)</td>
+                <td align="left">@Html.DisplayFor(m => @item.SGST)</td>
+                <td align="left">@Html.DisplayFor(m => @item.IGST)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MODEL)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MFG_DATE)</td>
+                <td align="left">@Html.DisplayFor(m => @item.BATCHCODE)</td>
+            </tr>
+            SerialNo++;
+        }
+    </tbody>
+</table>
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<VendorPortal.Models.Buyer_Supplier_InvoiceDetail>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.SupplierInvoice_paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+                                                 <table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+                                                    <thead>
+                                                        
+                                                        <tr>
+                                                            <th>Sr. No.</th>
+                                                            <th>Qty</th>
+                                                            <th>Rate</th>
+                                                            <th>Amount</th>
+                                                            <th>CGST</th>
+                                                            <th>IGST</th>
+                                                            <th>Model</th>
+                                                            <th>MFG DATE</th>
+                                                            <th>Batch Code</th>
+                                                            <th>Schedule_NO</th>
+                                                            <th>DEL DATE</th>
+                                                            <th>Contract No.</th>
+                                                            <th>Position No.</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                         
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td align="left">@SerialNo</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.Qty)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.Rate)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.Amount)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.CGST)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.IGST)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.MODEL)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.MFG_DATE)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.BATCHCODE)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.SCHEDULE_NO)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.DEL_DATE)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.CONTRACT_NO)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.POSITION_NO)</td>
+                                                                <td align="left">
+                                                                    <span class="btn btn-primary btn-xs">
+                                                                        @if (User.IsInRole("Visitor"))
+                                                                        { }
+                                                                        else
+                                                                        {
+                                                                            <a href=@Url.Action("GenerateBinCard", "SupplierInvoice", new { id = @item.ID }) style="color:#FFFFFF;">
+                                                                                <i class="fa fa-check"></i>
+                                                                                <span>Generate BinCard</span>
+                                                                            </a>
+                                                                        }
+                                                                        </span>
+                                                                </td>
+
+                                                            </tr>
+                                                            SerialNo++;
+                                                        }
+                                                    </tbody>
+                                                </table>
+
+
+                                       
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.SupplierInvoice_paging)

@@ -1,0 +1,77 @@
+﻿
+
+@model IEnumerable<VendorPortal.Models.MaterialRejectionViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+    <thead>
+        @*<tr>
+            <th colspan="4" align="left">
+                From Date: <input type="date" id="PendingFromdate">
+                To Date:<input type="date" id="PendingTodate">
+
+
+                <button id="btnPendingFind">Find</button>
+            </th>
+        </tr>*@
+        <tr>
+            <th>Sr. No.             </th>
+            <th>Supplier Code       </th>
+            <th>Supplier Name       </th>
+            <th>Invoice No.       </th>
+            <th>Invoice Date</th>
+            <th>Hsn Sac          </th>
+            <th>Material Code          </th>
+            <th>Material Description               </th>
+            <th>UOM              </th>
+            <th>Rejected Qty          </th>
+            <th>Basic Price        </th>
+            <th>Accessible Price          </th>
+            <th>Total Basic Price</th>
+            <th>CGST</th>
+            <th>SGST</th>
+            <th>IGST</th>
+            <th>Total Tax</th>
+            <th>Total Value</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">@SerialNo</td>
+                <td align="left">@Html.DisplayFor(m => @item.SupplierCode)</td>
+                <td align="left">@Html.DisplayFor(m => @item.SupplierName)</td>
+                <td align="left">@Html.DisplayFor(m => @item.InvoiceNo)</td>
+                <td align="left">@Html.DisplayFor(m => @item.InvoiceDate)</td>
+                <td align="left">@Html.DisplayFor(m => @item.HsnSac)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MaterialCode)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MaterialDescription)</td>
+                <td align="left">@Html.DisplayFor(m => @item.UOM)</td>
+                <td align="left">@Html.DisplayFor(m => @item.RejectedQty)</td>
+                <td align="left">@Html.DisplayFor(m => @item.BasicPrice)</td>
+                <td align="left">@Html.DisplayFor(m => @item.AccessiblePrice)</td>
+                <td align="left">@Html.DisplayFor(m => @item.TotalBasicPrice)</td>
+                <td align="left">@Html.DisplayFor(m => @item.CGST)</td>
+                <td align="left">@Html.DisplayFor(m => @item.SGST)</td>
+                <td align="left">@Html.DisplayFor(m => @item.IGST)</td>
+                <td align="left">@Html.DisplayFor(m => @item.TotalTax)</td>
+                <td align="left">@Html.DisplayFor(m => @item.TotalValue)</td>
+
+            </tr>
+            SerialNo++;
+        }
+    </tbody>
+</table>
+
+
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+
+

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<VendorPortal.Models.SupplierPOViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.Acknoledge_paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+ 
+                                                 <table class="table table-bordered table-condensed table-hover table-striped" id="tblAcknowledge" style="width:100%" align="left">
+                                                    <thead>
+                                                        
+                                                        <tr>
+                                                            <th>Sr. No.</th>
+                                                            <th>
+                                                                PO NUMBER
+                                                            </th>
+                                                            <th>
+                                                                PO DATE
+                                                            </th>
+                                                            <th>
+                                                                TOTAL QUANTITY
+                                                            </th>
+                                                            <th>
+                                                                Action
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td align="left">@SerialNo</td>
+                                                                <td align="left">
+                                                                    @item.PO_Number
+                                                                </td>
+                                                                <td align="left">
+                                                                    @item.PO_Date
+
+                                                                </td>
+                                                                <td align="left">
+                                                                    @item.Quantity
+                                                                </td>
+                                                                <td align="left">
+                                                                    <span class="btn btn-primary btn-xs">
+                                                                        <a href=@Url.Action("SupplierPODetail", "SupplierPO", new { PO_Number = @item.PO_Number,flg=1 }) style="color:#FFFFFF;">
+                                                                            <i class="fa fa-check"></i>
+                                                                            <span>View</span>
+                                                                        </a>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            SerialNo++;
+                                                        }
+                                                    </tbody>
+                                                </table>
+
+                                            
+@Html.Partial("_Paging2", (VendorPortal.Models.BasicPaging)ViewBag.Acknoledge_paging)

@@ -1,0 +1,163 @@
+﻿@model PagedList.IPagedList<VendorPortal.Models.AspNetUser>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "ViewAllUsers";
+    Layout = "~/Views/Shared/AdminView.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@*<h2>ViewAllUsers</h2>*@
+
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="#"><i class="fa fa-home"></i>&nbsp;User Management</a></li>
+                <li><a href="#">Manage User</a></li>
+                <li class="active">View All User</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body">
+
+
+                    @using (Html.BeginForm("ViewAllUsers", "Administration", FormMethod.Get))
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-body" style="text-align:left;">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="col-md-12">
+
+                                                    <div class="col-md-8">
+                                                        @Html.TextBox("searchStringUserNameOrEmail", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "Search" })
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <button class="btn btn-primary">Search</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="table-responsive panel-body">
+                                        <div class="row">
+                                            <div id="GridDiv">
+
+                                                Records Per Page
+                                                @Html.DropDownList("PageSize", new List<SelectListItem>
+{
+new SelectListItem{ Text="25", Value = "25" },
+new SelectListItem{ Text="50", Value = "50" },
+new SelectListItem{ Text="100", Value = "100" },
+}, new { Class = "ddlStyle", onchange = "SelectedIndexChanged()" })
+                                                <script type="text/javascript">
+                                            function SelectedIndexChanged() {
+                                                //Form post
+                                                window.location = "/Administration/ViewAllUsers?intPagesize=" + $('#PageSize').val();
+                                            }
+                                                </script>
+
+
+
+
+                                                @{
+                                            ViewBag.PageSize = Request.Params["intPageSize"];
+                                                }
+
+                                                <table class="table table-bordered table-condensed table-hover table-striped" id="pending" align="left">
+                                                    <tr>
+                                                        <th>
+                                                            Alias
+                                                        </th>
+                                                        <th>
+                                                            Email
+                                                        </th>
+                                                        <th>
+                                                            Account Status
+                                                        </th>
+
+
+
+                                                        <th>Actions</th>
+                                                    </tr>
+
+                                                    @foreach (var item in Model)
+                                            {
+                                                    <tr>
+                                                        <td style="color:black;font-size:small">
+                                                            @Html.DisplayFor(modelItem => item.UserName)
+                                                        </td>
+                                                        <td style="color:black;font-size:small">
+                                                            @Html.DisplayFor(modelItem => item.Email)
+                                                        </td>
+
+
+
+                                                        <td></td>
+
+                                                        <td>
+                                                            @Html.ActionLink("Delete", "DeleteUser", new { UserName = item.UserName },
+                                                  new { onclick = "return confirm('Are you sure you wish to delete this user?');" }) &nbsp;&nbsp;
+                                                            @Html.ActionLink("Change Password", "EditUser", new { UserName = item.UserName })&nbsp;&nbsp;
+                                                            @Html.ActionLink("Set Role", "EditRoles", new { UserName = item.UserName })
+                                                        </td>
+                                                    </tr>
+                                            }
+
+                                                </table>
+
+                                                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                                                @Html.PagedListPager(Model,
+                 page => Url.Action("ViewAllUsers",
+                 new
+                 {
+                     searchStringUserNameOrEmail = ViewBag.searchStringUserNameOrEmail,
+                     currentFilter = ViewBag.CurrentFilter,
+                     page,
+                     intPageSize = ViewBag.PageSize
+                 }))
+
+                                                <p>
+                                                    @Html.ActionLink("Create New", "CreateUser", null, new { @class = "btn btn-primary" }) &nbsp;&nbsp;&nbsp;
+                                                    @Html.ActionLink("Edit Roles", "ViewAllRoles", null, new { @class = "btn btn-primary" })&nbsp;&nbsp;&nbsp;
+
+
+                                                    @Html.ActionLink("Back to Home", "../", "Home", null, new { @class = "btn btn-primary" })&nbsp;&nbsp;&nbsp;
+                                                </p>
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     }
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

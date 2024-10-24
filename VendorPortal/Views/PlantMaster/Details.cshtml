@@ -1,0 +1,35 @@
+﻿@model VendorPortal.Models.Plant_Master
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/AdminView.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Plant_Master</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Plant_Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plant_Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plant_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plant_Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PlantId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

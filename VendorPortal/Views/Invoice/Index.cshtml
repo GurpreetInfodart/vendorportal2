@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+
+
+
+<section class="content-header">
+    <h1>
+        View Buyer Invoice
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Buyer Invoice</li>
+    </ol>
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="width:100%;">
+
+                                    <div class="panel">
+
+                                        <div style="width:100%;">
+                                            <div>
+
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="active">
+                                                        <a href="#tab1" aria-controls="personal" role="tab" data-toggle="tab">Pending</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab2" aria-controls="personal" role="tab" data-toggle="tab">Acknowledged</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab3" aria-controls="personal" role="tab" data-toggle="tab">Declined</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tab-content" style="padding-top: 20px">
+                                                <div role="tabpanel" class="tab-pane active" id="tab1">
+
+                                                    <div class="panel">
+
+                                                        <div class="table-responsive panel-body">
+                                                            <div class="row">
+                                                                <div id="GridDiv">
+                                                                    @{Html.RenderAction("BuyerInvoice"); }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="tab2">
+                                                    <div class="panel">
+                                                        <div class="table-responsive panel-body">
+                                                            <div class="row">
+                                                                <div id="GridDiv">
+                                                                    @{Html.RenderAction("SupplierInvoice"); }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="tab3">
+                                                    <div class="panel">
+                                                        <div class="table-responsive panel-body">
+                                                            <div class="row">
+                                                                <div id="GridDiv">
+                                                                    @*@{Html.RenderAction("BuyerInvoice"); }*@
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+@*<script type="text/javascript">
+    $(document).ready(function (e) {
+        $(function () {
+
+            paging(1);
+            paging2(1);
+        });
+
+    });
+
+
+    /*************Paging**************/
+    function paging(currentpage) {
+        alert("d");
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url:"@Url.Action("BuyerInvoice", "Invoice")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage) },
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+
+    function paging2(currentpage) {
+        alert("dfs");
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url:"@Url.Action("SupplierInvoice", "Invoice")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage) },
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+
+</script>*@

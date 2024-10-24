@@ -1,0 +1,178 @@
+﻿@model VendorPortal.Models.UploadInvoiceViewModel
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+<link href="~/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+<section class="content-header">
+    <h1>
+        Supplier Invoice
+    </h1>
+    
+</section>
+
+<section class="content">
+    @using (Html.BeginForm("UploadExcelData", "SupplierSchedule", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div id="msgDiv">
+
+            @if (ViewBag.msg != null && (ViewBag.msg).Message_Id == 1)
+            {
+
+                <div id="myAlert" class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>@ViewBag.msg.Message</strong>
+                    @*<a style="font:bold;color:red;margin-left:20%;" href="@ViewBag.msg.Message">Download Invalid Excel</a>*@
+                </div>
+            }
+            else
+            {
+                if (ViewBag.msg != null)
+                {
+                    <div id="myAlert" class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong> @ViewBag.msg.Message</strong>
+                    </div>
+                }
+            }
+
+            @*@if (ViewBag.Msg != null)
+            {
+                <div id="myAlert" class="alert alert-danger">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>@ViewBag.Msg</strong>               
+                </div>
+            }*@
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="box">
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div style="width:100%;">
+
+                                        <div class="panel">
+                                            <div style="width:100%;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="panel-body" style="text-align:left;">
+                                                            <div class="form-horizontal">
+
+                                                                <div class="col-md-4 col-sm-3">
+                                                                    <div class="col-md-12">
+                                                                        @Html.TextBoxFor(E => E.ExcelFile, new { @type = "file", @class = "form-control" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2 col-sm-3">
+                                                                    <div class="col-md-12">
+                                                                        @if (User.IsInRole("Visitor"))
+                                                                        { }
+                                                                        else
+                                                                        {
+                                                                            <button type="submit" id="btnSubmit" class="btn btn-primary">Submit</button>
+                                                                        }
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-12 col-sm-12">
+                                                                           
+
+                                                                                @Html.ActionLink("Download Format", "DownloadFile", "SupplierSchedule", new { @class = "btn btn-primary" })
+                                                                            
+                                                                            </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3">
+                                                                    <div class="col-md-12">
+                                                                        @if (ViewBag.InvalidLink)
+                                                                        {
+                                                                            <a style="font:bold;color:red;margin-left:20%;" href="@Url.Action("InValidExportToExcel")">Download Invalid Excel</a>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</section>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+         
+
+        $("#btnSubmit").click(function (e) {
+            
+            var ValidateExcelFile = $('#ExcelFile').val();
+            
+            if (ValidateExcelFile == '' || ValidateExcelFile == null) {
+                alert("Please select excel file for upload data.");                
+                e.preventDefault();
+                return false;
+            }
+
+
+            var ext = ValidateExcelFile.split(".");
+            ext = ext[ext.length - 1].toLowerCase();
+            var arrayExtensions = ['xlsx', 'xls'];
+
+            if (arrayExtensions.lastIndexOf(ext) == -1) {
+                alert("Only '.xls','.xlsx' excel formats are allowed.");
+                $("#ExcelFile").val("");
+                return false;
+            }
+        });
+    })
+</script>

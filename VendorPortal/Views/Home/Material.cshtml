@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Material";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/AngularSripts/Material.js"></script>
+
+<div ng-app="myApp">
+    <div ng-controller="myCtrl" ng-init="GetAllData()">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Add Material</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="MaterialCode">Material Code:</label>
+                                    <input type="text" class="form-control" id="MaterialCode" placeholder="Enter Material Code" ng-model="MaterialCode">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="MaterialDescription">Material Description:</label>
+                                    <input type="text" class="form-control" id="MaterialDescription" placeholder="Enter Material Description" ng-model="MaterialDescription">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="Unit">Unit</label>
+                                    <select id="Unit" ng-model="Unit" class="form-control"> 
+                                        <option>L</option>
+                                        <option>M</option>
+                                        <option>NOS</option>
+                                        <option>KG</option>
+                                        <option>SET</option>                                      
+                                    </select>                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="MaterialGroup">Material Group:</label>
+                                    <input type="text" class="form-control" id="MaterialGroup" placeholder="Enter Material Group" ng-model="MaterialGroup">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="SNP">SNP :</label>
+                                    <input type="text" class="form-control" id="SNP" placeholder="Enter SNP" ng-model="SNP">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Active &nbsp;&nbsp; </label>
+                                    <input type="checkbox" class="icheckbox_flat" id="Active" placeholder="Active" ng-model="Active">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="button" id="btnSave" class="btn btn-primary" value="Submit" ng-click="InsertData()" />
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <!-- /.box-body -->
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">List of Material</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Material Code</th>
+                                    <th>Material Description</th>
+                                    <th>Unit</th>
+                                    <th>Material Group</th>
+                                    <th>SNP</th>
+                                    <th>Active</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="Material in Materials">
+                                    <td>{{Material.MaterialID}}</td>
+                                    <td>{{Material.MaterialCode}}</td>
+                                    <td>{{Material.MaterialDescription}}</td>
+                                    <td>{{Material.Unit}}</td>
+                                    <td>{{Material.MaterialGroup}}</td>
+                                    <td>{{Material.SNP}}</td>
+                                    <td>{{Material.Active}}</td>
+                                    <td>
+                                        <input type="button" class="btn btn-warning" value="Update" ng-click="UpdateMaterial(Material)" />
+                                        <input type="button" class="btn btn-danger" value="Delete" ng-click="DeleteMaterial(Material)" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    @Html.Hidden("MaterialID_")
+
+</div>
+
+
+

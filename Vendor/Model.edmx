@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VendorPortalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SUPPLIER_MASTER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SUPP_CODE" Type="nvarchar" MaxLength="256" />
+          <Property Name="SUPP_TYPE" Type="varchar" MaxLength="100" />
+          <Property Name="PURCHASING_RELATED" Type="varchar" MaxLength="10" />
+          <Property Name="SUPP_NAME" Type="varchar" MaxLength="200" />
+          <Property Name="ADDRESS1" Type="varchar" MaxLength="100" />
+          <Property Name="ADDRESS2" Type="varchar" MaxLength="100" />
+          <Property Name="ADDRESS3" Type="varchar" MaxLength="100" />
+          <Property Name="CITY" Type="varchar" MaxLength="100" />
+          <Property Name="PIN" Type="varchar" MaxLength="10" />
+          <Property Name="DISTRICT" Type="varchar" MaxLength="50" />
+          <Property Name="STATE" Type="varchar" MaxLength="50" />
+          <Property Name="COUNTRY" Type="varchar" MaxLength="50" />
+          <Property Name="COUNTRY_EXTRA" Type="varchar" MaxLength="50" />
+          <Property Name="CIN" Type="varchar" MaxLength="100" />
+          <Property Name="VATREG_NO1" Type="varchar" MaxLength="100" />
+          <Property Name="VATREG_NO2" Type="varchar" MaxLength="100" />
+          <Property Name="TIN2_1" Type="varchar" MaxLength="100" />
+          <Property Name="TIN2_2" Type="varchar" MaxLength="100" />
+          <Property Name="GSTIN" Type="varchar" MaxLength="100" />
+          <Property Name="COMM_TEL1" Type="varchar" MaxLength="100" />
+          <Property Name="COMM_TEL2" Type="varchar" MaxLength="100" />
+          <Property Name="COMM_TEL3" Type="varchar" MaxLength="100" />
+          <Property Name="COMM_FAX" Type="varchar" MaxLength="100" />
+          <Property Name="COMM_EMAIL" Type="varchar" MaxLength="100" />
+          <Property Name="PAYMENT_TERM" Type="varchar" MaxLength="100" />
+          <Property Name="PAYMENT_METHOD" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_ADDRESS1" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_ADDRESS2" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_ACC_NO" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_SWIFT_CODE1" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_SWIFT_CODE2" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_SWIFT_CODE3" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_CURRENCY1" Type="varchar" MaxLength="100" />
+          <Property Name="BANK_CURRENCY2" Type="varchar" MaxLength="100" />
+          <Property Name="PUR_ORD_CUR" Type="varchar" MaxLength="100" />
+          <Property Name="PUR_ORD_INCO1" Type="varchar" MaxLength="100" />
+          <Property Name="PUR_ORD_INCO2" Type="varchar" MaxLength="100" />
+          <Property Name="PUR_ORD_SCH_GROUP_VENDOR" Type="varchar" MaxLength="100" />
+          <Property Name="PUR_ORD_CONTACT_PERSON" Type="varchar" MaxLength="100" />
+          <Property Name="PUR_ORD_CONTACT_NO" Type="varchar" MaxLength="100" />
+          <Property Name="PUR_ORD_GR_BASED_IV" Type="varchar" MaxLength="100" />
+          <Property Name="PUR_ORD_ERS_VENDOR" Type="varchar" MaxLength="100" />
+          <Property Name="ADDITIONAL_INFO1" Type="varchar" MaxLength="100" />
+          <Property Name="ADDITIONAL_INFO2" Type="varchar" MaxLength="100" />
+          <Property Name="ADDITIONAL_INFO3" Type="varchar" MaxLength="100" />
+          <Property Name="ADDITIONAL_INFO4" Type="varchar" MaxLength="100" />
+          <Property Name="REQUESTER_ID" Type="varchar" MaxLength="100" />
+          <Property Name="REQUEST_DATE" Type="datetime" />
+          <Property Name="REQUEST_DEP" Type="varchar" MaxLength="100" />
+          <Property Name="ISACTIVE" Type="varchar" MaxLength="10" />
+          <Property Name="EMAIL_ID" Type="varchar" MaxLength="100" />
+          <Property Name="CONTACT_NO" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="VendorPortalModelStoreContainer">
+          <EntitySet Name="SUPPLIER_MASTER" EntityType="Self.SUPPLIER_MASTER" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VendorPortalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SUPPLIER_MASTER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SUPP_CODE" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="SUPP_TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PURCHASING_RELATED" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SUPP_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DISTRICT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="COUNTRY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="COUNTRY_EXTRA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CIN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VATREG_NO1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VATREG_NO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TIN2_1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TIN2_2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GSTIN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="COMM_TEL1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="COMM_TEL2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="COMM_TEL3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="COMM_FAX" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="COMM_EMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PAYMENT_TERM" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PAYMENT_METHOD" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_ADDRESS1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_ADDRESS2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_ACC_NO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_SWIFT_CODE1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_SWIFT_CODE2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_SWIFT_CODE3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_CURRENCY1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_CURRENCY2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PUR_ORD_CUR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PUR_ORD_INCO1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PUR_ORD_INCO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PUR_ORD_SCH_GROUP_VENDOR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PUR_ORD_CONTACT_PERSON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PUR_ORD_CONTACT_NO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PUR_ORD_GR_BASED_IV" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PUR_ORD_ERS_VENDOR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ADDITIONAL_INFO1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ADDITIONAL_INFO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ADDITIONAL_INFO3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ADDITIONAL_INFO4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="REQUESTER_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="REQUEST_DATE" Type="DateTime" Precision="3" />
+          <Property Name="REQUEST_DEP" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ISACTIVE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CONTACT_NO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="VendorPortalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SUPPLIER_MASTER" EntityType="Self.SUPPLIER_MASTER" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VendorPortalModelStoreContainer" CdmEntityContainer="VendorPortalEntities">
+          <EntitySetMapping Name="SUPPLIER_MASTER">
+            <EntityTypeMapping TypeName="VendorPortalModel.SUPPLIER_MASTER">
+              <MappingFragment StoreEntitySet="SUPPLIER_MASTER">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SUPP_CODE" ColumnName="SUPP_CODE" />
+                <ScalarProperty Name="SUPP_TYPE" ColumnName="SUPP_TYPE" />
+                <ScalarProperty Name="PURCHASING_RELATED" ColumnName="PURCHASING_RELATED" />
+                <ScalarProperty Name="SUPP_NAME" ColumnName="SUPP_NAME" />
+                <ScalarProperty Name="ADDRESS1" ColumnName="ADDRESS1" />
+                <ScalarProperty Name="ADDRESS2" ColumnName="ADDRESS2" />
+                <ScalarProperty Name="ADDRESS3" ColumnName="ADDRESS3" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+                <ScalarProperty Name="DISTRICT" ColumnName="DISTRICT" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="COUNTRY" ColumnName="COUNTRY" />
+                <ScalarProperty Name="COUNTRY_EXTRA" ColumnName="COUNTRY_EXTRA" />
+                <ScalarProperty Name="CIN" ColumnName="CIN" />
+                <ScalarProperty Name="VATREG_NO1" ColumnName="VATREG_NO1" />
+                <ScalarProperty Name="VATREG_NO2" ColumnName="VATREG_NO2" />
+                <ScalarProperty Name="TIN2_1" ColumnName="TIN2_1" />
+                <ScalarProperty Name="TIN2_2" ColumnName="TIN2_2" />
+                <ScalarProperty Name="GSTIN" ColumnName="GSTIN" />
+                <ScalarProperty Name="COMM_TEL1" ColumnName="COMM_TEL1" />
+                <ScalarProperty Name="COMM_TEL2" ColumnName="COMM_TEL2" />
+                <ScalarProperty Name="COMM_TEL3" ColumnName="COMM_TEL3" />
+                <ScalarProperty Name="COMM_FAX" ColumnName="COMM_FAX" />
+                <ScalarProperty Name="COMM_EMAIL" ColumnName="COMM_EMAIL" />
+                <ScalarProperty Name="PAYMENT_TERM" ColumnName="PAYMENT_TERM" />
+                <ScalarProperty Name="PAYMENT_METHOD" ColumnName="PAYMENT_METHOD" />
+                <ScalarProperty Name="BANK_NAME" ColumnName="BANK_NAME" />
+                <ScalarProperty Name="BANK_ADDRESS1" ColumnName="BANK_ADDRESS1" />
+                <ScalarProperty Name="BANK_ADDRESS2" ColumnName="BANK_ADDRESS2" />
+                <ScalarProperty Name="BANK_ACC_NO" ColumnName="BANK_ACC_NO" />
+                <ScalarProperty Name="BANK_SWIFT_CODE1" ColumnName="BANK_SWIFT_CODE1" />
+                <ScalarProperty Name="BANK_SWIFT_CODE2" ColumnName="BANK_SWIFT_CODE2" />
+                <ScalarProperty Name="BANK_SWIFT_CODE3" ColumnName="BANK_SWIFT_CODE3" />
+                <ScalarProperty Name="BANK_CURRENCY1" ColumnName="BANK_CURRENCY1" />
+                <ScalarProperty Name="BANK_CURRENCY2" ColumnName="BANK_CURRENCY2" />
+                <ScalarProperty Name="PUR_ORD_CUR" ColumnName="PUR_ORD_CUR" />
+                <ScalarProperty Name="PUR_ORD_INCO1" ColumnName="PUR_ORD_INCO1" />
+                <ScalarProperty Name="PUR_ORD_INCO2" ColumnName="PUR_ORD_INCO2" />
+                <ScalarProperty Name="PUR_ORD_SCH_GROUP_VENDOR" ColumnName="PUR_ORD_SCH_GROUP_VENDOR" />
+                <ScalarProperty Name="PUR_ORD_CONTACT_PERSON" ColumnName="PUR_ORD_CONTACT_PERSON" />
+                <ScalarProperty Name="PUR_ORD_CONTACT_NO" ColumnName="PUR_ORD_CONTACT_NO" />
+                <ScalarProperty Name="PUR_ORD_GR_BASED_IV" ColumnName="PUR_ORD_GR_BASED_IV" />
+                <ScalarProperty Name="PUR_ORD_ERS_VENDOR" ColumnName="PUR_ORD_ERS_VENDOR" />
+                <ScalarProperty Name="ADDITIONAL_INFO1" ColumnName="ADDITIONAL_INFO1" />
+                <ScalarProperty Name="ADDITIONAL_INFO2" ColumnName="ADDITIONAL_INFO2" />
+                <ScalarProperty Name="ADDITIONAL_INFO3" ColumnName="ADDITIONAL_INFO3" />
+                <ScalarProperty Name="ADDITIONAL_INFO4" ColumnName="ADDITIONAL_INFO4" />
+                <ScalarProperty Name="REQUESTER_ID" ColumnName="REQUESTER_ID" />
+                <ScalarProperty Name="REQUEST_DATE" ColumnName="REQUEST_DATE" />
+                <ScalarProperty Name="REQUEST_DEP" ColumnName="REQUEST_DEP" />
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="EMAIL_ID" ColumnName="EMAIL_ID" />
+                <ScalarProperty Name="CONTACT_NO" ColumnName="CONTACT_NO" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

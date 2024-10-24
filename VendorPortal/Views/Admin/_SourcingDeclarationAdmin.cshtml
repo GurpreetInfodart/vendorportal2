@@ -1,0 +1,245 @@
+﻿@model  IEnumerable<VendorPortal.Controllers.AdminController.ApprovedPacking>
+
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+
+<div id="GridDiv">
+    <table id="tblAppPackList" class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
+            <tr role="row">
+                <th>Sr. No.</th>
+                <th>Supplier Code</th>
+                <th>Material Code</th>
+                <th>File</th>
+                <th>Upload Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="@SerialNo">
+                    <td align="left">@SerialNo</td>
+                    <td align="left">
+                        @item.SUPP_CODE
+                    </td>
+                    <td align="left">
+                        @item.MaterialCode
+
+                    </td>
+
+                    @if (item.Active == 2 || item.Active == null)
+                    {
+                        <td align="left">Please Upload File</td>
+                    }
+                    else
+                    {
+                        <td align="left">
+
+                            <a href=@Url.Action("Download", "Admin", new { file = @item.FileName, loc = @item.Location })>@item.FileName</a>
+                        </td>
+                    }
+
+                    <td align="left">
+                        @if (item.Active == 1)
+                        {
+                            @item.UploadDate
+                        }
+                    </td>
+                    <td align="left">
+
+                        @if (User.IsInRole("BSLUser") || User.IsInRole("Buyer") || User.IsInRole("Visitor") || User.IsInRole("Quality") || User.IsInRole("R&D"))
+                        {
+
+                            if (item.Status == false && item.Active == 1)
+                            {
+                                <span>Pending</span>
+                            }
+                            else if (item.Status == true && item.Active == 1)
+                            {
+                                <span>Approved</span>
+                            }
+                            else if (User.IsInRole("Visitor"))
+                            {
+                                <span>No Right</span>
+                            }
+                            else
+                            {
+
+                                if (@item.Id == null)
+                                {
+                                    <input type="button" id="Upload" name="Upload" onclick="datainsert(@SerialNo,-100)" class="btn btn-success btn-xs" value="Upload" />
+                                }
+                                else
+                                {
+                                    <input type="button" id="Upload" name="Upload" onclick="datainsert(@SerialNo,@item.Id)" class="btn btn-success btn-xs" value="Upload" />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (item.Status == false && item.Active == 1)
+                            {
+                                <button id="App" onclick="Approve(@item.Id)" class="btn btn-success btn-xs"><i class="fa fa-check" type="submit"></i></button>
+                            }
+                            else if (item.Status == true && item.Active == 1)
+                            {
+                                <button id="Del" onclick="DataDelete(@item.Id)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>
+                            }
+
+                            else
+                            {
+
+                                if (@item.Id == null)
+                                {
+                                    <input type="button" id="Upload" name="Upload" onclick="datainsert(@SerialNo,-100)" class="btn btn-success btn-xs" value="Upload" />
+                                }
+                                else
+                                {
+                                    <input type="button" id="Upload" name="Upload" onclick="datainsert(@SerialNo,@item.Id)" class="btn btn-success btn-xs" value="Upload" />
+                                }
+                            }
+                        }
+
+
+                    </td>
+                </tr>
+                SerialNo++;
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+
+<script type="text/javascript">
+
+
+
+
+    function datainsert(ID, r) {
+        UploadFile(ID, r);
+    }
+
+
+    function paging(currentpage) {
+        var _supplierCod = $('#DDLSN').val();
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("SuplierSourcing", "Admin")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'SUPP_CODE': _supplierCod},
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+
+    }
+
+    function UploadFile(id, r) {
+        var doSubmit = false;
+        var ext = $('#UploadFile').val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['xls', 'xlsx', 'csv', 'pdf', 'docx']) == -1) {
+            alert('You have not choosen file or an invalid file !');
+        }
+        else {
+            var $row1 = $('#tblAppPackList tbody tr#' + id + ' td');
+            var SUPP_CODE = $row1[1].innerText.trim();
+            var MaterialCode = $row1[2].innerText.trim();
+            var fileInput = document.getElementById('UploadFile');
+            // Use a regular expression to pull the file name only
+            var fileName = fileInput.value.split(/(\\|\/)/g).pop();
+            UploadExlOrPdf(SUPP_CODE, MaterialCode, fileName, r, "");
+            }
+
+    }
+
+    function UploadExlOrPdf(SUPP_CODE, MaterialCode, fileName, r, Tablecontentet) {
+           $.ajax({
+            url: "@Url.Action("CommonUploadExlOrPdf", "Admin")",
+            type: 'GET',
+            cache: false,
+            data: { DocumentType: "Sourcing", SupplierName: SUPP_CODE, MaterialCode: MaterialCode, FileName: fileName, Id: r, Tablecontentet: Tablecontentet },
+            success: function (data) {
+                UploadFiles();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+        return false;
+    }
+
+    function UploadFiles() {
+        var Data = new FormData();
+        var files = $("#UploadFile").get(0).files;
+        for (var i = 0; i < files.length; i++) {
+            Data.append("fileInput", files[i]);
+        }
+           $.ajax({
+            url: "@Url.Action("UploadFiles", "Admin")",
+            type: 'POST',
+            dataType: "json",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: Data,
+            success: function (data) {
+                alert(data);
+                window.location.href = '@Url.Action("SourcingDeclarationAdmin", "Admin")';
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+        return false;
+      }
+
+     function DataDelete(Id)
+    {
+           $.ajax({
+            url: "@Url.Action("CommonDeleteExlOrPdf", "Admin")",
+            type: 'GET',
+            cache: false,
+            data: { Id: Id, Tablecontentet: "" },
+            success: function (data) {
+                    alert(data);
+                window.location.href = '@Url.Action("SourcingDeclarationAdmin", "Admin")';
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+
+    }
+     function Approve(Id)
+    {
+               $.ajax({
+            url: "@Url.Action("Approve", "Admin")",
+            type: 'GET',
+            cache: false,
+            data: { Id: Id, Tablecontentet: ""},
+            success: function (data) {
+                    alert(data);
+                window.location.href = '@Url.Action("SourcingDeclarationAdmin", "Admin")';
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+
+
+    }
+
+
+</script>

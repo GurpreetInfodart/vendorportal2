@@ -1,0 +1,107 @@
+﻿@model  IEnumerable<VendorPortal.Controllers.AdminController.ApprovedPacking>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+<table id="tblAppPackList" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+    <thead>
+
+        <tr>
+            <th>Sr. No.</th>
+            <th>
+              Month
+            </th>
+            <th>
+                File
+            </th>
+            <th>
+                Upload Date
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">@SerialNo</td>
+                <td align="left">
+                    @Convert.ToDateTime(@item.UploadDate).ToString("MMMM")
+                </td>
+                @if (item.Active == 2 || item.Active == null)
+                {
+                    <td align="left">Please Upload File</td>
+                }
+                else
+                {
+                    <td align="left">
+
+                        <a href=@Url.Action("Download", "Admin", new { file = @item.FileName, loc = @item.Location })>@item.FileName</a>
+                    </td>
+                }
+                <td align="left">
+                    @item.UploadDate
+                </td>
+                <td align="left">
+
+                    @if (User.IsInRole("BSLUser") || User.IsInRole("Buyer") || User.IsInRole("Visitor") || User.IsInRole("Quality") || User.IsInRole("R&D"))
+                    {
+                        if (item.Status == false && item.Active == 1)
+                        {
+                            <span>Pending</span>
+                        }
+                        else if (item.Status == true && item.Active == 1)
+                        {
+                            <span>Approved</span>
+                        }
+                    }
+                    else
+                    {
+
+                        if (item.Status == false && item.Active == 1)
+                        {
+                            <button id="App" onclick="Approve(@item.Id)" class="btn btn-success btn-xs"><i class="fa fa-check" type="submit"></i></button>
+                        }
+                        else if (item.Status == true && item.Active == 1)
+                        {
+                            <button id="Del" onclick="DataDelete(@item.Id)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                        }
+                    }
+
+                </td>
+
+            </tr>
+            SerialNo++;
+        }
+
+    </tbody>
+
+</table>
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+<script type="text/javascript">
+
+
+
+    function paging(currentpage) {
+        var _suppCode = "All";
+
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("KITDetailList", "Admin")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'SupplierName': _suppCode },
+            success: function (data) {
+                $('#GridDiv123').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+</script>

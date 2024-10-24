@@ -1,0 +1,1735 @@
+﻿@model IEnumerable<VendorPortal.Models.tblVendorQue>
+
+@{
+    ViewBag.Title = "VendorQueBSLUser";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    int SerialNo1 = 1;
+    int SerialNo2 = 1;
+    int SerialNo3 = 1;                         
+    int SerialNo4 = 1;
+}
+
+<h2>
+    Vendor Questionnare  &nbsp;
+    @if (User..IsInRole("Supplier"))
+    {
+        <a href="@Url.Action("SaveVendorQue1", "Supplier")" class="btn btn-primary" aria-label="Left Align">
+
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ADD OR UPDATE ( * until not approved)
+        </a>
+    }
+
+</h2>
+
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Custom Tabs -->
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Company's Profile</a></li>
+                    <li><a href="#tab_2" data-toggle="tab" aria-expanded="false">Financial Details</a></li>
+                    <li><a href="#tab_3" data-toggle="tab" aria-expanded="false">Human Resources Details</a></li>
+                    <li><a href="#tab_4" data-toggle="tab" aria-expanded="false">Technical Details</a></li>
+
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+
+
+
+                                <section class="panel">
+                                    <div class="table-responsive">
+
+
+                                        <table id="tblAppPackList" class="table table-bordered table-striped dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr. No.</th>
+                                                    <th>
+                                                        Supplier Code
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Supplier Name
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+                                                        Action/Status
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Vendor Intro Name
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Vendor Intro Designation
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Vendor Intro Date
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Name Of Company
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Registered office Address
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Registered office Telephone No
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Registered office Fax No
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Registered office Email Id
+                                                    </th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Head office Address
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Head office Telephone No
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Head office Fax No
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Head office Email Id
+                                                    </th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Plant Address
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Plant Telephone No
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Plant Fax No
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Plant Email Id
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Contact Person Name
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - Contact Person Designation
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Contact Person Office No
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - Contact Person Residence  No
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Contact Person Name
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Contact Person Designation
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Contact Person Office No
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Contact Person Residence  No
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Contact Person Name
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Contact Person Designation
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Contact Person Office No
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Contact Person Residence  No
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Contact Person Name
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Contact Person Designation
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Contact Person Office No
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Contact Person Residence  No
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Name of Product
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - Main Customer
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Commencement of Supply
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - % of Annual Turn Over
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Name of Product
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Main Customer
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Commencement of Supply
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - % of Annual Turn Over
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Name of Product
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Main Customer
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Commencement of Supply
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - % of Annual Turn Over
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Name of Product
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Main Customer
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Commencement of Supply
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - % of Annual Turn Over
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Company certified
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - Name of Quality Systems
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Certifying Agency
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - Year of Certification
+                                                    </th>
+                                                    <th style="background-color:#e9967a;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Name of Quality Systems
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Certifying Agency
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Year of Certification
+                                                    </th>
+                                                    <th style="background-color:#e9967a;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Name of Quality Systems
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Certifying Agency
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Year of Certification
+                                                    </th>
+                                                    <th style="background-color:#e9967a;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Name of Quality Systems
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Certifying Agency
+                                                    </th>
+
+                                                    <th style="background-color:#e9967a;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Year of Certification
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Bar-coding System
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Year of Bar-coding
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Plant Total Area (sq-mts)
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Plant Total Covered Area (sq-mts)
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Plant Connected Electrical Load (Kva)
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Plant alternate source of Electricity
+                                                    </th>
+                                                    <th style="background-color:#ffc0cb;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Tie-up Description & Name
+                                                    </th>
+
+                                                    <th style="background-color:#ffc0cb;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 -Tie-up Date of Association
+                                                    </th>
+                                                    <th style="background-color:#ffc0cb;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Tie-up Partnership
+                                                    </th>
+
+                                                    <th style="background-color:#ffc0cb;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - Tie-up Remarks
+                                                    </th>
+                                                    <th style="background-color:#ffc0cb;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Tie-up Description & Name
+                                                    </th>
+
+                                                    <th style="background-color:#ffc0cb;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Tie-up Date of Association
+                                                    </th>
+                                                    <th style="background-color:#ffc0cb;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Tie-up Partnership
+                                                    </th>
+
+                                                    <th style="background-color:#ffc0cb;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Tie-up Remarks
+                                                    </th>
+                                                    <th style="background-color:#ffc0cb;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Tie-up Description & Name
+                                                    </th>
+
+                                                    <th style="background-color:#ffc0cb;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Tie-up Date of Association
+                                                    </th>
+                                                    <th style="background-color:#ffc0cb;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Tie-up Partnership
+                                                    </th>
+
+                                                    <th style="background-color:#ffc0cb;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Tie-up Remarks
+                                                    </th>
+                                                    <th style="background-color:#ffc0cb;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Tie-up Description & Name
+                                                    </th>
+
+                                                    <th style="background-color:#ffc0cb;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Tie-up Date of Association
+                                                    </th>
+                                                    <th style="background-color:#ffc0cb;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Tie-up Partnership
+                                                    </th>
+
+                                                    <th style="background-color:#ffc0cb;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Tie-up Remarks
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Installed Capacity per annum (w.r.t BSL's Parts)
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Spare Capacity available for BSL (in %)
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Mode of Material Transport
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Details of Plan
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        File of Plan
+                                                    </th>
+                                                    @*<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                            Action/Status
+                                                        </th>*@
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (ViewBag.VendorQue != null)
+                                                {
+                                                    foreach (var item in ViewBag.VendorQue)
+                                                    {
+                                                        <tr>
+                                                            <td align="left">@SerialNo1</td>
+                                                            <td>
+                                                                @item.SUPP_CODE
+                                                            </td>
+                                                            <td>
+
+                                                                @item.SUPP_NAME
+                                                            </td>
+                                                            @if (User.IsInRole("Supplier") || User.IsInRole("Visitor"))
+                                                            {
+                                                                if (item.Status == false && item.Active == 1)
+                                                                {
+                                                                    <td align="left">
+                                                                        @Html.ActionLink("Download", "CreatePdf", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        <span>Pending</span>
+                                                                    </td>
+
+                                                                }
+                                                                else if (item.Status == true && item.Active == 1)
+                                                                {
+                                                                    <td align="left">
+                                                                        @Html.ActionLink("Download", "CreatePdf", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        <span>Approved</span>
+                                                                    </td>
+                                                                }
+
+                                                            }
+                                                            else
+                                                            {
+                                                                if (@item.Active == 1 && @item.Status == false)
+                                                                {
+                                                                    <td>
+                                                                        @Html.ActionLink("Download", "CreatePdf", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        @Html.ActionLink("Approve", "QueApprove", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                    </td>
+                                                                }
+                                                                else if (item.Status == true && item.Active == 1)
+                                                                {
+                                                                    <td>
+                                                                        @Html.ActionLink("Download", "CreatePdf", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                    </td>
+                                                                }
+                                                            }
+                                                            <td>
+                                                                @item.VenIntroName
+                                                            </td>
+                                                            <td>
+                                                                @item.VenIntroDesignation
+                                                            </td>
+                                                            <td>
+                                                                @item.VenIntroDate
+                                                            </td>
+                                                            <td>
+                                                                @item.NameCompany
+                                                            </td>
+                                                            <td>
+                                                                @item.Regoffice
+                                                            </td>
+                                                            <td>
+                                                                @item.RegTelphone
+                                                            </td>
+                                                            <td>
+                                                                @item.RegFax
+                                                            </td>
+                                                            <td>
+                                                                @item.RegEmail
+                                                            </td>
+                                                            <td>
+                                                                @item.Headoffice
+                                                            </td>
+                                                            <td>
+                                                                @item.HeadTelphone
+                                                            </td>
+                                                            <td>
+                                                                @item.HeadFax
+                                                            </td>
+                                                            <td>
+                                                                @item.HeadEmail
+                                                            </td>
+                                                            <td>
+                                                                @item.Plant
+                                                            </td>
+                                                            <td>
+                                                                @item.PlantTelephone
+                                                            </td>
+                                                            <td>
+                                                                @item.PlantFax
+                                                            </td>
+                                                            <td>
+                                                                @item.PlantEmail
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrName
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrDesignation
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrOCN
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrRCN
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrName1
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrDesignation1
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrOCN1
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrRCN1
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrName2
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrDesignation2
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrOCN2
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrRCN2
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrName3
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrDesignation3
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrOCN3
+                                                            </td>
+                                                            <td>
+                                                                @item.ConPrRCN3
+                                                            </td>
+                                                            <td>
+                                                                @item.ProductName
+                                                            </td>
+                                                            <td>
+                                                                @item.MainCustomer
+                                                            </td>
+                                                            <td>
+                                                                @item.ComOfSupply
+                                                            </td>
+                                                            <td>
+                                                                @item.AnnualTurnOver
+                                                            </td>
+                                                            <td>
+                                                                @item.ProductName1
+                                                            </td>
+                                                            <td>
+                                                                @item.MainCustomer1
+                                                            </td>
+                                                            <td>
+                                                                @item.ComOfSupply1
+                                                            </td>
+                                                            <td>
+                                                                @item.AnnualTurnOver1
+                                                            </td>
+                                                            <td>
+                                                                @item.ProductName2
+                                                            </td>
+                                                            <td>
+                                                                @item.MainCustomer2
+                                                            </td>
+                                                            <td>
+                                                                @item.ComOfSupply2
+                                                            </td>
+                                                            <td>
+                                                                @item.AnnualTurnOver2
+                                                            </td>
+                                                            <td>
+                                                                @item.ProductName3
+                                                            </td>
+                                                            <td>
+                                                                @item.MainCustomer3
+                                                            </td>
+                                                            <td>
+                                                                @item.ComOfSupply3
+                                                            </td>
+                                                            <td>
+                                                                @item.AnnualTurnOver3
+                                                            </td>
+                                                            <td>
+                                                                @item.ComCertificate
+                                                            </td>
+                                                            <td>
+                                                                @item.NameOfQuality
+                                                            </td>
+                                                            <td>
+                                                                @item.CertifyingAgency
+                                                            </td>
+                                                            <td>
+                                                                @item.YearOfCertification
+                                                            </td>
+                                                            <td>
+                                                                @item.NameOfQuality1
+                                                            </td>
+                                                            <td>
+                                                                @item.CertifyingAgency1
+                                                            </td>
+                                                            <td>
+                                                                @item.YearOfCertification1
+                                                            </td>
+                                                            <td>
+                                                                @item.NameOfQuality2
+                                                            </td>
+                                                            <td>
+                                                                @item.CertifyingAgency2
+                                                            </td>
+                                                            <td>
+                                                                @item.YearOfCertification2
+                                                            </td>
+                                                            <td>
+                                                                @item.NameOfQuality3
+                                                            </td>
+                                                            <td>
+                                                                @item.CertifyingAgency3
+                                                            </td>
+                                                            <td>
+                                                                @item.YearOfCertification3
+                                                            </td>
+                                                            <td>
+                                                                @item.BarCode
+                                                            </td>
+                                                            <td>
+                                                                @item.BarCodeYear
+                                                            </td>
+                                                            <td>
+                                                                @item.TotalArea
+                                                            </td>
+                                                            <td>
+                                                                @item.TotalCoveredArea
+                                                            </td>
+                                                            <td>
+                                                                @item.ConnectedElectrical
+                                                            </td>
+                                                            <td>
+                                                                @item.AOASOEC
+                                                            </td>
+                                                            <td>
+                                                                @item.DescriptionName
+                                                            </td>
+                                                            <td>
+                                                                @item.DateOfAssociation
+                                                            </td>
+                                                            <td>
+                                                                @item.Partnership
+                                                            </td>
+                                                            <td>
+                                                                @item.Remarks
+                                                            </td>
+                                                            <td>
+                                                                @item.DescriptionName1
+                                                            </td>
+                                                            <td>
+                                                                @item.DateOfAssociation1
+                                                            </td>
+                                                            <td>
+                                                                @item.Partnership1
+                                                            </td>
+                                                            <td>
+                                                                @item.Remarks1
+                                                            </td>
+                                                            <td>
+                                                                @item.DescriptionName2
+                                                            </td>
+                                                            <td>
+                                                                @item.DateOfAssociation2
+                                                            </td>
+                                                            <td>
+                                                                @item.Partnership2
+                                                            </td>
+                                                            <td>
+                                                                @item.Remarks2
+                                                            </td>
+                                                            <td>
+                                                                @item.DescriptionName3
+                                                            </td>
+                                                            <td>
+                                                                @item.DateOfAssociation3
+                                                            </td>
+                                                            <td>
+                                                                @item.Partnership3
+                                                            </td>
+                                                            <td>
+                                                                @item.Remarks3
+                                                            </td>
+                                                            <td>
+                                                                @item.ICPA
+                                                            </td>
+                                                            <td>
+                                                                @item.SCAFBSL
+                                                            </td>
+                                                            <td>
+                                                                @item.MOMT
+                                                            </td>
+                                                            <td>
+                                                                @item.FEPlans
+                                                            </td>
+                                                            <td align="left">
+                                                                <a href=@Url.Action("Download", "Common", new { file = @item.PlanFileName, loc = @item.PlanFileNameLoc })>@item.PlanFileName</a>
+                                                            </td>
+
+                                                            @*@if (User.IsInRole("Supplier"))
+                                                                {
+                                                                    if (item.Status == false && item.Active == 1)
+                                                                    {
+                                                                        <td align="left">
+                                                                            <span>Pending</span>
+                                                                        </td>
+
+                                                                    }
+                                                                    else if (item.Status == true && item.Active == 1)
+                                                                    {
+                                                                        <td align="left"><span>Approved</span></td>
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (@item.Active == 1 && @item.Status == false)
+                                                                    {
+                                                                        <td>
+                                                                            @Html.ActionLink("Approve", "QueApprove", new { id = @item.Id })
+                                                                            |
+                                                                            @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                        </td>
+                                                                    }
+                                                                    else if (item.Status == true && item.Active == 1)
+                                                                    {
+                                                                        <td>
+                                                                            @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                        </td>
+                                                                    }
+                                                                }*@
+                                                        </tr>
+                                                        SerialNo1++;
+                                                    }
+                                                }
+                                            </tbody>
+
+                                        </table>
+
+
+
+                                    </div>
+
+                                </section>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_2">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <section class="panel">
+                                    <div class="table-responsive">
+
+
+
+
+                                        <table id="tblAppPackList" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr. No.</th>
+                                                    <th>
+                                                        Supplier Code
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Supplier Name
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Balance Sheet
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - Name Of Bank
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Address Of Bank
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        1 - Bank Telephone NO
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Name Of Bank
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Address Of Bank
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        2 - Bank Telephone NO
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Name Of Bank
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Address Of Bank
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        3 - Bank Telephone NO
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Name Of Bank
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Address Of Bank
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        4 - Bank Telephone NO
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        1 - Customer Name
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        1 - TurnOver
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        1 - Remarks
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        2 - Customer Name
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        2 - TurnOver
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        2 - Remarks
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        3 - Customer Name
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        3 - TurnOver
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        3 - Remarks
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        4 - Customer Name
+                                                    </th>
+
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        4 - TurnOver
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        4 - Remarks
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        GST No
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        TIN No
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        Sales Tax No
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        Excise Reg. No
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        PAN
+                                                    </th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        TDS
+                                                    </th>
+                                                    @*<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                            Action/Status
+                                                        </th>*@
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (ViewBag.VendorQue != null)
+                                                {
+                                                    foreach (var item in ViewBag.VendorQue)
+                                                    {
+                                                        <tr>
+                                                            <td align="left">@SerialNo2</td>
+                                                            <td>
+                                                                @item.SUPP_CODE
+                                                            </td>
+                                                            <td>
+
+                                                                @item.SUPP_NAME
+                                                            </td>
+                                                            <td align="left">
+                                                                <a href=@Url.Action("Download", "Common", new { file = @item.Financial_FileName, loc = @item.Financial_FilePath })>@item.Financial_FileName</a>
+                                                            </td>
+                                                            <td>
+                                                                @item.BankName
+                                                            </td>
+                                                            <td>
+                                                                @item.BankAddress
+                                                            </td>
+                                                            <td>
+                                                                @item.BankTelephone
+                                                            </td>
+                                                            <td>
+                                                                @item.BankName1
+                                                            </td>
+                                                            <td>
+                                                                @item.BankAddress1
+                                                            </td>
+                                                            <td>
+                                                                @item.BankTelephone1
+                                                            </td>
+                                                            <td>
+                                                                @item.BankName2
+                                                            </td>
+                                                            <td>
+                                                                @item.BankAddress2
+                                                            </td>
+                                                            <td>
+                                                                @item.BankTelephone2
+                                                            </td>
+                                                            <td>
+                                                                @item.BankName3
+                                                            </td>
+                                                            <td>
+                                                                @item.BankAddress3
+                                                            </td>
+                                                            <td>
+                                                                @item.BankTelephone3
+                                                            </td>
+                                                            <td>
+                                                                @item.NameOfCustomer
+                                                            </td>
+                                                            <td>
+                                                                @item.CustomerTurnover
+                                                            </td>
+                                                            <td>
+                                                                @item.CustomerRemarks
+                                                            </td>
+                                                            <td>
+                                                                @item.NameOfCustomer1
+                                                            </td>
+                                                            <td>
+                                                                @item.CustomerTurnover1
+                                                            </td>
+                                                            <td>
+                                                                @item.CustomerRemarks1
+                                                            </td>
+                                                            <td>
+                                                                @item.NameOfCustomer2
+                                                            </td>
+                                                            <td>
+                                                                @item.CustomerTurnover2
+                                                            </td>
+                                                            <td>
+                                                                @item.CustomerRemarks2
+                                                            </td>
+                                                            <td>
+                                                                @item.NameOfCustomer3
+                                                            </td>
+                                                            <td>
+                                                                @item.CustomerTurnover3
+                                                            </td>
+                                                            <td>
+                                                                @item.CustomerRemarks3
+                                                            </td>
+                                                            <td>@item.GSTNo</td>
+                                                            <td>@item.TINNo</td>
+                                                            <td>
+                                                                @item.SalesTaxNo
+                                                            </td>
+                                                            <td>
+                                                                @item.ExciseRegNo
+                                                            </td>
+                                                            <td>
+                                                                @item.PAN
+                                                            </td>
+
+                                                            <td>
+                                                                @item.TDS
+                                                            </td>
+                                                            @*@if (User.IsInRole("Supplier"))
+                                                                {
+                                                                    if (item.Status == false && item.Active == 1)
+                                                                    {
+                                                                        <td align="left">
+                                                                            <span>Pending</span>
+                                                                        </td>
+
+                                                                    }
+                                                                    else if (item.Status == true && item.Active == 1)
+                                                                    {
+                                                                        <td align="left"><span>Approved</span></td>
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (@item.Active == 1 && @item.Status == false)
+                                                                    {
+                                                                        <td>
+                                                                            @Html.ActionLink("Approve", "QueApprove", new { id = @item.Id })
+                                                                            |
+                                                                            @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                        </td>
+                                                                    }
+                                                                    else if (item.Status == true && item.Active == 1)
+                                                                    {
+                                                                        <td>
+                                                                            @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                        </td>
+                                                                    }
+                                                                }*@
+
+                                                        </tr>
+                                                        SerialNo2++;
+                                                    }
+                                                }
+                                            </tbody>
+
+                                        </table>
+
+
+
+
+                                    </div>
+
+                                </section>
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_3">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <section class="panel">
+                                    <div class="table-responsive">
+
+
+                                        <table id="tblAppPackList" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr. No.</th>
+                                                    <th>
+                                                        Supplier Code
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Supplier Name
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Permanent Employee
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Unionised Employee
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Non-Unionised Employee
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Casuals
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        Manager
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+
+                                                        Supervisiors
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+
+                                                        Degree Holders
+                                                    </th>
+
+                                                    <th style="background-color:#add8e6;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" aria-sort="ascending">
+
+                                                        Diploma Holders
+                                                    </th>
+                                                    <th style="background-color:#add8e6;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+
+                                                        Others
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        Production
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" aria-sort="ascending">
+
+                                                        Direct
+
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" aria-sort="ascending">
+
+                                                        DirectITI
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+
+                                                        DirectNonITI
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+
+                                                        Indirect
+                                                    </th>
+                                                   
+                                                    <th style="background-color:#eee8aa;" class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" aria-sort="ascending">
+
+                                                        IndirectITI
+
+                                                    </th>
+                                                    <th style="background-color:#eee8aa;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+
+                                                        IndirectNonITI
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+
+                                                        QA
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" aria-sort="ascending">
+
+                                                        Administration
+                                                    </th>
+                                                   
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        WorkersUnion
+                                                    </th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        LongTermSettleUnion
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        Strike
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        IRSituation
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        ShiftTimings
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        AnnualTrainingPlan
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        TrainingProgBeingPlan
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        TrainingConducted
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">
+
+                                                        Foreign Subject
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        ForeignSubManager
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        ForeignSubStaff
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        ForeignSubWorkmen
+                                                    </th>
+
+
+                                                    @*<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                            Action/Status
+                                                        </th>*@
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (ViewBag.VendorQue != null)
+                                                {
+                                                    foreach (var item in ViewBag.VendorQue)
+                                                    {
+                                                        <tr>
+                                                            <td align="left">@SerialNo3</td>
+                                                            <td>
+                                                                @item.SUPP_CODE
+                                                            </td>
+                                                            <td>
+
+                                                                @item.SUPP_NAME
+                                                            </td>
+                                                            <td>
+                                                                @item.PerEmp
+                                                            </td>
+                                                            <td>
+                                                                @item.UnionisedEmp
+                                                            </td>
+                                                            <td>
+                                                                @item.NonUnionisedEmp
+                                                            </td>
+                                                            <td>
+                                                                @item.CasualEmp
+                                                            </td>
+                                                            <td>
+                                                                @item.Managers
+                                                            </td>
+                                                            <td>
+                                                                @item.Supervisiors
+                                                            </td>
+                                                            <td>
+                                                                @item.DegreeHolders
+                                                            </td>
+                                                            <td>
+                                                                @item.DiplomaHolders
+                                                            </td>
+                                                            <td>
+                                                                @item.Others
+                                                            </td>
+                                                            <td>
+                                                                @item.Production
+                                                            </td>
+                                                            <td>
+                                                                @item.Direct
+                                                            </td>
+                                                            <td>
+                                                                @item.DirectITI
+                                                            </td>
+                                                            <td>
+                                                                @item.DirectNonITI
+                                                            </td>
+                                                            <td>
+                                                                @item.Indirect
+                                                            </td>
+                                                            <td>
+                                                                @item.IndirectITI
+                                                            </td>
+                                                            <td>
+                                                                @item.IndirectNonITI
+                                                            </td>
+                                                            <td>
+                                                                @item.QA
+                                                            </td>
+                                                            <td>
+                                                                @item.Administration
+                                                            </td>
+                                                            <td>
+                                                                @item.WorkersUnion
+                                                            </td>
+                                                            <td>
+                                                                @item.LongTermSettleUnion
+                                                            </td>
+                                                            <td>
+                                                                @item.Strike
+                                                            </td>
+                                                            <td>
+                                                                @item.IRSituation
+                                                            </td>
+                                                            <td>
+                                                                @item.ShiftTimings
+                                                            </td>
+                                                            <td>
+                                                                @item.AnnualTrainingPlan
+                                                            </td>
+                                                            <td>
+                                                                @item.TrainingProgBeingPlan
+                                                            </td>
+                                                            <td>
+                                                                @item.TrainingConductedInYear
+                                                            </td>
+                                                            <td>
+                                                                @item.ForeignSub
+                                                            </td>
+                                                            <td>
+                                                                @item.ForeignSubManager
+                                                            </td>
+                                                            <td>
+                                                                @item.ForeignSubStaff
+                                                            </td>
+                                                            <td>
+                                                                @item.ForeignSubWorkmen
+                                                            </td>
+                                                            @*@if (User.IsInRole("Supplier"))
+                                                                {
+                                                                    if (item.Status == false && item.Active == 1)
+                                                                    {
+                                                                        <td align="left">
+                                                                            <span>Pending</span>
+                                                                        </td>
+
+                                                                    }
+                                                                    else if (item.Status == true && item.Active == 1)
+                                                                    {
+                                                                        <td align="left"><span>Approved</span></td>
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (@item.Active == 1 && @item.Status == false)
+                                                                    {
+                                                                        <td>
+                                                                            @Html.ActionLink("Approve", "QueApprove", new { id = @item.Id })
+                                                                            |
+                                                                            @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                        </td>
+                                                                    }
+                                                                    else if (item.Status == true && item.Active == 1)
+                                                                    {
+                                                                        <td>
+                                                                            @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                        </td>
+                                                                    }
+                                                                }*@
+
+
+                                                        </tr>
+                                                        SerialNo3++;
+                                                    }
+                                                }
+                                            </tbody>
+
+                                        </table>
+
+
+                                    </div>
+
+
+                                </section>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_4">
+
+
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <section class="panel">
+                                    <div class="table-responsive">
+
+                                        <table id="tblAppPackList" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr. No.</th>
+                                                    <th>
+                                                        Supplier Code
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Supplier Name
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Machine Equipment SNo
+                                                    </th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Machine Equipment Description
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Machine Equipment Qty
+                                                    </th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Machine Equipment Type
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        Machine Equipment Remarks
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        Other Machine & Equipment File
+                                                    </th>
+
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        Inhouse Testing SNo
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+
+                                                        Inhouse Testing Description
+                                                    </th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        Inhouse Testing Qty
+                                                    </th>
+                                                   
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+
+                                                        Inhouse Testing Reamrks
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Other Inhouse Testing File
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        R&D Facility
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        R&D File
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Raw Material SNo
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Raw Material Description
+                                                    </th>
+
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Raw Material Source
+                                                    </th>
+
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Raw Material Remarks
+                                                    </th>
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending"  aria-sort="ascending">
+                                                        Other Raw Material File
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Tracebility
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Reaction Plan for Non-conforming products
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Special Process / Facility
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Rejection Monitoring System
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Customer Satisfaction Index / Trend
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Inspection Procedures
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        IS/ISO
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        IS/ISO Remarks
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        EN/BS
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        EN/BS Remarks
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        JIS/JASO
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        JIS/JASO Remarks
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        DIN
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        DIN Remarks
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Any Others
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Any Others Remarks
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" >
+                                                        Action/Status
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (ViewBag.VendorQue != null)
+                                                {
+                                                    foreach (var item in ViewBag.VendorQue)
+                                                    {
+                                                        <tr>
+                                                            <td align="left">@SerialNo4</td>
+                                                            <td>
+                                                                @item.SUPP_CODE
+                                                            </td>
+                                                            <td>
+                                                                @item.SUPP_NAME
+                                                            </td>
+                                                            <td>
+                                                                @item.MachineEquipSNo
+                                                            </td>
+                                                            <td>
+                                                                @item.MachineEquipDescrip
+                                                            </td>
+                                                            <td>
+                                                                @item.MachineEquipQty
+                                                            </td>
+                                                            <td>
+                                                                @item.MachineEquipType
+                                                            </td>
+                                                            <td>
+                                                                @item.MachineEquipRemarks
+                                                            </td>
+                                                            <td align="left">
+                                                                <a href=@Url.Action("Download", "Common", new { file = @item.MachineFileName, loc = @item.MachineFilePath })>@item.MachineFileName</a>
+                                                            </td>
+                                                            <td>
+                                                                @item.InhouseSNo
+                                                            </td>
+                                                            <td>
+                                                                @item.InhouseDescrip
+                                                            </td>
+                                                            <td>
+                                                                @item.InhouseQty
+                                                            </td>
+                                                            <td>
+                                                                @item.InhouseRemarks
+                                                            </td>
+                                                            <td align="left">
+                                                                <a href=@Url.Action("Download", "Common", new { file = @item.InHouseFileName, loc = @item.InHouseFilePath })>@item.InHouseFileName</a>
+                                                            </td>
+                                                            <td>
+                                                                @item.RDFacility
+                                                            </td>
+                                                            <td align="left">
+                                                                <a href=@Url.Action("Download", "Common", new { file = @item.RDFileName, loc = @item.RDFilePath })>@item.RDFileName</a>
+                                                            </td>
+                                                            <td>
+                                                                @item.RawMaterialSNo
+                                                            </td>
+                                                            <td>
+                                                                @item.RawMaterialDescrip
+                                                            </td>
+                                                            <td>
+                                                                @item.RawMaterialSource
+                                                            </td>
+                                                            <td>
+                                                                @item.RawMaterialRemarks
+                                                            </td>
+                                                            <td align="left">
+                                                                <a href=@Url.Action("Download", "Common", new { file = @item.RawMaterialFileName, loc = @item.RawMaterialFilePath })>@item.RawMaterialFileName</a>
+                                                            </td>
+                                                            <td>
+                                                                @item.Tracebility
+                                                            </td>
+                                                            <td align="left">
+                                                                <a href=@Url.Action("Download", "Common", new { file = @item.Non_Conforming_FileName, loc = @item.Non_Conforming_FilePath })>@item.Non_Conforming_FileName</a>
+                                                            </td>
+                                                            <td>
+                                                                @item.SpecialFacility
+                                                            </td>
+                                                            <td>
+                                                                @item.RejectionMonitoringSys
+                                                            </td>
+                                                            <td>
+                                                                @item.CusSatisfyIndex
+                                                            </td>
+                                                            <td align="left">
+                                                                <a href=@Url.Action("Download", "Common", new { file = @item.Inspection_FileName, loc = @item.Inspection_FilePath })>@item.Inspection_FileName</a>
+                                                            </td>
+                                                            <td>
+                                                                @item.ISISO
+                                                            </td>
+                                                            <td>
+                                                                @item.IS_ISO_Remark
+                                                            </td>
+                                                            <td>
+                                                                @item.ENBS
+                                                            </td>
+                                                            <td>
+                                                                @item.EN_BS_Remark
+                                                            </td>
+                                                            <td>
+                                                                @item.JISJASO
+                                                            </td>
+                                                            <td>
+                                                                @item.JIS_JASO_Remark
+                                                            </td>
+                                                            <td>
+                                                                @item.DIN
+                                                            </td>
+                                                            <td>
+                                                                @item.DIN_Remark
+                                                            </td>
+                                                            <td>
+                                                                @item.AnyOthers
+                                                            </td>
+                                                            <td>
+                                                                @item.AnyOthers_Remark
+                                                            </td>
+                                                            @if (User.IsInRole("Supplier") || User.IsInRole("Visitor"))
+                                                            {
+                                                                if (item.Status == false && item.Active == 1)
+                                                                {
+                                                                    <td align="left">
+                                                                        @Html.ActionLink("Download", "CreatePdf", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        <span>Pending</span>
+                                                                    </td>
+
+                                                                }
+                                                                else if (item.Status == true && item.Active == 1)
+                                                                {
+                                                                    <td align="left">
+                                                                        @Html.ActionLink("Download", "CreatePdf", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        <span>Approved</span>
+                                                                    </td>
+                                                                }
+
+                                                            }
+                                                            else
+                                                            {
+                                                                if (@item.Active == 1 && @item.Status == false)
+                                                                {
+                                                                    <td>
+                                                                        @Html.ActionLink("Download", "CreatePdf", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        @Html.ActionLink("Approve", "QueApprove", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                    </td>
+                                                                }
+                                                                else if (item.Status == true && item.Active == 1)
+                                                                {
+                                                                    <td>
+                                                                        @Html.ActionLink("Download", "CreatePdf", new { id = @item.Id })<br />
+                                                                        <span>.........</span>
+                                                                        <span>|</span>
+                                                                        <span>.........</span><br />
+                                                                        @Html.ActionLink("Delete", "QueDelete", new { id = @item.Id })
+                                                                    </td>
+                                                                }
+                                                            }
+
+
+                                                        </tr>
+                                                        SerialNo4++;
+                                                    }
+                                                }
+                                            </tbody>
+
+                                        </table>
+
+
+
+
+                                    </div>
+
+                                </section>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- /.tab-pane -->
+
+                </div>
+                <!-- /.tab-content -->
+
+
+            </div>
+            <!-- nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+        <!-- /.col -->
+    </div>
+
+
+
+
+
+
+
+</section>

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<VendorPortal.Models.BuyerPOViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.decline_paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="tblDecline" style="width:100%" align="left">
+    <thead>
+        
+        <tr>
+            <th>Sr. No.</th>
+            <th>
+                PO NUMBER
+            </th>
+            <th>
+                PO DATE
+            </th>
+            <th>Supplier No.</th>
+            <th>Supplier Name</th>
+            <th>
+                TOTAL QUANTITY
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">@SerialNo</td>
+                <td align="left">
+                    @item.PO_Number
+                </td>
+                <td align="left">
+                    @item.PO_Date
+
+                </td>
+                <td align="left">
+                    @item.SUPP_CODE
+                </td>
+                <td align="left">@item.SUPP_NAME</td>
+                <td align="left">
+                    @item.Quantity
+                </td>
+                <td align="left">
+                    <span class="btn btn-primary btn-xs">
+                        <a href=@Url.Action("BuyerPODetail", "BuyerPO", new { PO_Number = @item.PO_Number,flg=2 }) style="color:#FFFFFF;">
+                            <i class="fa fa-check"></i>
+                            <span>View</span>
+                        </a>
+                    </span>
+                </td>
+            </tr>
+            SerialNo++;
+        }
+    </tbody>
+</table>
+
+
+
+
+@Html.Partial("_Paging3", (VendorPortal.Models.BasicPaging)ViewBag.decline_paging)

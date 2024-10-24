@@ -1,0 +1,81 @@
+﻿@model VendorPortal.Models.Plant_Master
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/AdminView.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="#"><i class="fa fa-home"></i>&nbsp;Master</a></li>
+                <li><a href="#">Plant</a></li>
+                <li class="active">Create</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body">
+                    <div class="panel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-body" style="text-align:left;">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        @Html.Label("Plant Code", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.Plant_Code, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Plant_Code, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        @Html.Label("Plant Name", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.Plant_Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Plant_Name, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-4 col-md-10">
+                                                            <input type="submit" value="Create" class="btn btn-primary" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                @Html.ActionLink("Back to List", "Index")
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

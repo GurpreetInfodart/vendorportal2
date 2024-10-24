@@ -1,0 +1,224 @@
+﻿@model  IEnumerable<VendorPortal.Controllers.SupplierController.ApprovedPacking>
+
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+
+<div id="GridDiv">
+    <table id="tblAppPackList" class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
+            <tr role="row">
+                <th>Sr. No.</th>
+                <th>Supplier Code</th>
+                <th>File</th>
+                <th>Upload Date</th>
+                <th>Actions/Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                if (Convert.ToDateTime(@item.UploadDate).Day <= 5)
+                {
+                <tr  style="background-color:#3CB371;" id="@SerialNo">
+                    <td align="left">@SerialNo</td>
+                    <td align="left">
+                        @item.SUPP_CODE
+                    </td>
+
+                    @if (item.Active == 2 || item.Active == null)
+                    {
+                        <td align="left">Please Upload File</td>
+                    }
+                    else
+                    {
+                        <td align="left">
+
+                            <a style="color:#333;" href=@Url.Action("Download", "Supplier", new { file = @item.FileName, loc = @item.Location })>@item.FileName</a>
+                        </td>
+                    }
+
+                    <td align="left">
+                        @item.UploadDate
+                    </td>
+
+
+                    @if (item.Status == false && item.Active == 1)
+                    {
+                        <td align="left">Pending</td>
+                    }
+                    else if (item.Status == true && item.Active == 1)
+                    {
+                        <td align="left">Approved</td>
+                    }
+
+                    else
+                    {
+
+                        if (@item.Id == null)
+                        {
+                            <td><input type="button" id="Upload" name="Upload" onclick="datainsert(@SerialNo,-100)" class="btn btn-success btn-xs" value="Upload" /></td>
+                        }
+                        else
+                        {
+                            <td> <input type="button" id="Upload" name="Upload" onclick="datainsert(@SerialNo,@item.Id)" class="btn btn-success btn-xs" value="Upload" /></td>
+                        }
+                    }
+
+
+
+                </tr>
+                }
+                else
+                {
+                    <tr  style="background-color:#ff6666;" id="@SerialNo">
+                        <td align="left">@SerialNo</td>
+                        <td align="left">
+                            @item.SUPP_CODE
+                        </td>
+
+                        @if (item.Active == 2 || item.Active == null)
+                    {
+                            <td align="left">Please Upload File</td>
+                        }
+                        else
+                        {
+                            <td align="left">
+
+                                <a style="color:#333;" href=@Url.Action("Download", "Supplier", new { file = @item.FileName, loc = @item.Location })>@item.FileName</a>
+                            </td>
+                        }
+
+                        <td align="left">
+                            @item.UploadDate
+                        </td>
+
+
+                        @if (item.Status == false && item.Active == 1)
+                    {
+                            <td align="left">Pending</td>
+                        }
+                        else if (item.Status == true && item.Active == 1)
+                        {
+                            <td align="left">Approved</td>
+                        }
+
+                        else
+                        {
+
+                            if (@item.Id == null)
+                            {
+                                <td><input type="button" id="Upload" name="Upload" onclick="datainsert(@SerialNo,-100)" class="btn btn-success btn-xs" value="Upload" /></td>
+                            }
+                            else
+                            {
+                                <td> <input type="button" id="Upload" name="Upload" onclick="datainsert(@SerialNo,@item.Id)" class="btn btn-success btn-xs" value="Upload" /></td>
+                            }
+                        }
+
+
+
+                    </tr>
+                }
+                SerialNo++;
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+
+<script type="text/javascript">
+    function datainsert(ID, r) {
+        UploadFile(ID, r);
+    }
+    function paging(currentpage) {
+
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("SMIR", "Supplier")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage) },
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+    function UploadFile(id, r) {
+        var doSubmit = false;
+        var ext = $('#UploadFile').val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['xls', 'xlsx', 'csv', 'pdf', 'docx']) == -1) {
+            alert('You have not choosen file or an invalid file !');
+        }
+        else {
+            var SUPP_CODE = "";
+            var MaterialCode = "";
+            var fileInput = document.getElementById('UploadFile');
+            // Use a regular expression to pull the file name only
+            var fileName = fileInput.value.split(/(\\|\/)/g).pop();
+            UploadExlOrPdf(SUPP_CODE, MaterialCode, fileName, r, "");
+            }
+
+    }
+
+    function UploadExlOrPdf(SUPP_CODE, MaterialCode, fileName, r, Tablecontentet) {
+           $.ajax({
+            url: "@Url.Action("SMIRUploadExlOrPdf", "Supplier")",
+            type: 'GET',
+            cache: false,
+            data: {
+                DocumentType: "SMIR",
+                SupplierName: SUPP_CODE, MaterialCode: MaterialCode, FileName: fileName, Id: -100, Tablecontentet: "" },
+            success: function (data) {
+                if (data == "Successfully submitted.") {
+                    UploadFiles();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+        return false;
+    }
+
+    function UploadFiles() {
+        var Data = new FormData();
+        var files = $("#UploadFile").get(0).files;
+        for (var i = 0; i < files.length; i++) {
+            Data.append("fileInput", files[i]);
+        }
+           $.ajax({
+            url: "@Url.Action("UploadFiles", "Supplier")",
+            type: 'POST',
+            dataType: "json",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: Data,
+            success: function (data) {
+                alert(data);
+                window.location.href = '@Url.Action("SMIRSupp", "Supplier")';
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+        return false;
+      }
+</script>
+
+

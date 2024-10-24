@@ -1,0 +1,684 @@
+﻿@using System.Web.Optimization
+@using System.Data
+@using VendorPortal.Models
+
+@{
+    ViewBag.Title = "ECNVisitor";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Scripts.Render("~/bundles/jquery")
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+</head>
+<style>
+    .fileinput-button {
+        position: relative;
+        overflow: hidden;
+        background-color: #398439;
+        border-color: #255625;
+    }
+
+    .fileinput-button {
+        background-color: #398439;
+        border-color: #255625;
+    }
+
+        .fileinput-button input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+            direction: ltr;
+            cursor: pointer;
+        }
+</style>
+
+<section class="content-header">
+    <h1>
+        ECN
+    </h1>
+    
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <!-- general form elements -->
+                        <div class="col-md-12">
+                            <!-- form start -->
+
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Search</label>
+                                <input type="text" class="form-control" id="txtsearch" placeholder="Enter Name Or Any Text" onkeyup="filter();">
+                            </div>
+
+
+                            <!-- /.box-body -->
+
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+
+                                    <table id="tblAppPackList" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                        <thead>
+
+                                            <tr role="row">
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">S.No.</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Model</th>
+
+                                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" aria-sort="ascending">ECR & ECNNo.</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Change Description</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Supplier/In house </th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> Vendor Code </th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> Date of data & format shared with Supplier </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">S.No.</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> Supplier ECR/ECN filled form with date </th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> Supplier Feasibility Response And File </th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> BSL Go Ahead 1</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> Supplier Dimensional Response And File</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> BSL Go Ahead 2</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">S.No.</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> Under Progress/Complete</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"> Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='FileUploadPop' class='modal'>
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span style="font-size:24px;">Upload File (* Only excel or csv or pdf or word not more than 5 MB)</span>
+                    <input type="text" style="display:none" id="RowId" />
+                    <input type="text" style="display:none" id="FileType" />
+                </div>
+                <div id='myModalContent' class="panel-body">
+                    <div class="row">
+                        <!-- form start -->
+                        <div class="col-md-3">
+                            <label for="BrowseFile">
+                                Browse File :
+                            </label><br />
+                            <span class="btn btn-success fileinput-button" style="width:100%;">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Browse</span>
+                                <input type="file" onchange="displayNamePop()" id="ECNFilePop" name="ECNFilePop">
+                            </span>
+                        </div>
+                        <div class="col-md-9" style="padding-left:0; margin-left:0;">
+                            <label>&nbsp;</label><br />
+                            <input id="btnFilePop" placeholder="Choose File" class="btn btn-default" disabled="disabled" style="padding:7px; font-size:12px; width:100%;" />
+                        </div>
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <div class="panel-footer">
+                    <button type="button" id="btnClose" class="btn btn-primary" onclick="Close()">
+                        Submit
+                    </button>
+                    <button type="button" id="btnCancel" class="btn btn-primary" onclick="Cancel()">
+                        Cancel
+                    </button>
+                    <label>* Refresh page if file not browsing.</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id='Entry' class='modal'>
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span style="font-size:24px;">Update</span>
+                    <input type="text" style="display:none" id="RowI">
+                    <input type="text" style="display:none" id="T">
+                </div>
+                <div id='myModalContent' class="panel-body">
+                    <div class="row">
+                        <!-- general form elements -->
+                        <!-- form start -->
+                        <div class="col-md-12">
+                            <label for="Message">Enter Text:</label>
+                            <textarea class="form-control" rows="5" id="Message"></textarea>
+                        </div>
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <div class="panel-footer">
+                    <button type="button" id="btnClos" class="btn btn-primary" onclick="CloseEntry()">
+                        Submit
+                    </button>
+                    <button type="button" id="btnCance" class="btn btn-primary" onclick="CancelEntry()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<script type="text/javascript">
+    GetECNList();
+    function GetECNList() {
+        $.getJSON("@Url.Action("GetECNList", "Common")", {},
+            function (list) {
+                $('#tblAppPackList>tbody>tr').remove();
+                $('#tblAppPackList tbody').empty();
+                if (list.length > 0) {
+                    var ct = 0;
+                    $.each(list, function (index, itemData) {
+                        ct = ct + 1;
+                        $('#tblAppPackList>tbody').append('<tr id=' + ct + '><td type="Text">' + ct + '</td><td type="Text">' + itemData.Model + '</td><td type="Text">' + itemData.ECRECNNo + '</td><td type="Text">' + itemData.ChangeDes + '</td><td type="Text">' + itemData.SUPP_NAME + '</td><td type="Text">' + itemData.SUPP_CODE + '</td><td>' + BSLFormat(itemData.ECNFile, itemData.ECNFileLocation, itemData.ECNDate) + '</td><td type="Text">' + ct + '</td><td>' + SupplierFirstRes(itemData.Id, itemData.SuppECNRes, itemData.SuppECNResFile, itemData.SuppECNResFileLocation, itemData.SuppECNResDate) + '</td><td>' + FeaRes(itemData.Id, itemData.SuppFeaRes, itemData.SuppFeaResFile, itemData.SuppFeaResFileLocation, itemData.SuppFeaResDate) + '</td><td>' + BSLGo1(itemData.Id, itemData.BSLGo1, itemData.BSLGoResDate1) + '</td><td>' + DimRes(itemData.Id, itemData.SuppDimRes, itemData.SuppDimResFile, itemData.SuppDimResFileLocation, itemData.SuppDimResDate) + '</td><td>' + BSLGo2(itemData.Id, itemData.BSLGoRes2, itemData.BSLGoResDate2) + '</td><td type="Text">' + ct + '</td><td>' + EntryPopUp1(itemData.Id, itemData.UnderProCom) + '</td><td>' + EntryPopUp2(itemData.Id, itemData.Remarks) + '</td></tr>');
+
+                    });
+                }
+            });
+    }
+    function GetSupplier(Type) {
+        $('#txtVendorCode').val('');
+        $.getJSON("@Url.Action("GetSupplier", "Admin")", { Type: $('#DDLST').val() },
+            function (list) {
+                $('#DDLSS option').remove();
+                $('#DDLSS').append("<option value='0'>--Select Supplier--</option>");
+                $.each(list, function (index, itemData) {
+                    $('#DDLSS').append("<option value='" + itemData.SUPP_CODE + "'>" + itemData.SUPP_NAME + "</option>");
+                });
+            });
+    }
+    function GetVendorCode(SUPP_CODE) {
+        $('#txtVendorCode').val($('#DDLSS').val());
+    }
+
+    function BSLFormat(FileName, Loc, ECNDate) {
+        return '<label>' + ConvertJsonDateString(ECNDate) + '</label> <a href="Download?file=' + FileName + '&loc=' + Loc + '" target="_blank">' + FileName + '</a>';
+    }
+    function OpenFileUploadPop(Id, Type) {
+        $('#RowId').val(Id);
+        $('#FileType').val(Type);
+        var options = { "backdrop": "static", keyboard: true };
+        $('#FileUploadPop').modal(options);
+        $('#FileUploadPop').modal('show');
+    }
+    function EntryPop(Id, Type) {
+        $('#RowI').val(Id);
+        $('#T').val(Type);
+        var options = { "backdrop": "static", keyboard: true };
+        $('#Entry').modal(options);
+        $('#Entry').modal('show');
+    }
+      function Close()
+      {
+          if ($('#btnFilePop').val() == "") {
+              alert('Please Browse file!');
+              return false;
+          }
+          var maxSize = '5';
+          var fsiz = ECNFilePop.files[0].size / 1024;
+          var fsize = fsiz / 1024;
+          var ext = $('#ECNFilePop').val().split('.').pop().toLowerCase();
+          if ($.inArray(ext, ['xls', 'xlsx', 'csv', 'pdf', 'docx']) == -1) {
+              alert('You have choosen invalid file !');
+              return false;
+          }
+          if (fsize > maxSize) {
+              alert('Maximum file size exceed. maximum file size is 5 MB, This file size is: ' + fsize + " MB");
+              return false;
+          }
+          var r = confirm("Are you sure want to upload file?");
+          $('#FileUploadPop').modal('hide');
+          if (r)  {
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("ECN", "Admin")",
+                dataType: 'json',
+                data: {
+                    Id: $('#RowId').val(), Type: $('#FileType').val(), File: $('#btnFilePop').val(), Tablecontentet: ""
+                },
+                success: function (response) {
+                    var files = $("#ECNFilePop").get(0).files;
+                        if (files.length > 0) {
+                            if (window.FormData !== undefined) {
+                                var data = new FormData();
+                                for (var x = 0; x < files.length; x++) {
+                                    data.append("file" + x, files[x]);
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/Admin/UploadECNFile',
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                    success: function (result) {
+                                        GetECNList();
+                                        alert(response);
+                                    },
+                                    error: function (xhr, status, p3, p4) {
+                                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                                        if (xhr.responseText && xhr.responseText[0] == "{")
+                                            err = JSON.parse(xhr.responseText).Message;
+                                        //console.log(err);
+                                        alert("error!");
+                                    }
+                                });
+                            } else {
+                                alert("This browser doesn't support HTML5 file uploads!");
+                            }
+                        }
+                    //alert(response);
+
+                },
+                error: function (response) {
+                    alert("error!");
+                }
+
+              });
+
+          }
+          $('#RowId').val('');
+          $('#FileType').val('');
+          $('#btnFilePop').val('');
+    }
+    function Cancel()
+    {
+        $('#RowId').val('');
+        $('#FileType').val('');
+        $('#btnFilePop').val('');
+        $('#FileUploadPop').modal('hide');
+      }
+
+    function EntryPopUp1(Id, txt) {
+        var Type = "'UnderPro'";
+        if (txt == null)
+           {
+            return ''
+        }
+
+        else {
+            return '<label>' + txt + '</label>'
+        }
+    }
+
+    function EntryPopUp2(Id, txt) {
+        var Type = "'Remarks'";
+        if (txt == null) {
+            return ''
+        }
+
+        else {
+            return '<label>' + txt + '</label>'
+        }
+    }
+    function CloseEntry()
+    {
+        var r = confirm("Are you sure want to enter?");
+        $('#Entry').modal('hide');
+        if(r) {
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("Entry", "Admin")",
+                dataType: 'json',
+                data: {
+                    Id: $('#RowI').val(), Type: $('#T').val(), txt: $('#Message').val(), Tablecontentet: ""
+                },
+                success: function (response) {
+                    GetECNList();
+                    alert(response);
+                },
+                error: function (response) {
+                    alert("error!");
+                }
+            });
+        }
+        $('#RowI').val('');
+        $('#T').val('');
+        $('#Message').val('');
+    }
+    function CancelEntry() {
+        $('#RowI').val('');
+        $('#T').val('');
+        $('#Message').val('');
+        $('#Entry').modal('hide');
+    }
+
+    function SupplierFirstRes(Id, Res, FileName, Loc, Date) {
+        var Type = "'SuppECNRes'";
+        if (Res == 0)
+        {
+            return ''
+        }
+        else if (Res == 1)
+        {
+            return 'Yes <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+        else if (Res == 2)
+        {
+            return 'Yes <label>' + ConvertJsonDateString(Date) + '</label> <a href="Download?file=' + FileName + '&loc=' + Loc + '" target="_blank">' + FileName + '</a>';
+        }
+        else if (Res == 3)
+        {
+            return 'Rejected <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+        else {
+            return ''
+        }
+    }
+
+    function FeaRes(Id, Res, FileName, Loc, Date) {
+        var Type = "'SuppFeaRes'";
+        if (Res == 0) {
+            return ''
+        }
+        else if (Res == 1) {
+            return 'Yes <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+        else if (Res == 2) {
+            return 'Yes <label>' + ConvertJsonDateString(Date) + '</label> <a href="Download?file=' + FileName + '&loc=' + Loc + '" target="_blank">' + FileName + '</a>';
+        }
+        else if (Res == 3) {
+            return 'Rejected <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+        else {
+            return ''
+        }
+    }
+    function DimRes(Id, Res, FileName, Loc, Date) {
+        var Type = "'SuppDimRes'";
+        if (Res == 0) {
+            return ''
+        }
+        else if (Res == 1) {
+            return 'Yes <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+        else if (Res == 2) {
+            return 'Yes <label>' + ConvertJsonDateString(Date) + '</label> <a href="Download?file=' + FileName + '&loc=' + Loc + '" target="_blank">' + FileName + '</a>';
+        }
+        else if (Res == 3) {
+            return 'Rejected <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+        else
+        {
+            return ''
+        }
+    }
+    function BSLGo1(Id, Res, Date) {
+        var Type = "'BSLGo1'";
+        if (Res == 0) {
+            return ''
+        }
+        else if (Res == 1) {
+            return 'Yes <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+
+        else if (Res == 3) {
+            return 'Rejected <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+        else {
+            return ''
+        }
+    }
+
+    function BSLGo2(Id, Res, Date) {
+        var Type = "'BSLGoRes2'";
+        if (Res == 0) {
+            return ''
+        }
+        else if (Res == 1) {
+            return 'Yes <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+
+        else if (Res == 3) {
+            return 'Rejected <label>' + ConvertJsonDateString(Date) + '</label>'
+        }
+        else {
+            return ''
+        }
+    }
+
+
+    function Yes(Id,Type)
+    {
+        var r = confirm("Are you sure want to accept?");
+        if(r) {
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("Yes", "Admin")",
+                dataType: 'json',
+                data: {
+                    Id: Id, Type: Type, Tablecontentet: ""
+                },
+                success: function (response) {
+                    GetECNList();
+                    alert(response);
+                },
+                error: function (response) {
+                    alert("error!");
+                }
+            });
+        }
+    }
+    function No(Id, Type)
+    {
+           var r = confirm("Are you sure want to reject?");
+        if(r) {
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("No", "Admin")",
+                dataType: 'json',
+                data: {
+                    Id: Id, Type: Type, Tablecontentet: ""
+                },
+                success: function (response) {
+                    GetECNList();
+                    alert(response);
+                },
+                error: function (response) {
+                    alert("error!");
+                }
+            });
+        }
+    }
+    function ECNDelete(Id)
+    {
+        var r = confirm("Are you sure want to delete?");
+        if(r) {
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("ECNDelete", "Admin")",
+                dataType: 'json',
+                data: {
+                    Id: Id, Tablecontentet: ""
+                },
+                success: function (response) {
+                    GetECNList();
+                    alert(response);
+                },
+                error: function (response) {
+                    alert("error!");
+                }
+            });
+        }
+    }
+    function ActionBtn(Id) {
+
+        return '<button id="Del" onclick="ECNDelete(' + Id + ')"  class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>'
+    }
+    function ConvertJsonDateString(jsonDate) {
+        var shortDate = "";
+            if (jsonDate) {
+                if (jsonDate == "/Date(-2209008600000)/") {
+                    return shortDate = "";
+                }
+                var regex = /-?\d+/;
+                var matches = regex.exec(jsonDate);
+                var dt = new Date(parseInt(matches[0]));
+                var month = dt.getMonth() + 1;
+                var monthString = month > 9 ? month : '0' + month;
+                var day = dt.getDate();
+                var dayString = day > 9 ? day : '0' + day;
+                var year = dt.getFullYear();
+
+                shortDate = dayString + '/' + monthString + '/' + year;
+            }
+        return shortDate;
+    };
+
+
+    function displayName() {
+        var fileInput = document.getElementById('ECNFile');
+        // Use a regular expression to pull the file name only
+        var fileName = fileInput.value.split(/(\\|\/)/g).pop();
+        document.getElementById("btnFile").value = fileName;
+    }
+    function displayNamePop() {
+        var fileInput = document.getElementById('ECNFilePop');
+        // Use a regular expression to pull the file name only
+        var fileName = fileInput.value.split(/(\\|\/)/g).pop();
+        document.getElementById("btnFilePop").value = fileName;
+    }
+
+    function ECNUpload() {
+        var d = $('#DDLSS').val();
+        var maxSize = '5';
+        var fsiz = ECNFile.files[0].size / 1024;
+        var fsize = fsiz / 1024;
+        var ext = $('#ECNFile').val().split('.').pop().toLowerCase();
+        if ($('#txtModel').val() == "")
+        {
+            alert('Enter Model!');
+        }
+        else if ($('#txtECN').val() == "")
+        {
+            alert('Enter ECN!');
+        }
+        else if ($('#txtChangeDescription').val() == "")
+        {
+            alert('Enter Change Description!');
+        }
+        else  if (d == "0")
+        {
+            alert('You have not selected Supplier!');
+        }
+        else if ($('#btnFile').val() == "") {
+            alert('Please Browse file!');
+        }
+        else if (fsize > maxSize) {
+            alert('Maximum file size exceed. maximum file size is 5 MB, This file size is: ' + fsize + " MB");
+        }
+        else if ($.inArray(ext, ['xls', 'xlsx', 'csv', 'pdf', 'docx']) == -1)
+        {
+            alert('You have choosen invalid file !');
+        }
+
+        else {
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("ECNUpload", "Admin")",
+                dataType: 'json',
+                data: {
+                    Model: $('#txtModel').val(), ECN: $('#txtECN').val(), ChangeDescription: $('#txtChangeDescription').val(),
+                    Supplier: $('#DDLSS').find("option:selected").text(), VendorCode: $('#txtVendorCode').val(), File: $('#btnFile').val(), Tablecontentet: ""
+                },
+                success: function (response) {
+                    var files = $("#ECNFile").get(0).files;
+                        if (files.length > 0) {
+                            if (window.FormData !== undefined) {
+                                var data = new FormData();
+                                for (var x = 0; x < files.length; x++) {
+                                    data.append("file" + x, files[x]);
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/Admin/UploadECNFile',
+                                    contentType: false,
+                                    processData: false,
+                                    data: data,
+                                    success: function (result) {
+                                        $('#txtModel').val('');
+                                        $('#txtECN').val('');
+                                        $('#txtChangeDescription').val('');
+                                        $('#txtVendorCode').val('');
+                                        $('#btnFile').val('');
+                                        GetECNList();
+                                        alert(response);
+                                    },
+                                    error: function (xhr, status, p3, p4) {
+                                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                                        if (xhr.responseText && xhr.responseText[0] == "{")
+                                            err = JSON.parse(xhr.responseText).Message;
+                                        //console.log(err);
+                                        alert("error!");
+                                    }
+                                });
+                            } else {
+                                alert("This browser doesn't support HTML5 file uploads!");
+                            }
+                        }
+                    //alert(response);
+
+                },
+                error: function (response) {
+                    alert("error!");
+                }
+
+            });
+        }
+    }
+    function filter() {
+        var searchText = $('#txtsearch').val();
+        $.each($("#tblAppPackList tbody").find("tr"), function () {
+            if ($(this).text().toLowerCase().replace(/\s+/g, '').indexOf(searchText.replace(/\s+/g, '').toLowerCase()) == -1)
+                $(this).hide();
+            else
+                $(this).show();
+        });
+    }
+
+</script>
+

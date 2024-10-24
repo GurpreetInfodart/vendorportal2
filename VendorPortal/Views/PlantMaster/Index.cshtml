@@ -1,0 +1,75 @@
+﻿@model IEnumerable<VendorPortal.Models.Plant_Master>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminView.cshtml";
+}
+
+
+
+
+
+<div class="form-horizontal">
+
+    <section class="content-header">
+        <h1>
+            Plant List
+        </h1>
+
+    </section>
+
+
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body">
+                    <p>
+                        @Html.ActionLink("Create New", "Create")
+                    </p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="table-responsive panel-body">
+                                    <div class="row">
+                                        <div id="GridDiv">
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-condensed table-hover table-striped" id="pending" align="left">
+                                                    <tr>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.Plant_Code)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.Plant_Name)
+                                                        </th>
+                                                        <th></th>
+                                                    </tr>
+
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Plant_Code)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Plant_Name)
+                                                            </td>
+                                                            <td>
+                                                                @Html.ActionLink("Edit", "Edit", new { id = item.PlantId }) |
+                                                                @Html.ActionLink("Delete", "Delete", new { id = item.PlantId })
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,366 @@
+﻿@model IEnumerable<VendorPortal.Models.SchedulerViewModel>
+@{
+    ViewBag.Title = "ViewSupplierSchedule";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />
+
+
+
+@*@Styles.Render("~/Content/css")*@
+
+
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+
+
+
+<section class="content-header">
+    <h1>
+        View Buyer PO
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Buyer PO</li>
+    </ol>
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        @*<div class="row">
+                                <div class="col-sm-6">
+                                    <div class="dataTables_length" id="example1_length">
+                                        <label>
+                                            Show <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select> entries
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div id="example1_filter" class="dataTables_filter">
+                                        <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example1"></label>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="width:100%;">
+                                    <div>
+
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="active">
+                                                <a href="#tab1" aria-controls="personal" role="tab" data-toggle="tab">Pending</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab2" aria-controls="personal" role="tab" data-toggle="tab">Acknowledged</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab3" aria-controls="personal" role="tab" data-toggle="tab">Declined</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content" style="padding-top: 20px">
+                                        <div role="tabpanel" class="tab-pane active" id="tab1">
+
+                                            <div class="panel">
+                                                @if (ViewBag.Supp_pending_Data != null)
+                                                {
+                                                    <div class="table-responsive panel-body">
+                                                        <table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="4" align="left">
+                                                                        From Date: <input type="date" id="PendingFromdate">
+                                                                        To Date:<input type="date" id="PendingTodate">
+
+
+                                                                        <button id="btnPendingFind">Find</button>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Sr. No.</th>
+                                                                    <th>
+                                                                        Schedule Type
+                                                                    </th>
+                                                                    <th>
+                                                                        Schedule Uploaded Date
+                                                                    </th>
+                                                                    <th>
+                                                                        Upload By
+                                                                    </th>
+                                                                    <th>
+                                                                        Supplier Code
+                                                                    </th>
+                                                                    <th>
+                                                                        Action
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                @{ int rowNo = 1;}
+                                                                @foreach (var item in ViewBag.Supp_pending_Data)
+                                                                {
+                                                                    <tr>
+                                                                        <td align="left">@rowNo</td>
+                                                                        <td align="left">
+                                                                            @item.ScheduleType
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.UploadDate
+
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.UploadedBy
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.SUPP_CODE
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <span class="btn btn-primary btn-xs">
+                                                                                <a href=@Url.Action("SupplierSchedulerDetail", "Schedule", new { SUPP_CODE = @item.SUPP_CODE }) style="color:#FFFFFF;">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                    <span>View</span>
+                                                                                </a>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    rowNo++;
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                        @*<div id='Paging' style="text-align:center">
+                                                                Page @(ViewBag.pending_Data.PageCount < ViewBag.pending_Data.PageNumber ? 0 : ViewBag.pending_Data.PageNumber)
+                                                                of @ViewBag.pending_Data.PageCount
+
+
+                                                                @Html.PagedListPager((PagedList.IPagedList)ViewBag.pending_Data, page => Url.Action("ViewPO", new { page = page }))
+
+                                                            </div>*@
+                                                    </div>
+                                                                    }
+
+
+                                            </div>
+
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="tab2">
+                                            <div class="panel">
+                                                @if (ViewBag.Supp_Acknolodge_Data != null)
+                                                {
+                                                    <div class="table-responsive panel-body">
+                                                        <table class="table table-bordered table-condensed table-hover table-striped" id="tblAcknowledge" style="width:100%" align="left">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="4" align="left">
+                                                                        From Date: <input type="date" id="Fromdate">
+                                                                        To Date:<input type="date" id="Todate">
+
+
+                                                                        <button onclick="date()">Find</button>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Sr. No.</th>
+                                                                    <th>
+                                                                        Schedule Type
+                                                                    </th>
+                                                                    <th>
+                                                                        Schedule Uploaded Date
+                                                                    </th>
+                                                                    <th>
+                                                                        Upload By
+                                                                    </th>
+                                                                    <th>
+                                                                        Supplier Code
+                                                                    </th>
+                                                                    <th>
+                                                                        Action
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @{int rowK = 1;}
+
+                                                                @foreach (var item in ViewBag.Supp_Acknolodge_Data)
+                                                                {
+                                                                    <tr>
+                                                                        <td align="left">@rowK</td>
+                                                                        <td align="left">
+                                                                            @item.ScheduleType
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.UploadDate
+
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.UploadedBy
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.SUPP_CODE
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <span class="btn btn-primary btn-xs">
+                                                                                <a href=@Url.Action("SupplierSchedulerAknoledgeDetail", "Schedule", new { SUPP_CODE = @item.SUPP_CODE }) style="color:#FFFFFF;">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                    <span>View</span>
+                                                                                </a>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    rowK++;
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                        @*<div id='Paging' style="text-align:center">
+                                                                Page @(ViewBag.pending_Data.PageCount < ViewBag.pending_Data.PageNumber ? 0 : ViewBag.pending_Data.PageNumber)
+                                                                of @ViewBag.pending_Data.PageCount
+
+
+                                                                @Html.PagedListPager((PagedList.IPagedList)ViewBag.pending_Data, page => Url.Action("ViewPO", new { page = page }))
+
+                                                            </div>*@
+                                                    </div>
+                                                                    }
+
+
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="tab3">
+                                            <div class="panel">
+                                                @if (ViewBag.Supp_Decline_Data != null)
+                                                {
+                                                    <div class="table-responsive panel-body">
+                                                        <table class="table table-bordered table-condensed table-hover table-striped" id="tblDecline" style="width:100%" align="left">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="4" align="left">
+                                                                        From Date: <input type="date" id="Fromdate">
+                                                                        To Date:<input type="date" id="Todate">
+
+
+                                                                        <button onclick="date()">Find</button>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Sr. No.</th>
+                                                                    <th>
+                                                                        Schedule Type
+                                                                    </th>
+                                                                    <th>
+                                                                        Schedule Uploaded Date
+                                                                    </th>
+                                                                    <th>
+                                                                        Upload By
+                                                                    </th>
+                                                                    <th>
+                                                                        Supplier Code
+                                                                    </th>
+                                                                    <th>
+                                                                        Action
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                @{int rowd = 1; }
+                                                                @foreach (var item in ViewBag.Supp_Decline_Data)
+                                                                {
+                                                                    <tr>
+                                                                        <td align="left">@rowd</td>
+                                                                        <td align="left">
+                                                                            @item.ScheduleType
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.UploadDate
+
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.UploadedBy
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.SUPP_CODE
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <span class="btn btn-primary btn-xs">
+                                                                                <a href=@Url.Action("SupplierSchedulerDeclineDetail", "Schedule", new { SUPP_CODE = @item.SUPP_CODE }) style="color:#FFFFFF;">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                    <span>View</span>
+                                                                                </a>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    rowd++;
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                        @*<div id='Paging' style="text-align:center">
+                                                                Page @(ViewBag.pending_Data.PageCount < ViewBag.pending_Data.PageNumber ? 0 : ViewBag.pending_Data.PageNumber)
+                                                                of @ViewBag.pending_Data.PageCount
+
+
+                                                                @Html.PagedListPager((PagedList.IPagedList)ViewBag.pending_Data, page => Url.Action("ViewPO", new { page = page }))
+
+                                                            </div>*@
+                                                    </div>
+                                                                    }
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+ 
+

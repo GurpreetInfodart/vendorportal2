@@ -1,0 +1,275 @@
+﻿@model VendorPortal.Controllers.InventoryController.StockDeclaration2
+@{
+    ViewBag.Title = "Stock";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="form-horizontal">
+    <section class="content-header">
+        <h1>
+            Stock Declaration Report (Download)
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="box">
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            @using (Html.BeginForm("DownloadFile", "Inventory", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <div>
+                                    <table align="left" style="width:100%; padding:5px;">
+                                        <tr>
+                                            <td style="width:10%;">PO Number :</td>
+                                            <td style="width:30%;"> @Html.DropDownListFor(m => m.PONO, new SelectList(ViewBag.DDLPO, "PO_NUM", "PO_NUM"), "--Select PO--", new { @class = "form-control select2" })</td>
+                                            <td style="width:20%;"> <input type="button" id="View" value="View" class="btn btn-info btn-md" onclick="LoadMaterialList(); MaterialSave();"></td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:30%">
+                                                <input type="submit" class="btn btn-info btn-md" id="btnExport" value="Download Template" onclick="hidebtn();" >
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            }
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div style="width:100%;">
+                                        <div class="panel">
+                                            <div style="width:100%;">
+                                                <div class="panel">
+                                                    <div class="table-responsive panel-body">
+                                                        <div class="row">
+                                                            <div id="GridDiv">
+                                                                <table id="tblMaterialList" class="table table-striped dataTable">
+                                                                    <thead>
+                                                                        <tr role="row">
+
+                                                                            <th style="width:100px;">
+                                                                                PONO
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                SupplierCode
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                SupplierName
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                MaterialCode
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                MaterialDescription
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                RawMaterial
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                UOM
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                WIP
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                WIPUOM
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                FinishGoods
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                FINISHGOODSUOM
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                Remark
+                                                                            </th>
+                                                                            <th style="width:100px;">
+                                                                                Date
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#btnExport').hide();
+    //$(function () {
+    //    $(".wmd-view-topscroll").scroll(function () {
+    //        $(".wmd-view")
+    //            .scrollLeft($(".wmd-view-topscroll").scrollLeft());
+    //    });
+    //    $(".wmd-view").scroll(function () {
+    //        $(".wmd-view-topscroll")
+    //            .scrollLeft($(".wmd-view").scrollLeft());
+    //    });
+    //});
+    function MaterialSave() {        /**/
+        $.getJSON("@Url.Action("MaterialsaveList", "Inventory")", { PONO: $('#PONO').val() },
+            function (list) { });
+        $('#btnExport').hide();
+    }
+     function LoadMaterialList() {        /**/
+         $.getJSON("@Url.Action("MaterialList", "Inventory")", { PONO: $('#PONO').val() },
+        function (list) {
+            $('#tblMaterialList>tbody>tr').remove();
+            $('#tblMaterialList tbody').empty();
+            $("th").removeClass("sorting_disabled");
+            $("td").removeClass("sorting_disabled");
+            $('#lblCount').text('');
+            if (list.length > 0) {
+                var ct = 0;
+                $('#btnExport').show();
+
+                //<td style="width: 50px;">' + (ct) + '</td>
+                $.each(list, function (index, itemData) {
+                    ct = ct + 1;
+                    $('#tblMaterialList>tbody').append('<tr id=' + ct + '><td style="width:80px;">' + itemData.PONO + '</td><td style="width:80px;">' + itemData.SUPPLIERCODE + '</td><td style="width:80px;">' + itemData.SUPPLIERNAME + '</td><td style="width:80px;">' + itemData.MATERIALCODE + ' </td><td style="width:80px;">' + itemData.MATERIALDESCRIPTION + ' </td><td style="width:80px;"> ' + itemData.RAWMATERIAL + '</td><td style="width:80px;">' + itemData.UOM + '</td><td style="width:80px;"> ' + itemData.WIP + ' </td><td style="width:80px;">' + itemData.WIPUOM + '</td><td style="width:80px;">' + itemData.FINISHGOODS + '</td><td style="width:80px;">' + itemData.FINISHGOODSUOM + '</td><td style="width:80px;">' + itemData.REMARK + '</td><td style= "width:80px;" > ' +  itemData.DATE  + '</td></tr>');
+
+
+                });
+
+                 $('.scroll-div1').outerWidth(1850);
+                 $('.scroll-div2').outerWidth(1850);
+
+                $('#lblCount').text('Record Found :' + $("#tblMaterialList > tbody > tr:visible").length);
+
+            }
+            else {
+                $('#tblMaterialList>tbody').append('<tr><td colspan="13">No Record Found !</td></tr>');
+                $('#btnExport').hide();
+            }
+        });
+    }
+
+
+    function ConvertJsonDateString(jsonDate) {
+        var shortDate = null;
+        if (jsonDate) {
+            var regex = /-?\d+/;
+            var matches = regex.exec(jsonDate);
+            var dt = new Date(parseInt(matches[0]));
+            var month = dt.getMonth() + 1;
+            var monthString = month > 9 ? month : '0' + month;
+            var day = dt.getDate();
+            var dayString = day > 9 ? day : '0' + day;
+            var year = dt.getFullYear();
+
+            shortDate = dayString + '/' + monthString + '/' + year;
+        }
+        return shortDate;
+    };
+
+    function filter() {
+
+        var searchText = $('#txtsearch').val();
+        $.each($("#tblMaterialList tbody").find("tr"), function () {
+            if ($(this).text().toLowerCase().replace(/\s+/g, '').indexOf(searchText.replace(/\s+/g, '').toLowerCase()) == -1)
+                $(this).hide();
+            else
+                $(this).show();
+        });
+        $('#lblCount').text('Record Found :' + $("#tblMaterialList > tbody > tr:visible").length);
+    }
+
+
+    var ExportToExcel = (function () {
+        //
+        var uri = 'data:application/vnd.ms-excel;base64,'
+            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><body><table>{table}</table></head></body></html>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+        return function (table, name) {
+            if (!table.nodeType) table = document.getElementById(table)
+            $('thead th').css({ height: '25px' });
+            var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+            // window.location.href = uri + base64(format(template, ctx))
+           downloadWithName(uri + base64(format(template, ctx)), name + '.csv');
+
+        }
+    })()
+
+    function downloadWithName(uri, name) {
+        function eventFire(el, etype) {
+            if (el.fireEvent) {
+                (el.fireEvent('on' + etype));
+            } else {
+                var evObj = document.createEvent('Events');
+                evObj.initEvent(etype, true, false);
+                el.dispatchEvent(evObj);
+            }
+        }
+        var link = document.createElement("a");
+
+        link.download = name;
+        link.href = uri;
+        link.click();
+        eventFire(link, "click");
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var oTable = $('#tblMaterialList').dataTable({
+            "scrollY": 500,
+            "scrollX": true,
+            "bScrollCollapse": true,
+            "scrollCollapse": true,
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "Scroll": false
+
+        });
+
+    });
+
+    $("th").removeClass("sorting_disabled");
+    $("td").removeClass("sorting_disabled");
+
+
+
+</script>
+<script>
+    function exportexcel() {
+        $("#tblMaterialList").table2excel({
+            exclude: ".noExl",
+            name: "tblMaterialList",
+            filename: "Assets_Details_fgfffg",
+            fileext: ".xls"
+        });
+    }
+
+    function hidebtn() {
+        $('#btnExport').hide();
+        //window.location = window.location;
+        $('#DDLPO').val('');
+        LoadMaterialList();
+    }
+
+  
+
+</script>

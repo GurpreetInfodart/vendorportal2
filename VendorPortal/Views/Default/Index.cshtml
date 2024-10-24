@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Calender";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+    <script src='~/CalenderScript/lib/jquery.min.js'></script>
+    <script src='~/CalenderScript/lib/moment.min.js'></script>
+    <script src="~/CalenderScript/fullcalendar.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                },
+                //defaultDate: '2018-11-12',
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                //events: [
+                //    {
+                //        title: 'All Day Event',
+                //        start: '2018-11-01',
+                //    },
+                //    {
+                //        title: 'Long Event',
+                //        start: '2018-11-07',
+                //        end: '2018-11-10'
+                //    },
+                //    {
+                //        id: 999,
+                //        title: 'Repeating Event',
+                //        start: '2018-11-09T16:00:00'
+                //    },
+                //    {
+                //        id: 999,
+                //        title: 'Repeating Event',
+                //        start: '2018-11-16T16:00:00'
+                //    },
+                //    {
+                //        title: 'Conference',
+                //        start: '2018-11-11',
+                //        end: '2018-11-13'
+                //    },
+                //    {
+                //        title: 'Meeting',
+                //        start: '2018-11-12T10:30:00',
+                //        end: '2018-11-12T12:30:00'
+                //    },
+                //    {
+                //        title: 'Lunch',
+                //        start: '2018-11-12T12:00:00'
+                //    },
+                //    {
+                //        title: 'Meeting',
+                //        start: '2018-11-12T14:30:00'
+                //    },
+                //    {
+                //        title: 'Happy Hour',
+                //        start: '2018-11-12T17:30:00'
+                //    },
+                //    {
+                //        title: 'Dinner',
+                //        start: '2018-11-12T20:00:00'
+                //    },
+                //    {
+                //        title: 'Birthday Party',
+                //        start: '2018-11-13T07:00:00'
+                //    },
+                //    {
+                //        title: 'Click for Google',
+                //        url: 'http://google.com/',
+                //        start: '2018-11-28'
+                //    }
+                //]
+                events: function (start, end, timezone, callback) {
+                    $.ajax({
+                        url: '/Home/GetCalendarData',
+                        type: "GET",
+                        dataType: "JSON",
+
+                        success: function (result) {
+                            var events = [];
+
+                            $.each(result, function (i, data) {
+                                
+                                events.push(
+                                    {
+                                        title: data.Title,
+                                        description: data.Des,
+                                        start: moment(data.Start_Date).format('YYYY-MM-DD'),
+                                        end: moment(data.End_Date).format('YYYY-MM-DD'),
+                                        backgroundColor: "#9501fc",
+                                        borderColor: "#fc0101"
+                                    });
+                            });
+
+                            callback(events);
+                        }
+                    });
+                },
+            });
+
+        });
+        function ConvertJsonDateString(jsonDate) {
+            var shortDate = "";
+                if (jsonDate) {
+                    var regex = /-?\d+/;
+                    var matches = regex.exec(jsonDate);
+                    var dt = new Date(parseInt(matches[0]));
+                    var month = dt.getMonth() + 1;
+                    var monthString = month > 9 ? month : '0' + month;
+                    var day = dt.getDate();
+                    var dayString = day > 9 ? day : '0' + day;
+                    var year = dt.getFullYear();
+
+                    shortDate = year + '-' + monthString + '-' + dayString ;
+                }
+            return shortDate;
+        };
+
+    </script>
+
+<link href='~/CalenderScript/fullcalendar.min.css' rel='stylesheet' />
+<link href="~/CalenderScript/fullcalendar.print.css" rel="stylesheet" />
+    <style>
+
+        .fc-button-group, .fc button  {
+            display: inline;
+        }
+
+        body {
+            /* margin: 40px 10px;*/
+            padding: 0;
+            font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+            font-size: 14px;
+        }
+
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+ 
+<body>
+    <div style="" id='calendar'></div>
+</body>
+ 

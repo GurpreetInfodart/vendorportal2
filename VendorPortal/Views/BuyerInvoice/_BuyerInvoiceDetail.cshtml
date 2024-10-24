@@ -1,0 +1,65 @@
+﻿@model IEnumerable<VendorPortal.Models.Buyer_Supplier_InvoiceDetail>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.buyInvoice_paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+ 
+                                                <table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+                                                    <thead>
+                                                        
+                                                        <tr>
+                                                            <th>Sr. No.</th>
+                                                            <th>Order No.</th>
+                                                            <th>MAT No.</th>
+                                                            <th>MAT DESC.</th>
+                                                            <th>HSN/SAC NO</th>
+                                                            <th>Qty</th>
+                                                            <th>Rate</th>
+                                                            <th>Basic VAL</th>
+                                                            @*<th>Amount</th>*@
+                                                            <th>CGST AMT</th>
+                                                            <th>SGST AMT</th>
+                                                            <th>IGST AMT</th>
+                                                            <th>Model</th>
+                                                            <th>MFG DATE</th>
+                                                            <th>Batch Code</th>
+                                                            @*<th>Schedule_NO</th>
+                                                            <th>DEL DATE</th>
+                                                            <th>Contract No.</th>
+                                                            <th>Position No.</th>*@
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                         
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td align="left">@SerialNo</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.Order_No)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.MAT_CODE)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.MaterialDescription)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.HSN_SAC_NO)</td>                                                                
+                                                                <td align="left">@Html.DisplayFor(m => @item.Qty)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.Rate)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.Amount)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.CGST)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.SGST)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.IGST)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.MODEL)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.MFG_DATE)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.BATCHCODE)</td>
+                                                                @*<td align="left">@Html.DisplayFor(m => @item.SCHEDULE_NO)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.DEL_DATE)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.CONTRACT_NO)</td>
+                                                                <td align="left">@Html.DisplayFor(m => @item.POSITION_NO)</td>*@
+
+                                                            </tr>
+                                                            SerialNo++;
+                                                        }
+                                                    </tbody>
+                                                </table>
+
+
+                                   
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.buyInvoice_paging)

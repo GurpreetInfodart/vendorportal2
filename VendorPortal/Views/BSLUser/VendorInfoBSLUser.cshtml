@@ -1,0 +1,298 @@
+﻿
+
+@using System.Web.Optimization
+@using System.Data
+@using VendorPortal.Models
+
+@{
+    ViewBag.Title = "VendorInfoBSLUser";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Vendor Questionnare 
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Vendor</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <!-- form start -->
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Supplier Name</label>
+                        <input type="text" class="form-control" id="txtsearch" placeholder="Supplier Name" onkeyup="filter();">
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <!-- /.box-header -->
+                <div class="table-responsive">
+                    <div class="row">
+                        <div class="col-md-6 col-md-6">
+                            <span style="color:red; padding:3px; margin-top:1%;">@ViewBag.ErrorMsg</span>
+                            <span style="color:green; padding:3px; margin-top:1%;">@ViewBag.Result</span>
+                        </div>
+
+
+
+                    </div>
+                    <table id="tblAppPackList" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">S.No.</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Supplier Code</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">Supplier Name</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Street</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">City</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Postcode</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">District</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Country</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">VATRegno</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Tin</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">Telephone1</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Telephone2</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">Telephone3</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">FaxNo</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">Emailid</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">BankName</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">BankAddress</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">BankAccountNo</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">BankSwiftCode</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">BankCurrency</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">PaymentTerm</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">PaymentMethod</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">OrderCurrency</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Incoterms</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">SchemaGroupVendor</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">ContactPerson</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">Telephone</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">GRbased</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">ERSVendor</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">OtherInformation1</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">OtherInformation2</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">OtherInformation3</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">OtherInformation4</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">RequestedNAme</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">RequestedDepartment</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">RequestedDate</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">ApprovedName</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">ApprovedDepartment</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">ApprovedDate</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">TAN</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">PAN</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">GSTNO</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">SSIRegNo</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">ESICNo</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">CINNo</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">HSNCode</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">GLACNo</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">SortKey</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">WHTType</th>
+
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">TypeOfRecipient</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">ExemptionReason</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">CreatedOn</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+
+                    </table>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    GetSupplierList();
+
+    function GetSupplierList() {        /**/
+        $.getJSON("@Url.Action("GetSupplierList", "BSLUser")", {  },
+        function (list) {
+            $('#tblAppPackList>tbody>tr').remove();
+            $('#tblAppPackList tbody').empty();
+            if (list.length > 0) {
+                var ct = 0;
+                $.each(list, function (index, itemData) {
+                    ct = ct + 1;
+                    $('#tblAppPackList>tbody').append('<tr id=' + ct + '><td  style="width:60px;">' + ct + '</td><td  style="width:80px;">' + itemData.SUPP_CODE + '</td> <td  style="width:80px;">' + itemData.SUPP_NAME + '</td>
+                        < td  style= "width:80px;" > ' + itemData.Street + '</td >
+                        <td style="width:80px;">' + itemData.City + '</td>
+                        <td style="width:80px;">' + itemData.PostCode + '</td>
+                        <td style="width:80px;">' + itemData.District + '</td>
+                        <td style="width:80px;">' + itemData.Country + '</td>
+                        <td style="width:80px;">' + itemData.VATRegNo + '</td>
+                        <td style="width:80px;">' + itemData.Tin + '</td>
+                        <td style="width:80px;">' + itemData.Telephone1 + '</td>
+                        <td style="width:80px;">' + itemData.Telephone2 + '</td>
+                        <td style="width:80px;">' + itemData.Telephone3 + '</td>
+                        <td style="width:80px;">' + itemData.FaxNo + '</td>
+                        <td style="width:80px;">' + itemData.Emailid + '</td>
+                        <td style="width:80px;">' + itemData.BankName + '</td>
+                        <td style="width:80px;">' + itemData.BankAddress + '</td>
+                        <td style="width:80px;">' + itemData.BankAccountNo + '</td>
+                        <td style="width:80px;">' + itemData.BankSwiftCode + '</td>
+                        <td style="width:80px;">' + itemData.BankCurrency + '</td>
+                        <td style="width:80px;">' + itemData.PaymentTerm + '</td>
+                        <td style="width:80px;">' + itemData.PaymentMethod + '</td>
+                        <td style="width:80px;">' + itemData.OrderCurrency + '</td>
+                        <td style="width:80px;">' + itemData.Incoterms + '</td>
+                        <td style="width:80px;">' + itemData.SchemaGroupVendor + '</td>
+                        <td style="width:80px;">' + itemData.ContactPerson + '</td>
+                        <td style="width:80px;">' + itemData.Telephone + '</td>
+                        <td style="width:80px;">' + itemData.GRbased + '</td>
+                        <td style="width:80px;">' + itemData.ERSVendor + '</td>
+                        <td style="width:80px;">' + itemData.OtherInformation1 + '</td>
+                        <td style="width:80px;">' + itemData.OtherInformation2 + '</td>
+                        <td style="width:80px;">' + itemData.OtherInformation3 + '</td>
+                        <td style="width:80px;">' + itemData.OtherInformation4 + '</td>
+                        <td style="width:80px;">' + itemData.RequestedName + '</td>
+                        <td style="width:80px;">' + itemData.RequestedDepartment + '</td>
+                        <td style="width:80px;">' +  ConvertJsonDateString(itemData.RequestedDate, itemData.Active) + '</td>
+                        <td style="width:80px;">' + itemData.ApprovedName + '</td>
+                        <td style="width:80px;">' + itemData.ApprovedDepartment + '</td>
+                        <td style="width:80px;">' + ConvertJsonDateString(itemData.ApprovedDate, itemData.Active) + '</td>
+                        <td style="width:80px;">' + itemData.TAN + '</td>
+                        <td style="width:80px;">' + itemData.PAN + '</td>
+                        <td style="width:80px;">' + itemData.GSTNO + '</td>
+                        <td style="width:80px;">' + itemData.SSIRegNo + '</td>
+                        <td style="width:80px;">' + itemData.ESICNo + '</td>
+                        <td style="width:80px;">' + itemData.CINNo + '</td>
+                        <td style="width:80px;">' + itemData.HSNCODE + '</td>
+                        <td style="width:80px;">' + itemData.GLACNo + '</td>
+                        <td style="width:80px;">' + itemData.SortKey + '</td>
+                        <td style="width:80px;">' + itemData.WHTType + '</td>
+                        <td style="width:80px;">' + itemData.TypeOfRecipient + '</td>
+                        <td style="width:80px;">' + itemData.ExemptionReason + '</td>
+                        <td style="width:80px;">' + ConvertJsonDateString(itemData.CreatedOn, itemData.Active) + '</td>
+                        <td>' + ActionBtn(itemData.Status, itemData.Id, itemData.Active) + '</td></tr > ');
+                });
+            }
+
+        });
+    }
+    function ConvertJsonDateString(jsonDate,Active) {
+        var shortDate = "";
+        if (Active != 2 && Active != null && Active != "") {
+            if (jsonDate) {
+                if (jsonDate == "/Date(-2209008600000)/") {
+                    return shortDate = "";
+                }
+                var regex = /-?\d+/;
+                var matches = regex.exec(jsonDate);
+                var dt = new Date(parseInt(matches[0]));
+                var month = dt.getMonth() + 1;
+                var monthString = month > 9 ? month : '0' + month;
+                var day = dt.getDate();
+                var dayString = day > 9 ? day : '0' + day;
+                var year = dt.getFullYear();
+
+                shortDate = dateString + '/' + monthString + '/' + year;
+            }
+        }
+        return shortDate;
+    };
+
+
+    function ActionBtn(status, Id, Active)
+    {
+        if (status == false && Active == 1) return '<button id="App"  onclick="Approve(' + Id +')" class="btn btn-success btn-xs"><i class="fa fa-check" type="submit"></i></button>'
+        else if (status == true && Active == 1 ) return '<button id="Del" onclick="DataDelete('+ Id +')"  class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>';
+    }
+    function DataDelete(Id)
+    {
+        $.getJSON("@Url.Action("DeleteSupplier", "BSLUser")", {
+            Id: Id, Tablecontentet :""
+        },
+        );
+        GetSupplierList();
+        Alter("Deleted Successfully")
+    }
+     function Approve(Id)
+    {
+        $.getJSON("@Url.Action("ApproveSupplier", "BSLUser")", {
+            Id: Id, Tablecontentet :""
+        },
+         );
+        GetSupplierList();
+        Alter(" Successfully Approved")
+    }
+
+    function filter() {
+        var searchText = $('#txtsearch').val();
+        $.each($("#tblAppPackList tbody").find("tr"), function () {
+            if ($(this).text().toLowerCase().replace(/\s+/g, '').indexOf(searchText.replace(/\s+/g, '').toLowerCase()) == -1)
+                $(this).hide();
+            else
+                $(this).show();
+        });
+    }
+</script>

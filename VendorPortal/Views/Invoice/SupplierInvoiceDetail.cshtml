@@ -1,0 +1,155 @@
+﻿@model IEnumerable<VendorPortal.Models.Buyer_Supplier_InvoiceDetail>
+@{
+    ViewBag.Title = "BuyerInvoiceDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+
+
+
+<section class="content-header">
+    <h1>
+        View Supplier Invoice Detail
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Supplier Invoice Detail</li>
+    </ol>
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        @*<div class="row">
+                                <div class="col-sm-6">
+                                    <div class="dataTables_length" id="example1_length">
+                                        <label>
+                                            Show <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select> entries
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div id="example1_filter" class="dataTables_filter">
+                                        <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example1"></label>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="width:100%;">
+
+                                    <div class="panel">
+
+                                        <div class="table-responsive panel-body">
+                                            <table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="4" align="left">
+                                                            From Date: <input type="date" id="PendingFromdate">
+                                                            To Date:<input type="date" id="PendingTodate">
+
+
+                                                            <button id="btnPendingFind">Find</button>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Sr. No.</th>
+                                                        <th>Qty</th>
+                                                        <th>Rate</th>
+                                                        <th>Amount</th>
+                                                        <th>CGST</th>
+                                                        <th>IGST</th>
+                                                        <th>Model</th>
+                                                        <th>MFG DATE</th>
+                                                        <th>Batch Code</th>
+                                                        <th>Schedule_NO</th>
+                                                        <th>DEL DATE</th>
+                                                        <th>Contract No.</th>
+                                                        <th>Position No.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @{ int rowNo = 1;}
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td align="left">@rowNo</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.Qty)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.Rate)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.Amount)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.CGST)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.IGST)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.MODEL)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.MFG_DATE)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.BATCHCODE)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.SCHEDULE_NO)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.DEL_DATE)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.CONTRACT_NO)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.POSITION_NO)</td>
+
+                                                        </tr>
+                                                        rowNo++;
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <a href="@Url.Action("GenerateSupplierInvoice")">Back To List</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+

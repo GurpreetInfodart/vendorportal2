@@ -1,0 +1,149 @@
+﻿@model IEnumerable<VendorPortal.Models.InvoiceViewModel>
+
+ 
+
+@{
+    ViewBag.Title = "GenerateBuyerInvoice";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+
+
+
+<section class="content-header">
+    <h1>
+        View Buyer Invoice
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Buyer Invoice</li>
+    </ol>
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        @*<div class="row">
+                                <div class="col-sm-6">
+                                    <div class="dataTables_length" id="example1_length">
+                                        <label>
+                                            Show <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select> entries
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div id="example1_filter" class="dataTables_filter">
+                                        <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example1"></label>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="width:100%;">
+
+                                    <div class="panel">
+
+                                        <div class="table-responsive panel-body">
+                                            <table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="4" align="left">
+                                                            From Date: <input type="date" id="PendingFromdate">
+                                                            To Date:<input type="date" id="PendingTodate">
+
+
+                                                            <button id="btnPendingFind">Find</button>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Sr. No.</th>
+                                                        <th>Invoice No.</th>
+                                                        <th>Invoice Date</th>
+                                                        <th>Supplier Code</th>
+                                                        <th>Supplier GSTIN</th>
+                                                        <th>Supplier CIN</th>
+                                                        <th>HSN SAC No.</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @{ int rowNo = 1;}
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td align="left">@rowNo</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.INVOICE_NUMBER)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.INVOICE_DATE)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.SUPP_CODE)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.SUPPLIER_GSTIN)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.SUPPLIER_CIN)</td>
+                                                            <td align="left">@Html.DisplayFor(m => @item.HSN_SAC_NO)</td>
+
+                                                            <td align="left">
+                                                                <span class="btn btn-primary btn-xs">
+                                                                    <a href=@Url.Action("BuyerInvoiceDetail", "Invoice", new { id = @item.ID }) style="color:#FFFFFF;">
+                                                                        <i class="fa fa-check"></i>
+                                                                        <span>View</span>
+                                                                    </a>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        rowNo++;
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+

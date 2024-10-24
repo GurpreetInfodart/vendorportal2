@@ -1,0 +1,118 @@
+﻿@model VendorPortal.Models.tblCity
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/AdminView.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="#"><i class="fa fa-home"></i>&nbsp;Master</a></li>
+                <li><a href="#">City</a></li>
+                <li class="active">Create</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body">
+                    <div class="panel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-body" style="text-align:left;">
+
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.StateName, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(E => E.StateId, new SelectList((System.Collections.IEnumerable)ViewData["stateList"], "Value", "Text"), "--Select--", new { @class = "form-control" })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.CityName, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.CityName, new { htmlAttributes = new { @class = "form-control" } })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            <div class="checkbox">
+                                                                @Html.EditorFor(model => model.Active)
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-4 col-md-10">
+                                                            <input type="submit" value="Create" id="btnSubmit" class="btn btn-primary" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                @Html.ActionLink("Back to List", "Index")
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function (e) {
+
+        $("#btnSubmit").click(function (e) {
+
+
+            if ($("#StateId").val() == "" || $("#StateId").val() == null || $("#StateId").val() == "0") {
+                alert("Please Select State");
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#CityName").val() == "") {
+                alert("Please Enter City Name");
+                e.preventDefault();
+                return false;
+            }
+        });
+
+    });
+
+</script>

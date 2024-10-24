@@ -1,0 +1,194 @@
+﻿@model IEnumerable<VendorPortal.Models.Buyer_Supplier_InvoiceDetail>
+@{
+    ViewBag.Title = "GenerateBincard";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<body>
+    <input type="hidden" id="EmpCode" name="EmpCode" value="@ViewBag.EmpCode">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <!--breadcrumbs start -->
+                <ul class="breadcrumb">
+                    <li><a href="@Url.Action("Index")"><i class="fa fa-home"></i> Invoice Management</a></li>
+                    <li><a href="@Url.Action("Index")">List of Invoices</a></li>
+                    <li class="active">Bincard</li>
+                </ul>
+                <!--breadcrumbs end -->
+            </div>
+        </div>
+        <div class="padding-15" id="printarea">
+
+            <section class="panel">
+                <!--<header class="panel-heading" style="background: #ff766c; color:#FFFFFF;">
+                    Form Name: Vendor Master Data Maintenance Form
+                </header>-->
+
+            </section>
+            <div class="page-header text-center">
+                <h4>BHARAT SEATS LTD GURGAON</h4>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">VENDOR NAME:</label>
+                    <div class="col-sm-3">
+                        <label style="color:black; text-align:left">@ViewBag.SupName</label>
+                    </div>
+                    <label class="control-label col-sm-3">VENDOR CODE:</label>
+                    <div class="col-sm-3">
+                        <label style="color:black">@ViewBag.SupCode</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">BSL PART CODE:</label>
+                    <div class="col-sm-9">
+                        <label style="color:black">@ViewBag.ItemCode</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">PART NAME:</label>
+                    <div class="col-sm-9">
+                        <label style="color:black">@ViewBag.ItemDesc</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">QTY. PER BIN:</label>
+                    <div class="col-sm-3">
+                        <label style="color:black">@ViewBag.SNP</label>
+                    </div>
+                    <label class="control-label col-sm-3">TOTAL QTY:</label>
+                    <div class="col-sm-3">
+                        <label style="color:black">@ViewBag.TotQty</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">NUMBER OF BINS:</label>
+                    <div class="col-sm-9">
+                        <label style="color:black">@ViewBag.Qtybin</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">MODEL:</label>
+                    <div class="col-sm-9">
+                        <label style="color:black">@ViewBag.Model</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">MANUFACTURING DATE:</label>
+                    <div class="col-sm-3">
+                        <label style="color:black">@ViewBag.MANDATE</label>
+                    </div>
+                    <label class="control-label col-sm-3">BATCH CODE:</label>
+                    <div class="col-sm-3">
+                        <label style="color:black">@ViewBag.BATCH</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">INVOICE NO:</label>
+                    <div class="col-sm-3">
+                        <label style="color:black">@ViewBag.InvoiceNo</label>
+                    </div>
+                    <label class="control-label col-sm-3">INVOICE DATE:</label>
+                    <div class="col-sm-3">
+                        <label style="color:black">@ViewBag.invoiceDate</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row vertical-center-row">
+        <div class="text-center col-lg-12">
+            <a href="#" class="btn btn-primary hidden-print" id="btnPrint" onclick="PrintDoc()">
+                @*onclick="PrintDoc()"*@
+                <span class="glyphicon glyphicon-print"></span> Print
+            </a>
+        </div>
+    </div>
+
+    <hr />
+    <div>
+        <a href="@Url.Action("Index")">Back To List</a>
+    </div>
+
+    <script>
+
+
+            function PrintDoc() {
+
+
+                var divContents = "<table cellspacing='0'cellpadding ='3'bordercolor ='#333'border ='1'style ='font-family:Arial,Helvetica,sans-serif;font-size:14px; height:auto;'>";
+
+                divContents = divContents + "<tr><td colspan='4' width='471' style='font-weight:bold; text-align:center; font-size:18px;'>BHARAT  SEATS LTD GURGAON</td></tr>";
+                divContents = divContents + "<tr><td width='250'>VENDOR NAME</td><td width='50'>@ViewBag.SupName</td><td width='200'>VENDOR CODE</td>                          <td width='50'>@ViewBag.SupCode</td></tr>";
+                divContents = divContents + "<tr><td>BSL PART CODE</td><td>@ViewBag.ItemCode</td><td>DATE</td><td>@ViewBag.invoiceDate</td></tr>";
+                divContents = divContents + "<tr><td>PART NAME</td><td colspan='3'>@ViewBag.ItemDesc</td></tr>";
+                divContents = divContents + "<tr><td>QTY PER BIN</td><td>@ViewBag.SNP</td><td>TOTAL QTY</td><td>@ViewBag.TotQty</td></tr>";
+                divContents = divContents + "<tr><td>NUMBER OF BINS</td><td>@ViewBag.Qtybin</td><td>BATCH CODE</td><td>@ViewBag.BATCH</td></tr>";
+                divContents = divContents + "<tr><td>MODEL MANUFACTURING</td><td colspan='3'>@ViewBag.MANDATE</td></tr>";
+                divContents = divContents + "<tr><td>INVOICE NO</td><td colspan='3'>@ViewBag.InvoiceNo</td></tr></table > </br>";
+
+
+                var count = @ViewBag.Qtybin;
+                var rowCount = 0;
+                var maincontents;
+
+                if (rowCount%3 === 0)
+                {
+
+                    maincontents = '<div >'
+                    maincontents = '<table id="myTable" class="page-break">';
+                }
+                    for (var i = 1; i <= count; i++) {
+
+                        if (i % 2 === 0) {
+                            var evn = divContents;
+                            maincontents = maincontents + '<td id="kri-col2">' + evn + '</td></tr>';
+                        }
+                        else {
+                            var odd = divContents;
+
+                            maincontents = maincontents + '<tr id="kri-tr"><td id="kri-col1">' + odd + '</td>';
+                        }
+                        rowCount = i;
+                    }
+                    if (rowCount % 3 === 0){
+                        maincontents = maincontents + '</table>';
+                    }
+
+                    //alert(maincontents);
+
+                var printWindow = window.open('', '', 'toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=500,width=400,height=auto"');
+                printWindow.document.write('<html><head><title></title>');
+                printWindow.document.write('<Style> table.page-break tr {page-break-inside:avoid} div{page-break-after:always; } </style></head><body>');
+                //printWindow.document.write('<table><tr><td>' + odd + '</td><td>' + evn + '</td></tr></table>');
+                printWindow.document.write(maincontents);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+        }
+
+
+
+    </script>
+
+</body>
+
+
+

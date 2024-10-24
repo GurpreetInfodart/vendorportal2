@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "ScheduleDel";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+ <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<section class="content-header">
+    <h1>
+        View Buyer Schedule
+    </h1>
+    
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                      
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="width:100%;">
+                                    
+                                    <div>
+                                        @using (Html.BeginForm("ExportData", "BuyerSchedule", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "javascript:return pagevalidate(document.getElementById('MyButton'))" }))
+                                        {
+                                            <table align="left" style="width:100%">
+                                                <tr>
+                                                    <td style="width:8%;">Vendor Code :</td>
+                                                    <td style="width:15%;"> @Html.DropDownList("DDLVM", new SelectList(ViewBag.DDLVM, "SUPP_CODE", "SUPP_CODE"), "--Select Vendor--")</td>
+                                                    <td style="width:8%;">From Date:</td>
+                                                    <td style="width:15%;"><input type="date" name="fromdate" id="fromdate" style="line-height:20px"></td>
+                                                    <td style="width:6%;">To Date:</td>
+                                                    <td style="width:18%;"> <input type="date" name="Todate" id="Todate" style="line-height:20px"></td>
+                                                    <td style="width:6%">
+                                                        <input class="btn btn-danger btn-md" type="submit" id="MyButton" name="MyButton" value="Download" onchange="pagevalidate()" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+
+                                                    <td colspan="7">
+                                                        @*<input type="hidden" style="width:900px;" class="btn btn-success btn-md" id="txtmsg" name="txtmsg" value="@msg">*@
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script type="text/javascript">
+
+    //$("#your-form-id").submit(function (e) { // note that it's better to use form Id to select form
+    //    if ($("#DDLVM").val() == '' || $("#fromdate").val() == '' || $("#Todate") == '') // here you check your drop down selected value
+    //    {
+    //        e.preventDefault(); // here you stop submitting form
+    //    }
+    //})
+
+    function pagevalidate() {
+        if ($('#DDLVM').val() == '') {
+            alert('Please select vendor')
+            return false;
+        }
+
+        if ($('#fromdate').val() == '' || $('#Todate').val() == '') {
+            alert('Please select Date')
+            return false;
+        }
+
+        if ($('#Todate').val() < $('#fromdate').val()) {
+            alert("Please select proper date range");
+            $('#Todate').val(''); $('#fromdate').val('');
+            return false;
+        }
+    }
+
+
+
+</script>

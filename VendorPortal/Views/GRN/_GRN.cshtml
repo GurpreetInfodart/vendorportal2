@@ -1,0 +1,58 @@
+﻿@model IEnumerable<VendorPortal.Models.GRNViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+    <thead>
+         
+        <tr>
+            <th>Sr.No.             </th>
+            <th>Supplier Code       </th>
+            <th>Supplier Name       </th>
+            <th>Material Code       </th>
+            <th>Material Description</th>
+            <th>Plant Code          </th>
+            <th>Plant Name          </th>
+            <th>PO No.               </th>
+            <th>MRN No.              </th>
+            <th>Invoice No.          </th>
+            <th>Invoice Date        </th>
+            <th>Pstng Date          </th>
+            <th>Qty                </th>
+            <th>UOM                </th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">@SerialNo</td>
+                <td align="left">@Html.DisplayFor(m => @item.SupplierCode)</td>
+                <td align="left">@Html.DisplayFor(m => @item.SupplierNAme)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MaterialCode)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MaterialDescription)</td>
+                <td align="left">@Html.DisplayFor(m => @item.PlantCode)</td>
+                <td align="left">@Html.DisplayFor(m => @item.PlantName)</td>
+                <td align="left">@Html.DisplayFor(m => @item.PONO)</td>
+                <td align="left">@Html.DisplayFor(m => @item.MRNNo)</td>
+                <td align="left">@Html.DisplayFor(m => @item.InvoiceNo)</td>
+                <td align="left">@Html.DisplayFor(m => @item.InvoiceDate)</td>
+                <td align="left">@Html.DisplayFor(m => @item.PstngDate)</td>
+                <td align="left">@Html.DisplayFor(m => @item.Qty)</td>
+                <td align="left">@Html.DisplayFor(m => @item.UOM)</td>
+
+            </tr>
+            SerialNo++;
+        }
+    </tbody>
+</table>
+
+
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+
+

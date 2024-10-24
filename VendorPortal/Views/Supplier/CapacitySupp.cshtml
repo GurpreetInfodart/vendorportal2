@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "CapacitySupp";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<style>
+    .fileinput-button {
+        position: relative;
+        overflow: hidden;
+        background-color: #398439;
+        border-color: #255625;
+    }
+
+    .fileinput-button {
+        background-color: #398439;
+        border-color: #255625;
+    }
+
+        .fileinput-button input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+            direction: ltr;
+            cursor: pointer;
+        }
+</style>
+
+<section class="content-header">
+    <h1>
+        Supplier Capacity Declaration
+    </h1>
+    
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <!-- form start -->
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Search</label>
+                        <input type="text" class="form-control" id="txtsearch" placeholder="Search by File Name or Any Text" onkeyup="filter();">
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+
+                                <div class="col-md-12" id="InputControl" style="padding-right:40px; text-align: right;">
+                                    <input id="btnFile" placeholder="Choose File" class="btn btn-default" disabled="disabled" style="margin: 5px; font-size:12px;" />
+                                    <span class="btn btn-success fileinput-button" style="margin: 5px; font-size:12px;">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <span>Browse</span>
+                                        <input type="file" onchange="displayName()" id="UploadFile" name="UploadFile1" value="Upload">
+                                    </span>
+                                    <span class="btn btn-success fileinput-button">
+                                        <i class="fa fa-check"></i>
+                                        <span>Upload</span>
+                                        <input id="Upload" name="Upload" onclick="datainsert()" class="btn btn-success fileinput-button" type="submit">
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="panel">
+                                        <div class="table-responsive panel-body">
+                                            <div class="row">
+                                                <div id="GridDiv">
+                                                    @{Html.RenderAction("Capacity"); }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+       
+</section>
+<script type="text/javascript">
+    function Capacity() {
+                $.getJSON("@Url.Action("Capacity", "Supplier")", {  },
+                    function (list) {
+            $('#tblAppPackList>tbody>tr').remove();
+            $('#tblAppPackList tbody').empty();
+            //$("th").removeClass("sorting_disabled");
+            //$("td").removeClass("sorting_disabled");
+            //$('#lblCount').text('');
+            $('#InputControl').show();
+            if (list.length > 0) {
+                var ct = 0;
+                //<td style="width: 50px;">' + (ct) + '</td>
+                $.each(list, function (index, itemData) {
+                    ct = ct + 1;
+                    $('#tblAppPackList>tbody').append('<tr id=' + ct + '><td input id="s" type="Text"  style="width:80px;">' + itemData.SUPP_CODE + '</td><td> ' + getstatus(ct, itemData.Status, itemData.FileName, itemData.Location, itemData.Active) + ' </td><td style="width:80px;">' + ConvertJsonDateString(itemData.UploadDate, itemData.Active) + '</td><td>' + ActionBtn(ct, itemData.Status, itemData.FileName, itemData.Id, itemData.Active) + '</td></tr>');
+                });
+                if (ct >= 2)
+                {
+                    $('#InputControl').hide();
+                }
+                else {
+
+                }
+            }
+
+        });
+            }
+            function ss(suppcode) {
+                var j = suppcode;
+                if (j != null) {
+                    $.getJSON("@Url.Action("SuplierSourcing", "Supplier")", { suppcode: j },
+                        function (list) {
+                            $('#tblAppPackList>tbody>tr').remove();
+                            $('#tblAppPackList tbody').empty();
+                            if (list.length > 0) {
+                                var ct = 0;
+                                //<td style="width: 50px;">' + (ct) + '</td>
+                                $.each(list, function (index, itemData) {
+                                    ct = ct + 1;
+                                    $('#tblAppPackList>tbody').append('<tr id=' + ct + '><td input id="s" type="Text"  style="width:80px;">' + itemData.SUPP_CODE + '</td><td input id="m" type="Text" style="width:80px;">' + itemData.MaterialCode + '</td> <td> ' + getstatus(ct, itemData.Status, itemData.FileName, itemData.Location, itemData.Active) + ' </td><td style="width:80px;">' + ConvertJsonDateString(itemData.UploadDate, itemData.Active) + '</td><td>' + ActionBtn(ct, itemData.Status, itemData.FileName, itemData.Id, itemData.Active) + '</td></tr>');
+                                });
+                            }
+                        });
+                }
+    }
+    function ConvertJsonDateString(jsonDate,Active) {
+        var shortDate = "";
+        if (Active != 2 && Active != null && Active != "") {
+            if (jsonDate) {
+                if (jsonDate == "/Date(-2209008600000)/") {
+                    return shortDate = "";
+                }
+                var regex = /-?\d+/;
+                var matches = regex.exec(jsonDate);
+                var dt = new Date(parseInt(matches[0]));
+                var month = dt.getMonth() + 1;
+                var monthString = month > 9 ? month : '0' + month;
+                var day = dt.getDate();
+                var dayString = day > 9 ? day : '0' + day;
+                var year = dt.getFullYear();
+
+                shortDate = dayString + '/' + monthString + '/' + year;
+            }
+        }
+        return shortDate;
+    };
+
+   
+    function ActionBtn(cr, status, FileName, Id, Active)
+    {
+        if (Id == null)
+        { Id = -100; }
+        if (status == false && Active == 1 ) return /*'<button id=App class="btn btn-success btn-xs"><i class="fa fa-check" type="submit"></i></button>'*/'Pending'
+
+        else if (status == true && Active == 1 ) return /*'<button id="Del" onclick="DataDelete('+ Id +')"  class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>'*/'Approved'
+        //else  return ' <button id="Upload" name="Upload" onclick="datainsert('+cr+','+Id+')" class="btn btn-success btn-xs" type="submit" ><i class="fa fa-check"></i>Upload</button>'
+    }
+    function DataDelete(Id)
+    {
+        $.getJSON("@Url.Action("CommonDeleteExlOrPdfActive3", "Supplier")", {
+            Id: Id, Tablecontentet :""
+        },
+        );
+    }
+   
+    function filter() {
+        var searchText = $('#txtsearch').val();
+        $.each($("#tblAppPackList tbody").find("tr"), function () {
+            if ($(this).text().toLowerCase().replace(/\s+/g, '').indexOf(searchText.replace(/\s+/g, '').toLowerCase()) == -1)
+                $(this).hide();
+            else
+                $(this).show();
+        });
+    }
+   
+    function displayName() {
+        var fileInput = document.getElementById('UploadFile');
+        // Use a regular expression to pull the file name only
+        var fileName = fileInput.value.split(/(\\|\/)/g).pop();
+        document.getElementById("btnFile").value = fileName;
+    }
+</script>

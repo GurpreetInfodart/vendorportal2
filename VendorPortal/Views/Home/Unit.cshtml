@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Unit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+ 
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/AngularSripts/Unit.js"></script>
+
+<div ng-app="myApp">
+    <div ng-controller="myCtrl" ng-init="GetAllData()">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Add Unit</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="UnitCode">Unit Code:</label>
+                                    <input type="text" class="form-control" id="UnitCode" placeholder="Enter Unit Code" ng-model="UnitCode">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="UnitDescription">Unit Description :</label>
+                                    <input type="text" class="form-control" id="UnitDescription" placeholder="Enter Unit Description" ng-model="UnitDescription">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Active &nbsp;&nbsp; </label>
+                                    <input type="checkbox" class="icheckbox_flat" id="Active" placeholder="Active" ng-model="Active">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="button" id="btnSave" class="btn btn-primary" value="Submit" ng-click="InsertData()" />
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <!-- /.box-body -->
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">List of Unit</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Code</th>
+                                    <th>Description</th>
+                                    <th>Active</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="Unit in Units">
+                                    <td>{{Unit.UnitId}}</td>
+                                    <td>{{Unit.UnitCode}}</td>
+                                    <td>{{Unit.UnitDescription}}</td>
+                                    <td>{{Unit.Active}}</td>
+                                    <td>
+                                        <input type="button" class="btn btn-warning" value="Update" ng-click="UpdateUnit(Unit)" />
+                                        <input type="button" class="btn btn-danger" value="Delete" ng-click="DeleteUnit(Unit)" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    @Html.Hidden("UnitID_")
+
+</div>
+

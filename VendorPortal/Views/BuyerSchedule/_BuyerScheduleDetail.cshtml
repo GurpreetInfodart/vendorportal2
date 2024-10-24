@@ -1,0 +1,118 @@
+﻿@model IEnumerable<VendorPortal.Models.SchedulerViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.detail_paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="pending" align="left">
+    <thead>
+        <tr>
+            <th>Sr. No.</th>
+            <th>
+                Plant Name
+            </th>
+            <th>
+                Supplier Code
+            </th>
+            <th>
+                Supplier Name
+            </th>
+            <th>
+                Item Code
+            </th>
+            <th>
+                Item Description
+            </th>
+            <th>
+                UOM
+            </th>
+            <th>
+                Position No.
+            </th>
+            <th>
+                Schedule No.
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Delv. Date
+            </th>
+            <th>
+                Remark
+            </th>
+            @if (ViewBag.Status == 2)
+            {
+                <th>
+                    Action
+                </th>
+            }
+
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="color:black;font-size:small">
+                    @SerialNo
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.Plant_Name
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.SUPP_CODE
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.SUPP_NAME
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.MaterialCode
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.MaterialDescription
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.UOM
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.Position
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.Schedule_NO
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.Qty
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.Delv_Date
+                </td>
+                <td style="color:black;font-size:small">
+                    @item.Remark
+                </td>
+                @if (@item.Status == 2)
+                {
+                    <td style="color:black;font-size:small">
+                        <a href=@Url.Action("Reschedule", "BuyerSchedule", new { id = @item.ScheduleId }) >
+                        <i class="fa fa-check"></i>
+                        <span>Re-Schedule</span>
+                        </a>
+                    </td>
+                }
+            </tr>
+            SerialNo++;
+        }
+
+    </tbody>
+</table>
+
+
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.detail_paging)
+
+

@@ -1,0 +1,185 @@
+﻿@model IEnumerable<VendorPortal.Models.SchedulerViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.detail_paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+@*<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />*@
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="pending" align="left">
+    <thead>
+        <tr>
+
+            <th>Sr. No.</th>
+            @if (ViewBag.SetStatus)
+            {
+                <th><input type="checkbox" id="ckbCheckAll" /></th>
+            }
+            <th>
+                Plant Name
+            </th>
+            <th>
+                Supplier Code
+            </th>
+            <th>
+                Supplier Name
+            </th>
+            <th>
+                Item Code
+            </th>
+            <th>
+                Item Description
+            </th>
+            <th>
+                UOM
+            </th>
+            <th>
+                Position No.
+            </th>
+            <th>
+                Schedule No.
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Delv. Date
+            </th>
+            <th>
+                Remark
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="color:black;font-size:small">
+                    @SerialNo
+                </td>
+                @if (ViewBag.SetStatus)
+                {
+                    <td align="center">
+                        <input type="checkbox" id="@item.ScheduleId" class="checkBoxClass" name="CategoryIds" value="@item.ScheduleId" />
+                    </td>
+                }
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.Plant_Name)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.SUPP_CODE)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.SUPP_NAME)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.MaterialCode)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.MaterialDescription)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.UOM)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.Position)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.Schedule_NO)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.Qty)
+                </td>
+                <td style="color:black;font-size:small">
+                    @Html.DisplayFor(m => item.Delv_Date)
+                </td>
+                <td style="color:black;font-size:small">
+                    @if (ViewBag.SetStatus)
+                    {
+                        <input type="text" id="@SerialNo" style="width:300px" class="form-control tempLabel" />
+                        
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(m => item.Remark)
+                    }
+                </td>
+            </tr>
+            SerialNo++;
+        }
+
+    </tbody>
+</table>
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.detail_paging)
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#ckbCheckAll").click(function () {
+
+            $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+        });
+        $(".checkBoxClass").change(function () {
+            if (!$(this).prop("checked")) {
+                $("#ckbCheckAll").prop("checked", false);
+            }
+        })
+
+        @*$("#btnApprove").click(function (e) {
+
+            if (confirm('Are you sure wants to take action on schedule ?')) {
+                var flg = 0;
+                var i = 0;
+                var values = [];
+                $("#pending input[type=checkbox]").each(function () {
+                    i++;
+
+                    debugger;
+                    if ($(this).is(':checked')) {
+                        var ind = i - 1;
+                        flg = 1;
+                        //  alert($("#" + ind).val());
+                        //  var ss = $("#" + ind).val();
+                        // debugger;
+                        values.push({
+                            ScheduleId: parseInt($(this).val()),
+                            Remark: $("#" + ind).val()
+                        }
+                        );
+
+                    }
+
+                });
+                if (flg == 0) {
+                    alert("Please Select For Acknowledge");
+                    e.preventDefault();
+                    return false;
+                }
+                else {
+                    GetApproved(values);
+                }
+            }
+        });
+        function GetApproved(values) {
+
+            var postData = JSON.stringify(values);
+
+            $.ajax({
+                url: "@Url.Action("ApprovedStatus", "SupplierSchedule")",
+                type: "GET",
+            dataType: "JSON",
+            data: { 'values': postData },
+            success: function (result) {
+                alert("Status Updated Successfully");
+                window.location.href = '@Url.Action("ViewSupplierSchedule", "Schedule")'
+            }
+        });
+    }*@
+    });
+</script>
+

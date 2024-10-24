@@ -1,0 +1,390 @@
+﻿@using System.Web.Optimization
+@using System.Data
+@using VendorPortal.Models
+
+@{
+    ViewBag.Title = "FOC";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Scripts.Render("~/bundles/jquery")
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
+</head>
+<style>
+    .modal-ku {
+        width: 1000px;
+        margin: 50px auto auto auto;
+    }
+
+    .fileinput-button {
+        position: relative;
+        overflow: hidden;
+        background-color: #398439;
+        border-color: #255625;
+    }
+
+    .fileinput-button {
+        background-color: #398439;
+        border-color: #255625;
+    }
+
+        .fileinput-button input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+            direction: ltr;
+            cursor: pointer;
+        }
+</style>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="~/scripts/Common.js"></script>
+<section class="content-header">
+    <h1>
+        FOC
+    </h1>
+    
+</section>
+
+<section class="content">
+    <input type="hidden" id="hdnSession" data-value="@Request.RequestContext.HttpContext.Session["RoleName"]" />
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <!-- form start -->
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Enter any text from below records for filter records</label>
+                        <input type="text" class="form-control" id="txtsearch" placeholder="Enter any text from below records for filter records" onkeyup="filter();">
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="row">
+                    <div class="col-md-6 col-md-6">
+                        <span style="color:red; padding:3px; margin-top:1%;">@ViewBag.ErrorMsg</span>
+                        <span style="color:green; padding:3px; margin-top:1%;">@ViewBag.Result</span>
+                    </div>
+                    <div class="col-md-6" style="text-align:right;">
+                        @*<span class="btn btn-success fileinput-button" style="margin: 5px; font-size:12px;">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Browse</span>
+                                <input type="file" id="UploadFile" name="UploadFile1" value="Upload">
+                            </span>*@
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @*@using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()*@
+                                <input type="hidden" id="SN1" name="SN1" value="@ViewBag.SN">
+                                <div class="table-responsive">
+                                    <table id="tblAppPackList" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                        <thead>
+                                            <tr role="row">
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">Sr. No.</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 140px;">Vendor Code</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">Vendor Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">Plant</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 140px;">Material Code</th>
+
+                                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Material Name</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">FinYear</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">Month</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">Opening Balance</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 140px;">Issue Qty.</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 111px;">Received Qty.</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 140px;">BSL Closing Balance</th>
+
+                                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column descending" style="width: 122px;" aria-sort="ascending">Supp. Stock In Hand</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 93px;">Supp. Rejted Qty.</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 65px;">Supp. Closing Balance</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 65px;">Difference</th>
+
+
+                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 185px;">Actions/Status</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+
+                                    </table>
+                                </div>
+                                @*}*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+        </div>
+    </div>
+    <div id='myModal' class='modal'>
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div id='myModalContent'>
+                    <table e class="table table-hover">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="col-md-12">
+                                    <!-- general form elements -->
+                                    <div class="box box-primary11">
+                                        <div class="box-header">
+                                            <h3 class="box-title">Update FOC</h3>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <!-- form start -->
+
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+
+                                                <div class="table-responsive panel-body" hight="700">
+                                                    <table class="table table-hover" style="font-size:12px" id="tblInvList" align="left">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="display:none">Id</th>
+                                                                <th>BSL Closing Balance</th>
+                                                                <th>Supp. Stock In Hand</th>
+                                                                <th>Supp. Rejted Qty.</th>
+                                                                <th style="display:none">Supp. Closing Balance</th>
+                                                                <th style="display:none">Difference</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            @*<button type="button" id="btnSave1" class="btn btn-primary" onclick="SaveEmailFormat()">
+                                                    Submit
+                                                </button>*@
+
+                                            <button type="button" id="btnClose" class="btn btn-primary" onclick="Close()">
+                                                Submit
+                                            </button>
+                                            <button type="button" id="btnCancel" class="btn btn-primary" onclick="Cancel()">
+                                                Cancel
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script type="text/javascript">
+
+    function openModel(ct, Status, Id, Active, BSLClosingBalance, SuppStockInHand, SuppRejtedQty, SuppClosingBalance, Difference )
+    {
+        $('#tblInvList>tbody>tr').remove();
+        $('#tblInvList>tbody').append('<tr id=' + ct + ' > <td  style="display:none" ><input type="text" value = ' + Id + ' id="Id" /></td><td><input type="text" disabled="disabled" id="BSLClosingBalance" value = ' + BSLClosingBalance + ' maxlength="50" class="form-control BSLClosingBalance" style="border:1px solid gray" /></td><td><input type="text"  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46" value = ' + SuppStockInHand + ' id="SuppStockInHand" maxlength="50" class="form-control SuppStockInHand" style="border:1px solid gray" /></td> <td><input type="text"  id="SuppRejtedQty"  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46" value = ' + SuppRejtedQty + ' maxlength="50" class="form-control SuppRejtedQty" style="border:1px solid gray" /></td> <td><input type="text" style="display:none" id="SuppClosingBalance" value = ' + SuppClosingBalance + ' maxlength="50" class="form-control SuppClosingBalance" style="border:1px solid gray" /></td> <td><input type="text" id="Difference" style="display:none" value = ' + Difference + ' maxlength="50" class="form-control Difference" style="border:1px solid gray" /></td></tr>');
+        var options = { "backdrop": "static", keyboard: true };
+        $('#myModal').modal(options);
+        $('#myModal').modal('show');
+    }
+    function cal()
+    {
+        $('#SuppClosingBalance').val() = $('#SuppStockInHand').val() - $('#SuppRejtedQty').val();
+    }
+    function Close()
+    {
+               $.ajax({
+            url: "@Url.Action("UpdateFoc", "Common")",
+            type: 'GET',
+            cache: false,
+            data: {
+                SuppStockInHand: $('#SuppStockInHand').val(),
+                SuppRejtedQty: $('#SuppRejtedQty').val(), BSLClosingBalance: $('#BSLClosingBalance').val(), Id: $('#Id').val(), Tablecontentet: ""},
+            success: function (data) {
+                alert(data);
+                if (data == "Record updated successfully.")
+                { $('#myModal').modal('hide');}
+                GetFOC();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+        return false;
+    }
+    function Cancel()
+    {
+        $('#myModal').modal('hide');
+    }
+    function CloseModel()
+    {
+        $('#myModal').modal('hide');
+    }
+    GetFOC();
+    function GetFOC() {
+                $.getJSON("@Url.Action("GetFOC", "Common")", { },
+                    function (list) {
+            $('#tblAppPackList>tbody>tr').remove();
+            $('#tblAppPackList tbody').empty();
+            //$("th").removeClass("sorting_disabled");
+            //$("td").removeClass("sorting_disabled");
+            //$('#lblCount').text('');
+            if (list.length > 0) {
+                var ct = 0;
+                //<td style="width: 50px;">' + (ct) + '</td>
+                $.each(list, function (index, itemData) {
+                    ct = ct + 1;
+                    $('#tblAppPackList>tbody').append('<tr id=' + ct + '><td input id="s" type="Text"  style="width:80px;">' + ct + '</td><td input id="m" type="Text" style="width:80px;">' + itemData.VendorCode + '</td> <td>' + itemData.VendorName + '</td><td>' + itemData.Plant + '</td><td> ' + itemData.MaterialCode + ' </td><td style="width:80px;">' + itemData.MaterialName + '</td><td>' + itemData.FinYear + '</td><td>' + itemData.Month + '</td><td style="width:80px;">' + itemData.OpeningBalance + '</td><td input id="s" type="Text"  style="width:80px;">' + itemData.IssueQty + '</td><td> ' + itemData.ReceivedQty + ' </td><td style="width:80px;">' + itemData.BSLClosingBalance + '</td><td> ' + itemData.SuppStockInHand + '</td><td> ' + itemData.SuppRejtedQty + ' </td><td> ' + itemData.SuppClosingBalance + '</td><td style="width:80px;">' + itemData.Difference + '</td><td>' + ActionBtn(ct, itemData.Status, itemData.Id, itemData.Active,itemData.BSLClosingBalance, itemData.SuppStockInHand, itemData.SuppRejtedQty, itemData.SuppClosingBalance, itemData.Difference) + '</td></tr>');
+                });
+            }
+
+        });
+            }
+    function ConvertJsonDateString(jsonDate,Active) {
+        var shortDate = "";
+        if (Active != 2 && Active != null && Active != "") {
+            if (jsonDate) {
+                if (jsonDate == "/Date(-2209008600000)/") {
+                    return shortDate = "";
+                }
+                var regex = /-?\d+/;
+                var matches = regex.exec(jsonDate);
+                var dt = new Date(parseInt(matches[0]));
+                var month = dt.getMonth() + 1;
+                var monthString = month > 9 ? month : '0' + month;
+                var day = dt.getDate();
+                var dayString = day > 9 ? day : '0' + day;
+                var year = dt.getFullYear();
+
+                shortDate = dayString + '/' + monthString + '/' + year;
+            }
+        }
+        return shortDate;
+    };
+
+    function ActionBtn(ct, Status, Id, Active,BSLClosingBalance, SuppStockInHand,SuppRejtedQty,SuppClosingBalance,Difference)
+    {
+
+        var html = "";
+        if (Id == null)
+        { Id = -100; }
+        var Role = $("#hdnSession").data('value');
+        if (Role == "Admin" || Role == "BSLUser" || Role == "Quality" || Role == "R&D" || Role == "Buyer"  )
+                  {
+
+            if (Status == false && Active == 1)
+            {
+                return '<button id="App"  onclick="openModel(' + ct + ', ' + Status + ',' + Id + ', ' + Active + ',' + BSLClosingBalance + ', ' + SuppStockInHand + ', ' + SuppRejtedQty + ',' + SuppClosingBalance + ',' + Difference + ')" class="btn btn-success btn-xs"><i class="fa fa-edit" type="submit"></i></button>&nbsp;&nbsp;&nbsp;<button id="App"  onclick="Approve(' + Id + ')" class="btn btn-success btn-xs"><i class="fa fa-check" type="submit"></i></button>&nbsp;&nbsp;&nbsp;<button id="Del" onclick="DataDelete(' + Id + ')"  class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit" )></i></button>'
+            }
+            if (Status == true && Active == 1) {
+                return '<button id="App"  onclick="openModel(' + ct + ', ' + Status + ',' + Id + ', ' + Active + ',' + BSLClosingBalance + ', ' + SuppStockInHand + ', ' + SuppRejtedQty + ',' + SuppClosingBalance + ',' + Difference + ')" class="btn btn-success btn-xs"><i class="fa fa-edit" type="submit"></i></button>&nbsp;&nbsp;&nbsp;<button id="Del" onclick="DataDelete(' + Id + ')"  class="btn btn-danger btn-xs"><i class="fa fa-trash-o " type="submit"></i></button>'
+            }
+        }
+        else if (Role == "Visitor") {
+
+            if (Status == false && Active == 1) {
+                return 'Pending'
+            }
+            if (Status == true && Active == 1) {
+                return 'Approved'
+            }
+        }
+        else if (Role == "Supplier") {
+
+            if (Status == false && Active == 1) {
+                return '<button id="App"  onclick="openModel(' + ct + ', ' + Status + ',' + Id + ', ' + Active + ',' + BSLClosingBalance + ', ' + SuppStockInHand + ', ' + SuppRejtedQty + ',' + SuppClosingBalance + ',' + Difference + ')" class="btn btn-success btn-xs"><i class="fa fa-edit" type="submit"></i></button>'
+            }
+            if (Status == true && Active == 1) {
+                return 'Approved'
+            }
+        }
+        else
+        {
+            return 'Please relogin for Actions/Status , session expired!'
+        }
+              }
+    function Approve(Id)
+    {
+               $.ajax({
+            url: "@Url.Action("ApproveFOC", "Common")",
+            type: 'GET',
+            cache: false,
+            data: { Id: Id, Tablecontentet: ""},
+            success: function (data) {
+                alert(data);
+                GetFOC();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+        return false;
+
+    }
+              function DataDelete(Id)
+              {
+        $.getJSON("@Url.Action("DeleteFOC", "Common")", {
+                  Id: Id, Tablecontentet :""
+        },
+        );
+                  GetFOC();
+                  alert("Records Deleted");
+              }
+
+              function filter() {
+                  var searchText = $('#txtsearch').val();
+        $.each($("#tblAppPackList tbody").find("tr"), function () {
+                      if ($(this).text().toLowerCase().replace(/\s+/g, '').indexOf(searchText.replace(/\s+/g, '').toLowerCase()) == -1)
+                $(this).hide();
+            else
+                $(this).show();
+                  });
+              }
+</script>
+

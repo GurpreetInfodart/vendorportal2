@@ -1,0 +1,90 @@
+﻿@model IEnumerable<VendorPortal.Models.RoleDTO>
+
+@{
+    ViewBag.Title = "ViewAllRoles";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="#"><i class="fa fa-home"></i>&nbsp;User Management</a></li>
+                <li><a href="#">Manage User</a></li>
+                <li class="active">View All Roles</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+
+    <section class="content"> 
+            <div class="col-lg-12">
+                <div class="box-body">                      
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="row">
+                                    <div class="panel-body" style="text-align:left;">
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="col-md-12">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })                                                    
+                                                    @Html.ActionLink("Add Role", "AddRole", null, new { @class = "btn btn-primary" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <div id="GridDiv">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive panel-body">
+                                                <table class="table table-bordered table-condensed table-hover table-striped" id="pending" align="left">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th>Role Name</th>
+
+                                                            <th>
+                                                                Actions
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    @foreach (var item in Model)
+                                                        {
+                                                        <tr>
+                                                            <td style="color:black;font-size:small">
+                                                                @Html.DisplayFor(modelItem => item.RoleName)
+                                                            </td>
+                                                            <td style="color:black;font-size:small">
+                                                                @if (item.RoleName.ToLower() != "administrator")
+                                                                    {
+                                                                    @Html.ActionLink("Delete", "DeleteUserRole",
+                   new { RoleName = item.RoleName },
+                   new
+                   {
+                       onclick =
+                   "return confirm('Are you sure you wish to delete this role?');"
+                   })
+                                                                    }
+                                                            </td>
+
+                                                        </tr>
+                                                        }
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     
+                </div>
+            </div>
+        
+    </section>
+</div>

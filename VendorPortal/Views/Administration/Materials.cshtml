@@ -1,0 +1,124 @@
+﻿@model PagedList.IPagedList<VendorPortal.Models.tblMaterial>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Materials";
+    Layout = "~/Views/Shared/AdminView.cshtml";
+    int SerialNo = (Convert.ToInt16(Request.Params["page"]) - 1) * Convert.ToInt16(Request.Params["intPageSize"]) + 1;
+}
+
+
+<div class="form-horizontal">
+
+    <section class="content-header">
+        <h1>
+            Materials List <a href="@Url.Action("AddEditMaterials", "Administration")" class="btn btn-primary" aria-label="Left Align">
+
+                ADD NEW <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </a>
+        </h1>
+
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+
+
+
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Material Master Search</div>
+                                <div class="panel-body">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6">
+                                                <select class="form-control" id="SearchCreteria">
+                                                    <option selected="selected" value="">Select</option>
+                                                    <option value="MaterialCode">Material Code</option>
+                                                    <option value="MaterialDesc">Material Description</option>
+                                                    <option value="UnitCode">Unit Code</option>
+                                                    <option value="Group">Group</option>
+                                                    <option value="SNP">SNP</option>
+
+                                                    @*<option value="Gender">Gender</option>*@
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6">
+                                                <div id="imaginary_container">
+                                                    <div class="input-group stylish-input-group">
+                                                        <input type="text" id="SearchValue" class="form-control" placeholder="Search">
+                                                        <span class="input-group-addon">
+                                                            <button type="submit" id="btnSearch" onclick="paging(1)">
+                                                                <span class="glyphicon glyphicon-search"></span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div style="width:100%;">
+
+                                <div class="panel">
+
+                                    <div class="table-responsive panel-body">
+                                        <div id="GridDiv">
+                                            @{Html.RenderAction("MaterialsList"); }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(function () {
+
+            $('#SearchCreteria').change(function () {
+                $('#SearchValue').val('');
+                if ($('#SearchCreteria_Pen').val() == '') {
+                    paging(1);
+                }
+            })
+
+        });
+
+    });
+
+    function paging(currentpage) {
+
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("MaterialsList", "Administration")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'SearchBy': $("#SearchCreteria").val(), 'SearchValue': $("#SearchValue").val() },
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+</script>

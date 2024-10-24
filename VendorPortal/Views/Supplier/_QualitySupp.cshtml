@@ -1,0 +1,168 @@
+﻿@model IEnumerable<VendorPortal.Models.tblCertificate>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+<table id="tblAppPackList" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+    <thead>
+        <tr>
+            <th>Sr. No.</th>
+            <th>
+                Supplier Code
+            </th>
+            <th>
+                IATF/TS
+            </th>
+            <th>
+                ISO
+            </th>
+            <th>
+                OHSAS
+            </th>
+            <th>
+                Environment
+            </th>
+            <th>
+                Other1
+            </th>
+            <th>
+                Other2
+            </th>
+            <th>
+                Other3
+            </th>
+            <th>
+                Upload Date
+            </th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">@SerialNo</td>
+                <td align="left">
+                    @item.SupplierName
+                </td>
+                @if (item.IATFTS == null)
+                {
+                    <td align="left">Please Upload File</td>
+                }
+                else
+                {
+                    <td align="left">
+
+                        <a href=@Url.Action("Download", "Common", new { file = @item.IATFTS, loc = @item.IATFTSLOC })>@item.IATFTS</a>
+                    </td>
+                }
+                @if (item.ISO == null)
+                {
+                    <td align="left">Please Upload File</td>
+                }
+                else
+                {
+                    <td align="left">
+
+                        <a href=@Url.Action("Download", "Common", new { file = @item.ISO, loc = @item.ISOLOC})>@item.ISO</a>
+                    </td>
+                } @if (item.OHSAS == null)
+                {
+                    <td align="left">Please Upload File</td>
+                }
+                else
+                {
+                    <td align="left">
+
+                        <a href=@Url.Action("Download", "Common", new { file = @item.OHSAS, loc = @item.OHSASLOC })>@item.OHSAS</a>
+                    </td>
+                } @if (item.Environment == null)
+                {
+                    <td align="left">Please Upload File</td>
+                }
+                else
+                {
+                    <td align="left">
+
+                        <a href=@Url.Action("Download", "Common", new { file = @item.Environment, loc = @item.EnvironmentLOC })>@item.Environment</a>
+                    </td>
+                } @if (item.Other1 == null)
+                {
+                    <td align="left">Please Upload File</td>
+                }
+                else
+                {
+                    <td align="left">
+
+                        <a href=@Url.Action("Download", "Common", new { file = @item.Other1, loc = @item.Other1LOC })>@item.Other1 </a>
+                    </td>
+                } @if (item.Other2 == null)
+                {
+                    <td align="left">Please Upload File</td>
+                }
+                else
+                {
+                    <td align="left">
+
+                        <a href=@Url.Action("Download", "Common", new { file = @item.Other2, loc = @item.Other2LOC })>@item.Other2</a>
+                    </td>
+                } @if (item.Other3 == null)
+                {
+                    <td align="left">Please Upload File</td>
+                }
+                else
+                {
+                    <td align="left">
+
+                        <a href=@Url.Action("Download", "Common", new { file = @item.Other3, loc = @item.Other3LOC })>@item.Other3</a>
+                    </td>
+                }
+                <td align="left">
+                    @item.UploadDate
+                </td>
+               
+                    @if (item.Status == false && item.Active == 1)
+                    {
+                    <td align="left">Pending</td>
+                    }
+                    else if (item.Status == true && item.Active == 1)
+                    {
+                        <td align="left">Approved</td>
+                    }
+
+              
+            </tr>
+            SerialNo++;
+        }
+
+    </tbody>
+
+</table>
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.paging)
+<script type="text/javascript">
+
+
+    function paging(currentpage) {
+
+        var _suppCode = $('#DDLSN').val();
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("QualitySysList", "Supplier")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage) },
+            success: function (data) {
+                $('#GridDiv123').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+</script>
+
+
+

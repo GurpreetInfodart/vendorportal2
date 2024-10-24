@@ -1,0 +1,406 @@
+﻿@model IEnumerable<VendorPortal.Models.BuyerPOViewModel>
+
+@{
+    ViewBag.Title = "ViewPO";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />
+
+
+
+@*@Styles.Render("~/Content/css")*@
+
+
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+
+
+
+<section class="content-header">
+    <h1>
+        View Buyer PO
+    </h1>
+    
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        @*<div class="row">
+                                <div class="col-sm-6">
+                                    <div class="dataTables_length" id="example1_length">
+                                        <label>
+                                            Show <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select> entries
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div id="example1_filter" class="dataTables_filter">
+                                        <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example1"></label>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="width:100%;">
+                                    <div>
+
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="active">
+                                                <a href="#tab1" aria-controls="personal" role="tab" data-toggle="tab">Pending</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab2" aria-controls="personal" role="tab" data-toggle="tab">Acknowledged</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab3" aria-controls="personal" role="tab" data-toggle="tab">Declined</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content" style="padding-top: 20px">
+                                        <div role="tabpanel" class="tab-pane active" id="tab1">
+
+                                            <div class="panel">
+                                                @if (ViewBag.pending_Data != null)
+                                                {
+                                                    <div class="table-responsive panel-body">
+                                                        <table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="4" align="left">
+                                                                        From Date: <input type="date" id="PendingFromdate">
+                                                                        To Date:<input type="date" id="PendingTodate">
+
+
+                                                                        <button id="btnPendingFind">Find</button>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Sr. No.</th>
+                                                                    <th>
+                                                                        PO NUMBER
+                                                                    </th>
+                                                                    <th>
+                                                                        PO DATE
+                                                                    </th>
+                                                                    <th>
+                                                                        TOTAL QUANTITY
+                                                                    </th>
+                                                                    <th>
+                                                                        Action
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                @{ int rowNo = 1;}
+                                                                @foreach (var item in ViewBag.pending_Data)
+                                                                {
+                                                                    <tr>
+                                                                        <td align="left">@rowNo</td>
+                                                                        <td align="left">
+                                                                            @item.PO_Number
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.PO_Date
+
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.Quantity
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <span class="btn btn-primary btn-xs">
+                                                                                <a href=@Url.Action("BuyerPODetail", "BuyerPO", new { PO_Number = @item.PO_Number }) style="color:#FFFFFF;">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                    <span>View</span>
+                                                                                </a>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    rowNo++;
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                        @*<div id='Paging' style="text-align:center">
+                                                                Page @(ViewBag.pending_Data.PageCount < ViewBag.pending_Data.PageNumber ? 0 : ViewBag.pending_Data.PageNumber)
+                                                                of @ViewBag.pending_Data.PageCount
+
+
+                                                                @Html.PagedListPager((PagedList.IPagedList)ViewBag.pending_Data, page => Url.Action("ViewPO", new { page = page }))
+
+                                                            </div>*@
+                                                    </div>
+                                                                    }
+
+
+                                            </div>
+
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="tab2">
+                                            <div class="panel">
+                                                @if (ViewBag.Acknolodge_Data != null)
+                                                {
+                                                    <div class="table-responsive panel-body">
+                                                        <table class="table table-bordered table-condensed table-hover table-striped" id="tblAcknowledge" style="width:100%" align="left">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="4" align="left">
+                                                                        From Date: <input type="date" id="Fromdate">
+                                                                        To Date:<input type="date" id="Todate">
+
+
+                                                                        <button onclick="date()">Find</button>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>
+                                                                        PO NUMBER
+                                                                    </th>
+                                                                    <th>
+                                                                        PO DATE
+                                                                    </th>
+                                                                    <th>
+                                                                        TOTAL QUANTITY
+                                                                    </th>
+                                                                    <th>
+                                                                        Action
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+
+                                                                @foreach (var item in ViewBag.Acknolodge_Data)
+                                                                {
+                                                                    <tr>
+                                                                        <td align="left">
+                                                                            @item.PO_Number
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.PO_Date
+
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.Quantity
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <span class="btn btn-primary btn-xs">
+                                                                                <a href=@Url.Action("BuyerPODetail", "BuyerPO", new { PO_Number = @item.PO_Number }) style="color:#FFFFFF;">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                    <span>View</span>
+                                                                                </a>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                        @*<div id='Paging' style="text-align:center">
+                                                                Page @(ViewBag.pending_Data.PageCount < ViewBag.pending_Data.PageNumber ? 0 : ViewBag.pending_Data.PageNumber)
+                                                                of @ViewBag.pending_Data.PageCount
+
+
+                                                                @Html.PagedListPager((PagedList.IPagedList)ViewBag.pending_Data, page => Url.Action("ViewPO", new { page = page }))
+
+                                                            </div>*@
+                                                    </div>
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="tab3">
+                                            <div class="panel">
+                                                @if (ViewBag.Decline_Data != null)
+                                                {
+                                                    <div class="table-responsive panel-body">
+                                                        <table class="table table-bordered table-condensed table-hover table-striped" id="tblDecline" style="width:100%" align="left">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="4" align="left">
+                                                                        From Date: <input type="date" id="Fromdate">
+                                                                        To Date:<input type="date" id="Todate">
+
+
+                                                                        <button onclick="date()">Find</button>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>
+                                                                        PO NUMBER
+                                                                    </th>
+                                                                    <th>
+                                                                        PO DATE
+                                                                    </th>
+                                                                    <th>
+                                                                        TOTAL QUANTITY
+                                                                    </th>
+                                                                    <th>
+                                                                        Action
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+
+                                                                @foreach (var item in ViewBag.Decline_Data)
+                                                                {
+                                                                    <tr>
+                                                                        <td align="left">
+                                                                            @item.PO_Number
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.PO_Date
+
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            @item.Quantity
+                                                                        </td>
+                                                                        <td align="left">
+                                                                            <span class="btn btn-primary btn-xs">
+                                                                                <a href=@Url.Action("BuyerPODetail", "BuyerPO", new { PO_Number = @item.PO_Number }) style="color:#FFFFFF;">
+                                                                                    <i class="fa fa-check"></i>
+                                                                                    <span>View</span>
+                                                                                </a>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                        @*<div id='Paging' style="text-align:center">
+                                                                Page @(ViewBag.pending_Data.PageCount < ViewBag.pending_Data.PageNumber ? 0 : ViewBag.pending_Data.PageNumber)
+                                                                of @ViewBag.pending_Data.PageCount
+
+
+                                                                @Html.PagedListPager((PagedList.IPagedList)ViewBag.pending_Data, page => Url.Action("ViewPO", new { page = page }))
+
+                                                            </div>*@
+                                                    </div>
+                                                }
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<script src="~/Resource/jquery-1.7.1.min.js"></script>*@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="~/Resource/jquery-ui.min.js"></script>
+<script src="~/Resource/paging.js"></script>
+<link href="~/Resource/paging.css" rel="stylesheet" />
+
+
+@*
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <script src="http://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <link href="http://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+
+<script>
+    $(function () {
+        //$('#tblPending').paging({ limit: 10 });
+        //$('#tblAcknowledge').paging({ limit: 3 });
+        //$('#tblDecline').paging({ limit: 3 });
+
+        $("#btnPendingFind").click(function (e) {
+            FilterData(e);
+        })
+
+    })
+
+    function FilterData(e) {
+
+        
+        var frmDate = $("#PendingFromdate").val();
+        var toDate = $("#PendingTodate").val();
+        
+        if (frmDate == "") {
+            alert("Please Enter From Date");
+            e.preventDefault();
+            return;
+        }
+        if (toDate == "") {
+            alert("Please Enter To Date");
+            e.preventDefault();
+            return;
+        }
+       // $("#tblPending tr").remove();
+
+        $.ajax({
+
+            url: "@Url.Action("FilterPendingDataByDate", "SupplierPO")",
+            type: "POST",
+            data: { 'FromDate': frmDate, 'ToDate': toDate },
+            dataType: "JSON",
+            success: function (response) {
+
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>*@
+@*<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>*@

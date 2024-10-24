@@ -1,0 +1,430 @@
+﻿
+@{
+    ViewBag.Title = "StockDeclarationRpt";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+
+<style type="text/css">
+    .modal-ku {
+        width: 1479px;
+        height: 700px;
+        margin: 50px auto auto auto;
+    }
+
+    /*.dataTables_scrollHead {
+        width: 700px;
+    }
+    .dataTables_scrollBody {
+        width: 700px;
+    }*/
+
+    input[type = number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        cursor: pointer;
+        display: block;
+        width: 8px;
+        color: #333;
+        text - align: center;
+        position: relative;
+    }
+
+        input[type = number]::-webkit-inner-spin-button:before,
+        input[type = number]::-webkit-inner-spin-button:after {
+            content: "^";
+            position: absolute;
+            right: 0;
+            font-family: monospace;
+            line-height: 0px;
+        }
+
+        input[type = number]::-webkit-inner-spin-button:before {
+            top: 0px;
+        }
+
+        input[type = number]::-webkit-inner-spin-button:after {
+            bottom: 0px;
+            -webkit-transform: rotate(180deg);
+        }
+</style>
+
+<div class="form-horizontal">
+    <section class="content-header">
+        <h1>
+            Stock Declaration Report
+        </h1>
+    </section>
+
+    <section class="content">
+        <div>
+            <table id="tblMaterialList" class="table table-striped dataTable">
+                <thead>
+                    <tr role="row">
+                        <th style="width:120px;">
+                            UPLOAD DATE
+                        </th>
+                        <th style="width:300px;">
+                            ACTION
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <label id="lblCount">
+            </label>
+        </div>
+    </section>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="mdlInvoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:1265px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Stock Declaration List</h4>
+                <div class="col-md-12" style="float:left; padding-top:10px;">
+            @*<button type="button" id="btnClose" class="btn btn-primary" onclick="ExportToExcel('tblNewRt', 'StockDeclarationRpt')">
+                Download
+            </button>*@
+                    <input type="button" id="btnExporttoExcel" class="btn btn-primary" value="Export To Excel" />  
+        </div>
+                
+            </div> 
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12"> 
+                        <div class="table-responsive" id="tblstockListModel" style="overflow:scroll;height:500px">
+                        </div>
+                    </div>
+                </div>
+               
+
+                @*<div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group last">
+                                <div class="col-md-4 col-md-offset-8">
+                                    <a href='javascript:void(0)' class="btn btn-primary" id="btnCancelEdit" style="float:right; margin-left:10px;">Cancel</a>
+                                    <a href='javascript:void(0)' class="btn btn-primary" id="btnEditdata" style="float:right;">Done</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div id='myModal' class='modal'>
+    <div class="modal-dialog  modal-ku">
+        <div class="modal-content  modal-ku">
+            <div id='myModalContent'>
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 3%;"></td>
+                        <td style="width: 94%;"></td>
+                        <td style="width: 3%;"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+
+                            <div class="col-md-12">
+                                <div class="box-header col-md-8"><h3 class="box-title">Stock Declaration List</h3></div>
+                                <div class="col-md-4" style="float:left; padding-top:10px;">
+
+                                    <button type="button" id="btnClose" class="btn btn-warning" onclick="Close()">
+                                        Close
+                                    </button>
+                                    <button type="button" id="btnClose" class="btn btn-primary" onclick="ExportToExcel('tblstockList', 'StockDeclarationRpt')">
+                                        Download
+                                    </button>
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class="table-responsive" id="tblstockListModel">
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                           
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+<script src="~/Scripts/jquery.table2excel.js"></script>
+@*<script src="~/jquery.table2excel.js"></script>*@
+@*<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">*@
+@*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script>
+            //$("th").removeClass("sorting_disabled");
+            //$("td").removeClass("sorting_disabled");
+            //$("th").removeClass("dataTable no- footer");
+            //$("td").removeClass("dataTable no- footer");
+
+    $(document).ready(function () {
+        LoadMaterialList();
+        $("#btnExporttoExcel").click(function () {
+            $("#tblNewRt").table2excel({
+                filename: "StockDeclarationList.xls"
+            });
+        }); 
+    });
+
+
+
+
+    function LoadMaterialList() {
+
+            $.getJSON("@Url.Action("StockListRptList", "Inventory")", { UserID: $('#UserID').val() },
+
+                function (list) {
+                                    $('#tblMaterialList>tbody>tr').remove();
+                                    $('#tblMaterialList tbody').empty();
+                                    $("th").removeClass("sorting_disabled");
+                                    $("td").removeClass("sorting_disabled");
+                                    $('#lblCount').text('');
+                if (list.length > 0) {
+                var ct = 0;
+                $('#btnExport').show();
+               // debugger;
+                //<td style="width: 50px;">' + (ct) + '</td>
+                $.each(list, function (index, itemData) {
+                    ct = ct + 1;
+                   // debugger;
+                      $('#tblMaterialList>tbody').append('<tr id=' + ct + '><td style="width:120px;"> ' + ConvertJsonDateString(itemData.CREATEDON) + '</td><td style="width:300px;"><input type="button" id="btnView" value="View" class="btn btn-info btn-md btn-primary" onclick="LoadModelList(' +  itemData.CREATEDON  +');LoadModel();"></tr>');
+                });
+
+                     $('.scroll-div1').outerWidth(1850);
+                     $('.scroll-div2').outerWidth(1850);
+                     $('#lblCount').text('Record Found :' + $("#tblMaterialList > tbody > tr:visible").length);
+             }
+             else {
+                     $('#tblMaterialList>tbody').append('<tr><td colspan="13">No Record Found !</td></tr>');
+                     $('#btnExport').hide();
+                 }
+                  });
+    }
+
+
+                function ConvertJsonDateString(jsonDate) {
+                var shortDate = null;
+                if (jsonDate) {
+                var regex = /-?\d+/;
+                var matches = regex.exec(jsonDate);
+                var dt = new Date(parseInt(matches[0]));
+                var month = dt.getMonth() + 1;
+                var monthString = month > 9 ? month : '0' + month;
+                var day = dt.getDate();
+                var dayString = day > 9 ? day : '0' + day;
+                var year = dt.getFullYear();
+
+                shortDate = dayString + '/' + monthString + '/' + year;
+                }
+                return shortDate;
+                };
+
+                function filter() {
+
+                var searchText = $('#txtsearch').val();
+                $.each($("#tblMaterialList tbody").find("tr"), function () {
+                if ($(this).text().toLowerCase().replace(/\s+/g, '').indexOf(searchText.replace(/\s+/g, '').toLowerCase()) == -1)
+                $(this).hide();
+                else
+                $(this).show();
+                });
+                $('#lblCount').text('Record Found :' + $("#tblMaterialList > tbody > tr:visible").length);
+                }
+
+
+                var ExportToExcel = (function () {
+                    //
+                   
+                    var uri = 'data:application/vnd.ms-excel;base64,'
+                        , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><body><table>{table}</table></head></body></html>'
+                        , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+                        , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+                    return function (table, name) {
+                        if (!table.nodeType) table = document.getElementById(table)
+                        $('thead th').css({ width:'100px', height: '25px' });
+                        var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+                        downloadWithName(uri + base64(format(template, ctx)), name + '.xls');
+
+                    }
+                })()
+
+                function downloadWithName(uri, name) {
+
+                    function eventFire(el, etype) {
+                        if (el.fireEvent) {
+                            (el.fireEvent('on' + etype));
+                        } else {
+                            var evObj = document.createEvent('Events');
+                            evObj.initEvent(etype, true, false);
+                            el.dispatchEvent(evObj);
+                        }
+                    }
+                    var link = document.createElement("a");
+
+                    link.download = name;
+                    link.href = uri;
+                    link.click();
+                    eventFire(link, "click");
+                    window.location = window.location;
+                    //alert(5);
+                }
+
+
+                function openModel() {
+                    var options = { "backdrop": "static", keyboard: true };
+                    $('#mdlInvoice').modal('show');
+                    //$('#myModal').modal(options);
+                    //$('#myModal').modal('show');
+                }
+                function Close() {
+                    $('#myModal').modal('hide');
+                }
+
+
+
+                function LoadModelList(_CreateOn) {
+
+                      $.ajax({
+            url: "@Url.Action("StockListReportList", "Inventory")",
+            type: "GET",
+            dataType: "JSON",
+            //data: { 'values': postData, 'SUPP_Code': HdnSUPP_Code },
+            data: { 'CreateOn': ConvertJsonDateString(_CreateOn) },
+            success: function (list) {
+
+                if (list.length > 0) {
+                  
+                    var varHtml = ''
+
+                    varHtml += "<table id='tblNewRt' class='table table-bordered tblRemove' border='0' cellspacing='0' cellpadding='0' style='background: #fff;'>";
+                    varHtml += "<thead>";
+                    varHtml += "<tr class='Header'>";
+                    //varHtml += "<th class='text-center'>Sr. No.</th>";
+                    varHtml += "<th class='text-center'>PONumber</th>";
+                    varHtml += "<th class='text-center'>SupplierCode</th>";
+                    varHtml += "<th class='text-center'>SupplierName</th>";
+                    varHtml += "<th class='text-center'>MaterialCode</th>";
+                    varHtml += "<th class='text-center'>MaterialDescription</th>";
+                    varHtml += "<th class='text-center'>RawMaterial</th>";
+                    varHtml += "<th class='text-center'>UOM</th>";
+                    varHtml += "<th class='text-center'>WIP</th>";
+                    varHtml += "<th class='text-center'>WIPUOM</th>";
+                    varHtml += "<th class='text-center'>FinishGoods</th>";
+                    varHtml += "<th class='text-center'>FINISHGOODSUOM</th>";
+                    varHtml += "<th class='text-center'>Remark</th>";
+                    varHtml += "<th class='text-center'>PurchaseOrderDate</th>";
+                    varHtml += "<th class='text-center'>CreatedonDate</th>";
+
+                    varHtml += "</tr>";
+                    varHtml += "</thead>";
+                    varHtml += "<tbody>";
+                    //  $(list).each(function (index, itemData) {
+                    
+                    $.each(list, function (index, itemData) {
+                        varHtml += "<tr>";
+                    //    varHtml += "<td class='text-center' >" + index + 1 <"td>";
+                        varHtml += "<td class='text-center' >" + itemData.PONO + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.SUPPLIERCODE + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.SUPPLIERNAME + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.MATERIALCODE + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.MATERIALDESCRIPTION + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.RAWMATERIAL + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.UOM + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.WIP + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.WIPUOM + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.FINISHGOODS + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.FINISHGOODSUOM + "</td>";
+                        varHtml += "<td class='text-center' >" + itemData.REMARK + "</td>";
+                        varHtml += "<td class='text-center' >" + ConvertJsonDateString(itemData.PODATE) + "</td>";
+                        varHtml += "<td class='text-center' >" + ConvertJsonDateString(itemData.CREATEDON) + "</td>";
+
+                        varHtml += "</tr>";
+                      //  $('#tblstockList>tbody').append('<tr id=' + index + 1 + '><td width="7%">' + itemData.PONO + '</td><td width="7%"> ' + itemData.SUPPLIERCODE + '</td><td width="7%"> ' + itemData.SUPPLIERNAME + '</td><td width="7%"> ' + itemData.MATERIALCODE + '</td><td width="7%"> ' + itemData.MATERIALDESCRIPTION + '</td><td width="7%"> ' + itemData.RAWMATERIAL + '</td><td width="7%"> ' + itemData.UOM + '</td><td width="7%"> ' + itemData.WIP + '</td><td width="7%"> ' + itemData.WIPUOM + '</td><td width="7%"> ' + itemData.FINISHGOODS + '</td><td width="7%"> ' + itemData.FINISHGOODSUOM + '</td><td width="7%"> ' + itemData.REMARK + '</td><td width="7%"> ' + ConvertJsonDateString(itemData.PODATE) + '</td><td width="7%"> ' + ConvertJsonDateString(itemData.CREATEDON) + '</td></tr>');
+                    });
+
+                    varHtml += "</tbody>";
+                    varHtml += "</table>";
+                   
+                    $("#tblstockListModel").append(varHtml);
+                   
+                }
+                else {
+                    $('#tblstockListModel>tbody').append('<tr><td colspan="14">No Record Found !</td></tr>');
+                }
+
+            }
+        });
+
+
+                    @*$.getJSON("@Url.Action("StockListReportList", "Inventory")", { CreateOn: ConvertJsonDateString(_CreateOn) },
+                        function (list) {
+
+
+
+                    //$('#tblstockList>tbody>tr').remove();
+                    //$('#tblstockList tbody').empty();
+                    //$("th").removeClass("sorting_disabled");
+                    //$("td").removeClass("sorting_disabled");
+                    //$("th").removeClass("dataTable no- footer");
+                    //$("td").removeClass("dataTable no- footer");
+                    if (list.length > 0) {
+                        $.each(list, function (index, itemData) {
+                            $('#tblstockList>tbody').append('<tr id=' + index + 1 + '><td width="7%">' + itemData.PONO + '</td><td width="7%"> ' + itemData.SUPPLIERCODE + '</td><td width="7%"> ' + itemData.SUPPLIERNAME + '</td><td width="7%"> ' + itemData.MATERIALCODE + '</td><td width="7%"> ' + itemData.MATERIALDESCRIPTION + '</td><td width="7%"> ' + itemData.RAWMATERIAL + '</td><td width="7%"> ' + itemData.UOM + '</td><td width="7%"> ' + itemData.WIP + '</td><td width="7%"> ' + itemData.WIPUOM + '</td><td width="7%"> ' + itemData.FINISHGOODS + '</td><td width="7%"> ' + itemData.FINISHGOODSUOM + '</td><td width="7%"> ' + itemData.REMARK + '</td><td width="7%"> ' + ConvertJsonDateString(itemData.PODATE) + '</td><td width="7%"> ' + ConvertJsonDateString(itemData.CREATEDON) + '</td></tr>');
+                        });
+
+                    }
+                    else {
+                        $('#tblstockList>tbody').append('<tr><td colspan="14">No Record Found !</td></tr>');
+                    }
+                    $("th").removeClass("sorting_disabled");
+                    $("td").removeClass("sorting_disabled");
+                });*@
+                }
+
+
+                function LoadModel() {
+                    openModel();
+
+
+            }
+
+</script>
+@*<script type="text/javascript">
+                    $(document).ready(function () {
+                        var oTable = $('#tblstockList').dataTable({
+                            "scrollY": 500,
+                            //"scrollX": true,
+                            //"bScrollCollapse": true,
+                            //"scrollCollapse": true,
+                            "bPaginate": false,
+                            "bLengthChange": false,
+                            "bFilter": false,
+                            "bSort": false,
+                            "bInfo": false,
+                            "bAutoWidth": false
+
+
+                        });
+
+                    });
+    </script>*@

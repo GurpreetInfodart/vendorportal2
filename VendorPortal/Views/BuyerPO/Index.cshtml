@@ -1,0 +1,495 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style>
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+        .tableData tr {
+        }
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+        .tableData td {
+        }
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+<link href="~/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+<section class="content-header">
+    <h1>
+        Buyer PO
+    </h1>
+    
+</section>
+
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="width:100%;">
+
+                                    <div class="panel">
+
+                                        <div style="width:100%;">
+                                            <div>
+
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="active">
+                                                        <a href="#tab1" class="tab1" aria-controls="personal" role="tab" data-toggle="tab">Pending</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab2" aria-controls="personal" class="tab2" role="tab" data-toggle="tab">Acknowledged</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab3" aria-controls="personal" role="tab" data-toggle="tab">Declined</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tab-content">
+                                                <div role="tabpanel" class="tab-pane active" id="tab1">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body" style="text-align:left;">
+                                                                <div class="form-horizontal">
+
+                                                                    <div class="form-group col-md-12">
+
+                                                                        <div class="col-md-12 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <select class="form-control" id="SearchCreteria_Pen">
+                                                                                    <option selected="selected" value="">--Select--</option>
+                                                                                    <option value="PONo">PO No</option>
+                                                                                    <option value="Supp_Code">Supplier Code</option>
+                                                                                    <option value="Supp_Name">Supplier Name</option>
+                                                                                </select>
+                                                                                &nbsp;
+                                                                                &nbsp;
+                                                                                <input type="text" id="SearchValue_Pen" class="form-control" placeholder="Search" />
+                                                                                &nbsp;
+                                                                                &nbsp;
+                                                                                <button onclick="paging(1)" class="form-control btn-primary">Search</button>
+                                                                            </div>
+                                                                        </div>
+
+
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body" style="text-align:left;">
+                                                                <div class="form-horizontal">
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <input type="text" id="txtFromDate" class="form-control" placeholder="From Date" readonly="readonly" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <input type="text" id="txtToDate" class="form-control" placeholder="To Date" readonly="readonly" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <button onclick="PendingDateFilter()" class="form-control btn-primary">Search</button>
+                                                                                <button onclick="ClearPending()" class="form-control btn-primary">Clear</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel">
+                                                        <div class="table-responsive panel-body">
+                                                            <div class="row">
+                                                                <div id="GridDiv">
+                                                                    @{Html.RenderAction("BuyerPOPending"); }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="tab2">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body" style="text-align:left;">
+                                                                <div class="form-horizontal">
+
+                                                                    <div class="form-group col-md-12">
+
+                                                                        <div class="col-md-12 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <select class="form-control" id="SearchCreteria_Ack">
+                                                                                    <option selected="selected" value="">--Select--</option>
+                                                                                    <option value="PONo">PO No</option>
+                                                                                    <option value="Supp_Code">Supplier Code</option>
+                                                                                    <option value="Supp_Name">Supplier Name</option>
+                                                                                </select>
+                                                                                &nbsp;
+                                                                                &nbsp;
+                                                                                <input type="text" id="SearchValue_Ack" class="form-control" placeholder="Search" />
+                                                                                &nbsp;
+                                                                                &nbsp;
+                                                                                <button onclick="paging2(1)" class="form-control btn-primary">Search</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body" style="text-align:left;">
+                                                                <div class="form-horizontal">
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <input type="text" id="txtAkFromDate" class="form-control" placeholder="From Date" readonly="readonly" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <input type="text" id="txtAkToDate" class="form-control" placeholder="To Date" readonly="readonly" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <button onclick="AkDateFilter()" class="form-control btn-primary">Search</button>
+                                                                                <button onclick="ClearAK()" class="form-control btn-primary">Clear</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel">
+                                                        <div class="table-responsive panel-body">
+                                                            <div class="row">
+                                                                <div id="GridDivAck">
+                                                                    @{Html.RenderAction("BuyerPOAcknoledge"); }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="tab3">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body" style="text-align:left;">
+                                                                <div class="form-horizontal">
+
+                                                                    <div class="form-group col-md-12">
+
+                                                                        <div class="col-md-12 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <select class="form-control" id="SearchCreteria_Dec">
+                                                                                    <option selected="selected" value="">--Select--</option>
+                                                                                    <option value="PONo">PO No</option>
+                                                                                    <option value="Supp_Code">Supplier Code</option>
+                                                                                    <option value="Supp_Name">Supplier Name</option>
+                                                                                </select>
+                                                                                &nbsp;
+                                                                                &nbsp;
+                                                                                <input type="text" id="SearchValue_Dec" class="form-control" placeholder="Search" />
+                                                                                &nbsp;
+                                                                                &nbsp;
+                                                                                <button onclick="paging3(1)" class="form-control btn-primary">Search</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body" style="text-align:left;">
+                                                                <div class="form-horizontal">
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <input type="text" id="txtDcFromDate" class="form-control" placeholder="From Date" readonly="readonly" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <input type="text" id="txtDcToDate" class="form-control" placeholder="To Date" readonly="readonly" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <div class="col-md-12">
+                                                                                <button onclick="DcDateFilter()" class="form-control btn-primary">Search</button>
+                                                                                <button onclick="ClearDC()" class="form-control btn-primary">Clear</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel">
+                                                        <div class="table-responsive panel-body">
+                                                            <div class="row">
+                                                                <div id="GridDivDec">
+                                                                    @{Html.RenderAction("BuyerPODecline"); }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function (e) {
+
+        $(function () {
+
+
+            $('#SearchCreteria_Pen').change(function () {
+                $('#SearchValue_Pen').val('');
+                if ($('#SearchCreteria_Pen').val() == '') {
+                    paging(1);
+                }
+            })
+
+            $('#SearchCreteria_Ack').change(function () {
+                $('#SearchValue_Ack').val('');
+                if ($('#SearchCreteria_Ack').val() == '') {
+                    paging2(1);
+                }
+            })
+
+            $('#SearchCreteria_Dec').change(function () {
+                $('#SearchValue_Dec').val('');
+                if ($('#SearchCreteria_Dec').val() == '') {
+                    paging3(1);
+                }
+            })
+
+            $('#txtFromDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "dd/mm/yyyy",
+                language: "tr",
+                autoclose: true
+            });
+            $('#txtToDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "dd/mm/yyyy",
+                language: "tr",
+                autoclose: true
+            });
+
+            $('#txtAkFromDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "dd/mm/yyyy",
+                language: "tr",
+                autoclose: true
+            });
+            $('#txtAkToDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "dd/mm/yyyy",
+                language: "tr",
+                autoclose: true,
+                
+            });
+
+            $('#txtDcFromDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "dd/mm/yyyy",
+                language: "tr",
+                autoclose: true,
+                setStartDate: '2012-01-01'
+            });
+            $('#txtDcToDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                format: "dd/mm/yyyy",
+                language: "tr",
+                autoclose: true
+            });
+
+            
+        });
+
+    });
+    function ClearPending() {
+        $("#txtFromDate").val("");
+        $("#txtToDate").val("");
+        paging(1);
+    }
+
+    function ClearAK() {
+        $("#txtAkFromDate").val("");
+        $("#txtAkToDate").val("");
+        paging2(1);
+    }
+    function ClearDC() {
+        $("#txtDcFromDate").val("");
+        $("#txtDcToDate").val("");
+        paging3(1);
+    }
+    function PendingDateFilter() {
+        if ($("#txtFromDate").val() == "") {
+            alert("Please Select From Date");
+            $("#txtFromDate").focus();
+            return false;
+        }
+        if ($("#txtToDate").val() == "") {
+            alert("Please Select To Date");
+            $("#txtToDate").focus();
+            return false;
+        }
+
+        paging(1);        
+    }
+
+    function AkDateFilter() {
+        if ($("#txtAkFromDate").val() == "") {
+            alert("Please Select From Date");
+            $("#txtAkFromDate").focus();
+            return false;
+        }
+        if ($("#txtAkToDate").val() == "") {
+            alert("Please Select To Date");
+            $("#txtAkToDate").focus();
+            return false;
+        }
+
+        paging2(1);
+    }
+
+    function DcDateFilter() {
+        if ($("#txtDcFromDate").val() == "") {
+            alert("Please Select From Date");
+            $("#txtDcFromDate").focus();
+            return false;
+        }
+        if ($("#txtDcToDate").val() == "") {
+            alert("Please Select To Date");
+            $("#txtDcToDate").focus();
+            return false;
+        }
+
+        paging3(1);
+    }
+
+    /*************Paging**************/
+    function paging(currentpage) {
+
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("BuyerPOPending", "BuyerPO")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'fromDate': $("#txtFromDate").val(), 'toDate': $("#txtToDate").val(), 'SearchBy': $("#SearchCreteria_Pen").val(), 'SearchValue': $("#SearchValue_Pen").val() },
+            success: function (data) {
+                $('#GridDiv').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+
+    function paging2(currentpage) {
+
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("BuyerPOAcknoledge", "BuyerPO")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'fromDate': $("#txtAkFromDate").val(), 'toDate': $("#txtAkToDate").val(), 'SearchBy': $("#SearchCreteria_Ack").val(), 'SearchValue': $("#SearchValue_Ack").val() },
+            success: function (data) {
+                $('#GridDivAck').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+    function paging3(currentpage) {
+
+        if (currentpage == NaN || currentpage <= 0) {
+            return false;
+        }
+        $.ajax({
+
+            url: "@Url.Action("BuyerPODecline", "BuyerPO")",
+            type: 'GET',
+            cache: false,
+            data: { 'CurrentPage': parseInt(currentpage), 'fromDate': $("#txtDcFromDate").val(), 'toDate': $("#txtDcToDate").val(), 'SearchBy': $("#SearchCreteria_Dec").val(), 'SearchValue': $("#SearchValue_Dec").val() },
+            success: function (data) {
+                $('#GridDivDec').html(data);
+                $('.disabled').prop('disabled', true);
+            },
+        });
+        return false;
+    }
+
+
+</script>

@@ -1,0 +1,177 @@
+﻿@model VendorPortal.Models.tblMaterial
+
+@{
+    ViewBag.Title = "AddEditMaterials";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="@Url.Action("Materials")"><i class="fa fa-home"></i>&nbsp;Master</a></li>
+                <li><a href="@Url.Action("Materials")">Material</a></li>
+                <li class="active">Create</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body">
+                    <div class="panel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-body" style="text-align:left;">
+                                    @using (Html.BeginForm("AddEditMaterials", "Administration"))
+                                    {
+                                        @Html.HiddenFor(e=>e.MaterialID)
+
+                                        <div class="form-horizontal">
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class=" col-md-4">Material code</label>
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control" } })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class=" col-md-4">Material Description</label>
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.MaterialDescription, new { htmlAttributes = new { @class = "form-control" } })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class=" col-md-4">UOM</label>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(E => E.Unit, new SelectList((System.Collections.IEnumerable)ViewData["unitList"], "Value", "Text"), "--Select--", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class=" col-md-4">Material Group</label>
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.MaterialGroup, new { htmlAttributes = new { @class = "form-control" } })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class=" col-md-4">SNP</label>
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.SNP, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumberKey(event)", @maxlength = "4" } })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-4 col-md-12">
+                                                            <input type="submit" id="btnSubmit" value="Create" class="btn btn-primary" />
+                                                            <a href='@Url.Action("Materials")' class="btn btn-primary">Cancel</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function (e) {
+
+            if ($("#MaterialCode").val() == "") {
+                alert("Please Enter Material Code");
+                $("#USER_CODE").focus();
+                e.preventDefault();
+                return false;
+            }
+            if ($("#MaterialDescription").val() == "") {
+                alert("Please Enter Material Description");
+                $("#MaterialDescription").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#Unit option:selected").text() == "--Select--") {
+                alert("Please Select UOM");
+
+
+
+
+                $("#Unit").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#MaterialGroup").val() == "") {
+                alert("Please Enter Material Group");
+                $("#MaterialGroup").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#SNP").val() == "") {
+                alert("Please Enter Material SNP");
+                $("#SNP").focus();
+                e.preventDefault();
+                return false;
+            }
+
+
+
+
+        })
+
+    })
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+</script>
+
+
+

@@ -1,0 +1,199 @@
+﻿@model System.Data.DataTable
+@using System.Data;
+@{
+    ViewBag.Title = "StockBulk";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+ 
+
+<div class="form-horizontal">
+    
+    <section class="content-header">
+        <h1>
+            Stock Bulk Upload 
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="box">
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                           
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div style="width:100%;">
+                                        <div class="panel">
+                                            <div>
+                                                <table>
+                                                    <tr>
+                                                        <td align="right" style="width:1000px"><button id="btnSave" class="btn btn-send btn-primary" onclick="save($('#EmpCode').val());">Upload Stock</button></td>
+                                                    </tr>
+                                                </table>
+
+
+                                                @using (Html.BeginForm("StockBulk", "Inventory", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                {
+
+                                                  
+
+                                                    @*<div class="row">
+                <div class="col-lg-12 col-lg-12 text-center">*@
+                                                    <table id="tblbutton" class="tblbutton" cellspacing="0" style="margin-bottom:50px">
+                                                        <tr>
+                                                            <td style="width:500px"><input type="file" id="dataFile" name="upload" class="btn btn-primary"  /></td>
+                                                            <td align="right" style="width:500px"> </td>
+                                                        </tr>
+                                                    </table>
+                                                    @*</div>
+                </div>*@
+                                                    <div class="alert alert-danger">
+                                                        <strong>@Html.ValidationSummary()</strong>
+                                                    </div>
+
+                                                    <input type="hidden" id="EmpCode" name="EmpCode" value="@ViewBag.UserID">
+
+
+                                                    if (Model != null)
+                                                    {
+                                                        <table id="tblStockList" cellspacing="0" border="1">
+                                                            <thead>
+                                                                <tr style="text-align:center;color:white;background-color:#11568d">
+                                                                    <th>PO NUMBER</th>
+                                                                    <th>SUPPLIER CODE</th>
+                                                                    <th>SUPPLIER NAME</th>
+                                                                    <th>MATERIAL CODE</th>
+                                                                    <th>MATERIAL DESCRIPTION</th>
+                                                                    <th>RAW MATERIAL</th>
+                                                                    <th>UOM</th>
+                                                                    <th>WIP</th>
+                                                                    <th>WIP UOM</th>
+                                                                    <th>FINISHGOODS</th>
+                                                                    <th>FINISHGOODS UOM</th>
+                                                                    <th>REMARK</th>
+                                                                    <th>DATE</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (DataRow row in Model.Rows)
+                                                                {
+                                                                    <tr>
+                                                                        @foreach (DataColumn col in Model.Columns)
+                                                                        {
+                                                                            <td>@row[col.ColumnName]</td>
+                                                                        }
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    var doSubmit = false;
+
+
+    document.getElementById('dataFile').onchange = function () {
+        var ext = $('#dataFile').val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['xls', 'xlsx', 'csv']) == -1) {
+            alert('You have uploaded an invalid file extension!!!!');
+        }
+        else {
+            this.form.submit();
+
+        }
+
+    };
+
+
+    function DupPO(pono) {
+        $('#tblStockList>tbody>tr').each(function () {
+            var pono = $(this).find('td:eq(0)').text();
+        });
+        var a = "";
+        $.getJSON("@Url.Action("DuplicatePo", "Inventory")", { PONO: pono }, function (result) {
+            a = result;
+            if (a == 'SUCCESS') {
+                alert('PO Number already exists');
+                doSubmit = false;
+            }
+            else if(a == 'FAIL')  {
+                doSubmit = true;
+            }
+        });
+    }
+
+    function save(EmpCode) {
+
+        //var ValidateExcelFile = $('#dataFile').val();
+
+        //if (ValidateExcelFile == '' || ValidateExcelFile == null) {
+        //    alert("Please select excel file for upload data.");
+        //    e.preventDefault();
+        //    return false;
+        //}
+
+       doSubmit = true;
+        //$("#tblStockList").promise().done(function () {
+       //DupPO('5500000916')
+       
+        //});
+        if (doSubmit == true) {
+            $('#tblStockList>tbody>tr').each(function () {
+                var _PoNum = ''; var _SupplierCode = ''; var _SupplierName = ''; var _MaterialCode = ''; var _MaterialDescription = '';
+                var _RawMaterial = ''; var _UOM = ''; var _WIP = ''; var _WIPUOM = ''; var _FinishGoods = '';
+                var _FinishGoodsUOM = ''; var _Remark = ''; var _Date = ''; var _EMPID = '';
+                _PoNum = $(this).find('td:eq(0)').text().trim();
+                _SupplierCode = $(this).find('td:eq(1)').text().trim();
+                _SupplierName = $(this).find('td:eq(2)').text().trim();
+                _MaterialCode = $(this).find('td:eq(3)').text().trim();
+                _MaterialDescription = $(this).find('td:eq(4)').text().trim();
+                _RawMaterial = $(this).find('td:eq(5)').text().trim();
+                _UOM = $(this).find('td:eq(6)').text().trim();
+                _WIP = $(this).find('td:eq(7)').text().trim();
+                _WIPUOM = $(this).find('td:eq(8)').text().trim();
+                _FinishGoods = $(this).find('td:eq(9)').text().trim();
+                _FinishGoodsUOM = $(this).find('td:eq(10)').text().trim();
+                _Remark = $(this).find('td:eq(11)').text().trim();
+                _Date = $(this).find('td:eq(12)').text().trim();
+                _EMPID = EmpCode;
+                $.getJSON("@Url.Action("GenerateStockdeclarationUpload", "Inventory")", { PoNum: _PoNum, SupplierCode: _SupplierCode, SupplierName: _SupplierName, MaterialCode: _MaterialCode, MaterialDescription: _MaterialDescription, RawMaterial: _RawMaterial, UOM: _UOM, WIP: _WIP, WIPUOM: _WIPUOM, FinishGoods: _FinishGoods, FinishGoodsUOM: _FinishGoodsUOM, Remark: _Remark, PoDate: _Date, EMPID: EmpCode }
+
+                );
+
+            });
+            var tbody = $('#tblStockList tbody');
+            if (tbody.children().length != 0) {
+                alert("Stock has been Uploaded");
+                window.location = window.location;
+
+            }
+        } 
+    } 
+
+</script>

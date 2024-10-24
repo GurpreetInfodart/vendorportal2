@@ -1,0 +1,318 @@
+﻿@model VendorPortal.Models.UserViewModel
+
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/AdminView.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--breadcrumbs start -->
+            <ul class="breadcrumb">
+                <li><a href="#"><i class="fa fa-home"></i>&nbsp;User Management</a></li>
+                <li><a href="#">Manage User</a></li>
+                <li class="active">Create User</li>
+            </ul>
+            <!--breadcrumbs end -->
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="col-lg-12">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="row">
+
+                            <div id="msgDiv">
+
+                                @if (ViewBag.msg != null && (ViewBag.msg).Message_Id == 1)
+                                {
+
+                                    <div id="myAlert" class="alert alert-success">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <strong>@ViewBag.msg.Message</strong>
+                                    </div>
+                                }
+                                else
+                                {
+                                    if (ViewBag.msg != null)
+                                    {
+                                        <div id="myAlert" class="alert alert-danger">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong> @ViewBag.msg.Message</strong>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="panel-body" style="text-align:left;">
+
+                                @using (Html.BeginForm("CreateUser", "Administration", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+        <!-- text input -->
+                                <div class="col-md-12">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"><span style="color:red;">*</span> User Type</label>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.UserType, null, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group" id="divVendor">
+                                            <label class="control-label col-md-4">Vendor</label>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.SuppCode, null, new { @class = "form-control" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            
+                                <div class="col-md-12">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"><span style="color:red;">*</span> @Html.LabelFor(m => m.UserName)</label>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"><span style="color:red;">*</span> @Html.LabelFor(m => m.Password)</label>
+                                            <div class="col-md-8">
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-md-12">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"><span style="color:red;">*</span> @Html.LabelFor(m => m.ConfirmPassword)</label>
+                                            <div class="col-md-8">
+                                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"><span style="color:red;">*</span> @Html.LabelFor(m => m.Name)</label>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                             
+                                <div class="col-md-12">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"><span style="color:red;">*</span> @Html.LabelFor(m => m.Email)</label>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"><span style="color:red;">*</span> @Html.LabelFor(m => m.State)</label>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(m => m.State, null, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <div class="col-md-12">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"><span style="color:red;">*</span> @Html.LabelFor(m => m.City)</label>
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(E => E.City, new SelectList(Enumerable.Empty<SelectListItem>(), "CityId", "CityName"), new { @class = "form-control" })
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">@Html.LabelFor(m => m.ContactNumber)</label>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                              
+                                <div class="col-md-12">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"> <span style="color:red;">*</span>@Html.LabelFor(m => m.MobileNumber)</label>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="col-md-offset-4 col-md-10">
+                                                <input type="submit" id="btnSubmit" class="btn btn-primary" value="Create" />
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                           
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#divVendor").hide();
+        $("#UserType").change(function () {
+            if ($("#UserType option:selected").val() == "Supplier") {
+                $("#divVendor").show();
+            }
+            else {
+                $("#divVendor").hide();
+                $("#UserName").val("");
+            }
+
+        });
+
+        $("#SuppCode").change(function () {
+
+            var supp = $("#SuppCode option:selected").val();
+
+            var arr = supp.split('-');
+
+            $("#UserName").val(arr[0]);
+
+        });
+
+        $("#State").change(function () {
+
+            var stateId = $("#State").val();
+            BindCity(stateId);
+
+
+        })
+
+        $("#btnSubmit").click(function (e) {
+
+            if ($("#UserType option:selected").text() == "--Select User Type--") {
+                alert("Please Select User Type");
+                $("#UserType").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#UserName").val() == "") {
+                alert("Please Enter User Name");
+                $("#UserName").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#Password").val() == "") {
+                alert("Please Enter Password");
+                $("#Password").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#ConfirmPassword").val() == "") {
+                alert("Please Enter Confirm Password");
+                $("#ConfirmPassword").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#Name").val() == "") {
+                alert("Please Enter Name");
+                $("#Name").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#Email").val() == "") {
+                alert("Please Enter Email");
+                $("#Email").focus();
+                e.preventDefault();
+                return false;
+            }
+
+
+            if ($("#State").val() == "0") {
+                alert("Please Select State");
+                $("#State").focus();
+                e.preventDefault();
+                return false;
+            }
+
+            if ($("#City").val() == "0") {
+                alert("Please Select City");
+                $("#City").focus();
+                e.preventDefault();
+                return false;
+            }            
+
+            if ($("#MobileNumber").val() == "") {
+                alert("Please Enter Mobile No.");
+                $("#MobileNumber").focus();
+                e.preventDefault();
+                return false;
+            }
+
+        })
+    });
+
+    function BindCity(stateId) {
+
+        $("#City").html("");
+        $("#City").append(
+                       $('<option></option>').val("0").html("--Select City--"));
+        if (stateId == "0" || stateId == "" || stateId == null) {
+                return false;
+            }
+
+            $.ajax({
+                url: "@Url.Action("BindCity", "Administration")",
+                type: "GET",
+                dataType: "JSON",
+                data: { 'stateId': stateId },
+                success: function (cityList) {
+
+                    if (cityList.length > 0) {
+                        $.each(cityList, function (i, cityList) {
+
+                                $("#City").append(
+                                    $('<option></option>').val(cityList.CityId).html(cityList.CityName));
+
+                        });
+                    }
+
+                    else {
+                    }
+                }
+            });
+        }
+</script>

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<VendorPortal.Models.SchedulerViewModel>
+@{
+    var objPagingmdl = (VendorPortal.Models.BasicPaging)ViewBag.pending_paging;
+    int SerialNo = (objPagingmdl.CurrentPage - 1) * objPagingmdl.RowParPage + 1;
+}
+
+<table class="table table-bordered table-condensed table-hover table-striped" id="tblPending" style="width:100%" align="left">
+    <thead>
+ 
+        <tr>
+            <th>Sr. No.</th>
+            <th>
+                Schedule Type
+            </th>
+            <th>
+                Schedule Uploaded Date
+            </th>
+            <th>
+                Upload By
+            </th>
+            <th>
+                Supplier Code
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">@SerialNo</td>
+                <td align="left">
+                    @item.ScheduleType
+                </td>
+                <td align="left">
+                    @item.UploadDate
+
+                </td>
+                <td align="left">
+                    @item.UploadedBy
+                </td>
+                <td align="left">
+                    @item.SUPP_CODE
+                </td>
+                <td align="left">
+                    <span class="btn btn-primary btn-xs">
+                        @if (User.IsInRole("Visitor"))
+                        { }
+                        else
+                        {
+                            <a href=@Url.Action("SupplierScheduleDetail", "SupplierSchedule", new { SUPP_CODE = @item.SUPP_CODE, flg = 0, upload_date = @item.UploadDate }) style="color:#FFFFFF;">
+                                <i class="fa fa-check"></i>
+                                <span>View</span>
+                            </a>
+                        }
+                    </span>
+                </td>
+            </tr>
+            SerialNo++;
+        }
+    </tbody>
+</table>
+
+
+
+@Html.Partial("_Paging", (VendorPortal.Models.BasicPaging)ViewBag.pending_paging)
